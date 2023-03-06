@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# capstone-project-FE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ECO-swAPP ...'insert name here'!!
 
-## Available Scripts
+declutter your house and free yourself by joining the community of like-minded people!
+ecology is the new hot trend and with that in mind i've decided to create an app that is gonna teach
+people about ecology and also offer a platform for exchanging stuff that is no longer needed in your household.
+you've got a piece of furniture that is no longer serving you but is still in a good shape ?
+create a profile on ... app and add it. maybe your neighbour could make a use out of it ?
+or if it's completely broken read our ecology guide and learn how to dispose it with the least impact on the environment
 
-In the project directory, you can run:
+**we teach about good practices
+we preach circular economy approach
+we offer a great community of eco-aware people who share the same goal: SUSTAINABILITY**
 
-### `npm start`
+key features:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- login and register page for both users and companies
+- single user can:
+  -> interact with the other users,
+  -> add pieces of clothing, household items etc. that are used or new in a GOOD CONDITION, that he no longer needs and wants to give back to someone who still can make us of it,
+  -> select items that he's interested in
+  -> make reservations on item he's interested in (the owner of a thing needs to accept pending reservation request)
+  -daily weekly monthly challenges -> most active users get discounts for the partner companies services
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+features:
 
-### `npm test`
+- on single user profile:
+  comments - other users can add a comment and review how a deal went
+  information about a particular user
+  friends list
+  challenges history and active
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+on product page:
+general information
+user (owner)
+interested in the product
+views of the page data
