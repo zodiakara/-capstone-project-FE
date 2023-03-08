@@ -14,11 +14,14 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { MdRecycling } from "react-icons/md";
 import { AllInclusive } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function MyNavbar() {
+  const currentUser = useSelector((state) => state.auth.userInfo);
+  console.log(currentUser);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 

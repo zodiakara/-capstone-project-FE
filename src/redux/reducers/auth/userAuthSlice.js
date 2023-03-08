@@ -3,7 +3,13 @@ import { registerUser, userLogin } from "./userAuthActions";
 
 const initialState = {
   loading: false,
-  userInfo: {},
+  userInfo: {
+    // _id: "",
+    // name: "",
+    // surname: "",
+    // email: "",
+    // avatar: "",
+  },
   userToken: null,
   error: null,
   success: false,
@@ -27,9 +33,15 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(userLogin.fulfilled, (state, payload) => {
+      .addCase(userLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.userInfo = payload;
+        state.userInfo = {
+          _id: action.payload._id,
+          name: action.payload.name,
+          surname: action.payload.surname,
+          email: action.payload.email,
+          avatar: action.payload.avatar,
+        };
       });
     //deprecated
     //register user Action:
