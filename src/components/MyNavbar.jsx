@@ -15,13 +15,13 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { MdRecycling } from "react-icons/md";
 import { AllInclusive } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function MyNavbar() {
   const currentUser = useSelector((state) => state.auth.userInfo);
-  console.log(currentUser);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -138,11 +138,20 @@ function MyNavbar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {currentUser.name ? (
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="" src={currentUser.avatar} />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Link to="/login">
+                <Button variant="outlined" color="info">
+                  LogIn
+                </Button>
+              </Link>
+            )}
+
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"

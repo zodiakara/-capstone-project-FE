@@ -20,7 +20,7 @@ function HomePage() {
         }}
       >
         <Box>
-          {currentUser ? (
+          {currentUser.name ? (
             <Typography
               variant="h3"
               noWrap
@@ -58,7 +58,7 @@ function HomePage() {
             </Typography>
           )}
           <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-            {currentUser ? (
+            {currentUser.name ? (
               <>
                 <Link to="/products">
                   <Button
