@@ -1,15 +1,27 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography, FormControl } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import graphic from "../assets/undraw_Dreamer_re_9tua.png";
+
+const errorMessages = {
+  name: "Product name should not be empty.",
+  description: "Description field should be at least 50 characters long.",
+  category: "Please select a category.",
+};
 
 const AddProductForm = () => {
   const [productName, setProductName] = useState("");
   const [productDescription, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
+  const [errors, setErrors] = useState({
+    productName: false,
+    productDescription: false,
+    category: false,
+  });
 
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const currentUser = useSelector((state) => state.auth.userInfo);
@@ -17,14 +29,22 @@ const AddProductForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!(productName === "")) setErrors({ ...errors, productName: true });
+    if (!(productDescription.length >= 50))
+      setErrors({ ...errors, productDescription: true });
+    if (!(category === "")) setErrors({ ...errors, category: true });
+
     const product = {
       name: productName,
       description: productDescription,
       category: category,
       condition: condition,
     };
-    console.log(product);
-    addProductAction(product);
+
+    debugger;
+
+    if (!Object.values(errors).includes(true)) addProductAction(product);
   };
 
   const addProductAction = async (product) => {
@@ -75,7 +95,6 @@ const AddProductForm = () => {
         </Typography>
         <Box
           component="form"
-          noValidate
           onSubmit={handleSubmit}
           sx={{
             display: "flex",
@@ -86,30 +105,40 @@ const AddProductForm = () => {
         >
           <Stack spacing={4}>
             <TextField
+              error={errors.productName}
               required
               id="productName"
               label="name"
               variant="filled"
+              helperText={errors.productName ? errorMessages.productName : ""}
               onChange={(e) => {
                 setProductName(e.target.value);
               }}
             ></TextField>
             <TextField
+              error={errors.productDescription}
               required
               id="productDescription"
               label="description"
               variant="filled"
               multiline
+              helperText={
+                errors.productDescription
+                  ? errorMessages.productDescription
+                  : ""
+              }
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
             ></TextField>
 
             <TextField
+              error={errors.category}
               required
               id="category"
               label="category"
               variant="filled"
+              helperText={errors.category ? errorMessages.category : ""}
               onChange={(e) => {
                 setCategory(e.target.value);
               }}
