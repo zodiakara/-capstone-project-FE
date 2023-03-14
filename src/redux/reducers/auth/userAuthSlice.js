@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, userLogin } from "./userAuthActions";
+import {
+  registerUser,
+  userLogin,
+  uploadUserAvatar,
+  getCurrentUser,
+} from "./userAuthActions";
 
 const initialState = {
   loading: false,
-  userInfo: {
-    // _id: "",
-    // name: "",
-    // surname: "",
-    // email: "",
-    // avatar: "",
-  },
+  userInfo: null,
   userToken: null,
+  userAvatar: null,
   error: null,
   success: false,
 };
@@ -18,7 +18,16 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    addAvatar: (state, action) => {
+      state.userAvatar = action.payload;
+    },
+    logout: (state) => {
+      state.userInfo = null;
+      state.userAvatar = null;
+      localStorage.clear();
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -42,23 +51,26 @@ const authSlice = createSlice({
           email: action.payload.email,
           avatar: action.payload.avatar,
         };
+      })
+      .addCase(uploadUserAvatar.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = {
+          _id: action.payload._id,
+          name: action.payload.name,
+          surname: action.payload.surname,
+          email: action.payload.email,
+          avatar: action.payload.avatar,
+        };
       });
-    //deprecated
-    //register user Action:
-    // [registerUser.pending]: (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // },
-    // [registerUser.fulfilled]: (state, payload) => {
-    //   state.loading = false;
-    //   state.success = true;
-    // },
-    // [registerUser.rejected]: (state, payload) => {
-    //   state.loading = false;
-    //   state.error = payload;
-    // },
   },
 });
 
-const { reducer } = authSlice;
-export default reducer;
+export const authActions = authSlice.actions;
+export default authSlice.reducer;

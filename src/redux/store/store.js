@@ -1,12 +1,35 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "../reducers/auth/userAuthSlice.js";
+import authSlice from "../reducers/auth/userAuthSlice.js";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import { encryptTransform } from "redux-persist-transform-encrypt";
 
-const reducer = {
-  auth: authReducer,
+import storage from "redux-persist/lib/storage";
+
+const persistConfig = {
+  key: "root",
+  storage: storage,
+  transforms: [
+    encryptTransform({
+      secretKey: "somekey",
+      onError: function (error) {
+        console.log(error);
+      },
+    }),
+  ],
 };
 
-const store = configureStore({
-  reducer: reducer,
+const bigReducer = combineReducers({
+  auth: authSlice,
 });
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, bigReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+
+export const persistor = persistStore(store);

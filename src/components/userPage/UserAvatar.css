@@ -1,0 +1,26 @@
+.avatarImgBox {
+  position: relative;
+}
+
+.imgAvatar:hover {
+  filter: blur(2px);
+  z-index: 0;
+}
+
+.avatarImgBox:hover::after {
+  content: "+";
+  font-size: 3rem;
+  color: rgb(88, 88, 90);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+/* 
+.avatarbtn {
+  opacity: 0%;
+} */
+.file-input {
+  display: none;
+}

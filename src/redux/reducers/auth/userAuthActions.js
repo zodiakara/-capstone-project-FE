@@ -1,5 +1,5 @@
+import { NotificationAdd } from "@mui/icons-material";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 
 const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 
@@ -29,8 +29,6 @@ export const userLogin = createAsyncThunk(
   "auth/login",
   async (loggedUser, { rejectWithValue }) => {
     try {
-      console.log("action fired");
-
       const config = {
         method: "POST",
         body: JSON.stringify(loggedUser),
@@ -39,10 +37,8 @@ export const userLogin = createAsyncThunk(
         }),
       };
       const response = await fetch(`${BE_URL}/users/login`, config);
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
-        console.log("log user res:", data);
         const accessToken = data.accessToken;
         const refreshToken = data.refreshToken;
         if (accessToken) {
@@ -66,12 +62,80 @@ export const userLogin = createAsyncThunk(
               }
             }
           } catch (error) {
-            console.log(error);
+            return rejectWithValue(error.message);
           }
         }
       }
     } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const getCurrentUser = createAsyncThunk(
+  "auth/getUserProfile",
+  async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    console.log(accessToken);
+    try {
+      const config = {
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        }),
+      };
+      const response = await fetch(`${BE_URL}/users/me`, config);
+      if (response.ok) {
+        const user = await response.json();
+        console.log(user);
+        return user;
+      }
+    } catch (error) {}
+  }
+);
+
+export const uploadUserAvatar = createAsyncThunk(
+  "auth/uploadAvatar",
+  async ({ userId, userAvatar }) => {
+    const form = new FormData();
+    form.append("avatar", userAvatar);
+    try {
+      const config = {
+        method: "POST",
+        body: form,
+      };
+      const response = await fetch(
+        `${BE_URL}/users/${userId}/uploadAvatar`,
+        config
+      );
+      if (response.ok) {
+        console.log("picture added");
+      }
+    } catch (error) {
       console.log(error);
     }
+  }
+);
+
+export const updateUserInfo = createAsyncThunk(
+  "auth/updateUser",
+  async ({ userId, data }) => {
+    try {
+      const config = {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          // Authorization: "Bearer " + accessToken,
+        }),
+      };
+      const response = await fetch(`${BE_URL}/users/${userId}`, config);
+      if (response.ok) {
+      }
+    } catch (error) {}
   }
 );

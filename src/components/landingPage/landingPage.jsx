@@ -6,8 +6,40 @@ import "./homepage.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+const welcomeHeaderStyles = {
+  display: { xs: "flex" },
+  flexGrow: 1,
+  fontFamily: "monospace",
+  fontWeight: 700,
+  justifyContent: "center",
+  color: "inherit",
+  textDecoration: "none",
+};
+
 function HomePage() {
   const currentUser = useSelector((state) => state.auth.userInfo);
+
+  const welcomeHeader = currentUser ? (
+    <Typography
+      variant="h3"
+      noWrap
+      component="div"
+      gutterBottom
+      sx={welcomeHeaderStyles}
+    >
+      Hello {currentUser.name}!!
+    </Typography>
+  ) : (
+    <Typography
+      variant="h3"
+      noWrap
+      component="div"
+      gutterBottom
+      sx={welcomeHeaderStyles}
+    >
+      Welcome to swAPP!!
+    </Typography>
+  );
 
   return (
     <>
@@ -20,45 +52,9 @@ function HomePage() {
         }}
       >
         <Box>
-          {currentUser.name ? (
-            <Typography
-              variant="h3"
-              noWrap
-              component="div"
-              gutterBottom
-              sx={{
-                display: { xs: "flex" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                justifyContent: "center",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Hello {currentUser.name}!!
-            </Typography>
-          ) : (
-            <Typography
-              variant="h3"
-              noWrap
-              component="div"
-              gutterBottom
-              sx={{
-                display: { xs: "flex" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                justifyContent: "center",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Welcome to swAPP!!
-            </Typography>
-          )}
+          {welcomeHeader}
           <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-            {currentUser.name ? (
+            {currentUser ? (
               <>
                 <Link to="/products">
                   <Button

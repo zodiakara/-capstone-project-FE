@@ -25,9 +25,8 @@ const AddProductForm = () => {
 
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const currentUser = useSelector((state) => state.auth.userInfo);
-  console.log(currentUser._id);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event, userId) => {
     event.preventDefault();
 
     if (!(productName === "")) setErrors({ ...errors, productName: true });
@@ -40,23 +39,17 @@ const AddProductForm = () => {
       description: productDescription,
       category: category,
       condition: condition,
+      owner: userId,
     };
 
-    debugger;
-
-    if (!Object.values(errors).includes(true)) addProductAction(product);
+    addProductAction(product);
   };
 
   const addProductAction = async (product) => {
-    const productToAdd = {
-      ...product,
-      owner: currentUser._id,
-    };
-
     try {
       const config = {
         method: "POST",
-        body: JSON.stringify(productToAdd),
+        body: JSON.stringify(product),
         headers: new Headers({
           "Content-Type": "application/json",
         }),
@@ -95,7 +88,7 @@ const AddProductForm = () => {
         </Typography>
         <Box
           component="form"
-          onSubmit={handleSubmit}
+          onSubmit={(event) => handleSubmit(event, currentUser._id)}
           sx={{
             display: "flex",
             flexDirection: "column",

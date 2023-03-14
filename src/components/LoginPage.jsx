@@ -47,7 +47,6 @@ const LoginPage = () => {
       email: email,
       password: password,
     };
-    console.log(user);
     dispatch(userLogin(user));
     navigate("/");
   };
