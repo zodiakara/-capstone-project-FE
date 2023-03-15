@@ -10,6 +10,7 @@ import {
   CardMedia,
   Rating,
   Grid,
+  MenuItem,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
@@ -23,6 +24,10 @@ const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 const UserMainPage = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const [products, setProducts] = useState("");
+  const [name, setUserName] = useState("");
+  const [surname, setUserSurname] = useState("");
+  const [birthDate, setUserBirthdate] = useState("");
+  const [gender, setUserGender] = useState("");
   const getUserProducts = async () => {
     const config = {
       method: "GET",
@@ -46,7 +51,7 @@ const UserMainPage = () => {
   useEffect(() => {
     getUserProducts();
   }, []);
-  return currentUser ? (
+  return (
     <>
       <MyNavbar />
       <Container
@@ -80,13 +85,56 @@ const UserMainPage = () => {
               <Typography variant="h5" gutterBottom>
                 General Information
               </Typography>
-              <Stack direction="row" spacing={4}>
-                <TextField label="first name" variant="filled"></TextField>
-                <TextField label="last name" variant="filled"></TextField>
+              <Stack direction="row" spacing={4} my={2}>
+                <TextField
+                  required
+                  id="filled-required"
+                  label="first name"
+                  defaultValue={currentUser.name ? currentUser.name : ""}
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                  }}
+                ></TextField>
+                <TextField
+                  required
+                  id="filled-required"
+                  label="last name"
+                  defaultValue={
+                    currentUser.surname ? currentUser.surname : surname || ""
+                  }
+                  onChange={(e) => {
+                    setUserSurname(e.target.value);
+                  }}
+                ></TextField>
               </Stack>
-              <Stack direction="row" spacing={4}>
-                <TextField label="Birthday" variant="filled"></TextField>
-                <TextField label="Gender" variant="filled"></TextField>
+              <Stack direction="row" spacing={4} my={2}>
+                <TextField
+                  label="Birth date"
+                  defaultValue={
+                    currentUser.birthDate
+                      ? currentUser.birthDate
+                      : birthDate || ""
+                  }
+                  onChange={(e) => {
+                    setUserBirthdate(e.target.value);
+                  }}
+                ></TextField>
+                <TextField
+                  sx={{ width: "200px" }}
+                  select
+                  label="Gender"
+                  value={currentUser.gender ? currentUser.gender : gender}
+                  onChange={(e) => {
+                    setUserGender(e.target.value);
+                  }}
+                >
+                  <MenuItem key="Female" value="Female">
+                    Female
+                  </MenuItem>
+                  <MenuItem key="Male" value="Male">
+                    Male
+                  </MenuItem>
+                </TextField>
               </Stack>
               <Stack direction="row" spacing={4}>
                 <TextField label="Email" variant="filled"></TextField>
@@ -98,7 +146,7 @@ const UserMainPage = () => {
                 Address
               </Typography>
               <Stack direction="row" spacing={4}>
-                <TextField label="Address" variant="filled"></TextField>
+                <TextField label="Street" variant="filled"></TextField>
                 <TextField label="Number" variant="filled"></TextField>
               </Stack>
               <Stack direction="row" spacing={4}>
@@ -223,7 +271,7 @@ const UserMainPage = () => {
         </Box>
       </Container>
     </>
-  ) : null;
+  );
 };
 
 export default UserMainPage;

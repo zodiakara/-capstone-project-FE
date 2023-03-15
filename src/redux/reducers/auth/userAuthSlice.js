@@ -4,6 +4,7 @@ import {
   userLogin,
   uploadUserAvatar,
   getCurrentUser,
+  updateUserInfo,
 } from "./userAuthActions";
 
 const initialState = {
@@ -55,19 +56,23 @@ const authSlice = createSlice({
       .addCase(uploadUserAvatar.fulfilled, (state) => {
         state.loading = false;
       })
+      .addCase(updateUserInfo.fulfilled, (state) => {
+        state.loading = false;
+      })
       .addCase(getCurrentUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.userInfo = {
-          _id: action.payload._id,
-          name: action.payload.name,
-          surname: action.payload.surname,
-          email: action.payload.email,
-          avatar: action.payload.avatar,
-        };
+        state.userInfo = action.payload;
+        // {
+        //   _id: action.payload._id,
+        //   name: action.payload.name,
+        //   surname: action.payload.surname,
+        //   email: action.payload.email,
+        //   avatar: action.payload.avatar,
+        // };
       });
   },
 });

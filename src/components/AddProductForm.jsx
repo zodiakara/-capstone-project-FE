@@ -1,6 +1,15 @@
-import { Button, TextField, Typography, FormControl } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FilledInput,
+} from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -9,30 +18,48 @@ import graphic from "../assets/undraw_Dreamer_re_9tua.png";
 const errorMessages = {
   name: "Product name should not be empty.",
   description: "Description field should be at least 50 characters long.",
-  category: "Please select a category.",
 };
 
+const categories = [
+  "Clothing",
+  "Kids Clothing",
+  "Toys",
+  "Household",
+  "Electronics",
+  "Garden",
+  "Pets",
+  "Other",
+];
+
+const conditions = ["Used", "Slightly Used", "New"];
 const AddProductForm = () => {
   const [productName, setProductName] = useState("");
   const [productDescription, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
+  const [submit, setSubmit] = useState(false);
   const [errors, setErrors] = useState({
     productName: false,
     productDescription: false,
-    category: false,
   });
 
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const currentUser = useSelector((state) => state.auth.userInfo);
 
+  // useEffect(() => {
+  //   clearTheForm();
+  // }, [submit]);
+
+  const clearTheForm = function () {
+    setProductName("");
+    setDescription("");
+    setCategory("");
+    setCondition("");
+    setSubmit(false);
+  };
+
   const handleSubmit = (event, userId) => {
     event.preventDefault();
-
-    if (!(productName === "")) setErrors({ ...errors, productName: true });
-    if (!(productDescription.length >= 50))
-      setErrors({ ...errors, productDescription: true });
-    if (!(category === "")) setErrors({ ...errors, category: true });
 
     const product = {
       name: productName,
@@ -42,7 +69,12 @@ const AddProductForm = () => {
       owner: userId,
     };
 
-    addProductAction(product);
+    addProductAction(product).then(() => {
+      clearTheForm();
+    });
+    // .then(() => {
+    //   clearTheForm();
+    // });
   };
 
   const addProductAction = async (product) => {
@@ -79,9 +111,11 @@ const AddProductForm = () => {
           }}
         >
           <Link to="/user">
-            <Button variant="text">back to user page</Button>
+            <Button variant="text">go to user page</Button>
           </Link>
-          <Button variant="text">add another one</Button>
+          <Link to="/products">
+            <Button variant="text">go to products</Button>
+          </Link>
         </Box>
         <Typography variant="h5" gutterBottom>
           add a new product:
@@ -103,6 +137,7 @@ const AddProductForm = () => {
               id="productName"
               label="name"
               variant="filled"
+              value={productName}
               helperText={errors.productName ? errorMessages.productName : ""}
               onChange={(e) => {
                 setProductName(e.target.value);
@@ -113,6 +148,7 @@ const AddProductForm = () => {
               required
               id="productDescription"
               label="description"
+              value={productDescription}
               variant="filled"
               multiline
               helperText={
@@ -126,24 +162,38 @@ const AddProductForm = () => {
             ></TextField>
 
             <TextField
-              error={errors.category}
               required
-              id="category"
-              label="category"
+              select
+              label="Select product category"
               variant="filled"
-              helperText={errors.category ? errorMessages.category : ""}
+              value={category}
               onChange={(e) => {
                 setCategory(e.target.value);
               }}
-            ></TextField>
+            >
+              {" "}
+              {categories.map((category) => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
-              id="condition"
-              label="condition"
+              select
+              label="Select product condition"
               variant="filled"
+              value={condition}
               onChange={(e) => {
                 setCondition(e.target.value);
               }}
-            ></TextField>
+            >
+              {" "}
+              {conditions.map((condition) => (
+                <MenuItem key={condition} value={condition}>
+                  {condition}
+                </MenuItem>
+              ))}
+            </TextField>
           </Stack>
           <Button type="submit" variant="outlined">
             add

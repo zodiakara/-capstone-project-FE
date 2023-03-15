@@ -135,6 +135,7 @@ export const updateUserInfo = createAsyncThunk(
       };
       const response = await fetch(`${BE_URL}/users/${userId}`, config);
       if (response.ok) {
+        console.log("user data sent!!");
       }
     } catch (error) {}
   }
