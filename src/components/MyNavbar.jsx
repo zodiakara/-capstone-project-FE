@@ -11,19 +11,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { MdRecycling } from "react-icons/md";
 import { AllInclusive } from "@mui/icons-material";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../redux/reducers/auth/userAuthSlice";
+import { Link, useNavigate } from "react-router-dom";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Home", "Products", "Community", "Our Goal"];
+const settings = ["My profile", "Profile settings", "Logout"];
 
 function MyNavbar() {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const dispatch = useDispatch();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,6 +38,10 @@ function MyNavbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(authActions.logout());
   };
 
   return (
@@ -92,19 +96,27 @@ function MyNavbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {/* {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))} */}
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">home</Typography>
+                <Link to="/">
+                  <Typography textAlign="center">Home</Typography>
+                </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">community</Typography>
+                <Link to="/products">
+                  <Typography textAlign="center">Products</Typography>
+                </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">products</Typography>
+                <Link to="/community">
+                  {" "}
+                  <Typography textAlign="center">Community</Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/info">
+                  {" "}
+                  <Typography textAlign="center">Our Goals</Typography>
+                </Link>
               </MenuItem>
             </Menu>
           </Box>
@@ -126,19 +138,32 @@ function MyNavbar() {
             }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Link to="/">
+                <Typography textAlign="center">Home</Typography>
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Link to="/products">
+                <Typography textAlign="center">Products</Typography>
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Link to="/community">
+                {" "}
+                <Typography textAlign="center">Community</Typography>
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Link to="/info">
+                {" "}
+                <Typography textAlign="center">Our Goals</Typography>
+              </Link>
+            </MenuItem>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {currentUser.name ? (
+            {currentUser ? (
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="" src={currentUser.avatar} />
@@ -146,9 +171,7 @@ function MyNavbar() {
               </Tooltip>
             ) : (
               <Link to="/login">
-                <Button variant="outlined" color="info">
-                  LogIn
-                </Button>
+                <Button variant="outlined">LOGIN</Button>
               </Link>
             )}
 
@@ -168,11 +191,23 @@ function MyNavbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Link to="/user">
+                  <Typography textAlign="center">My profile</Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem component="div" onClick={handleCloseUserMenu}>
+                <Link to="/user_edit">
+                  <Typography textAlign="center">Profile settings</Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Link to="/">
+                  <Typography onClick={handleLogout} textAlign="center">
+                    Logout
+                  </Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
