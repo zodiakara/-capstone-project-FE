@@ -1,11 +1,14 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
 const ProductsMainPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const BE_URL = process.env.REACT_APP_BE_DEV_URL;
+  const [products, setProducts] = useState([]);
   const categories = [
     { name: "Clothing", image: "" },
     { name: "Kids Clothing", image: "" },
@@ -16,6 +19,27 @@ const ProductsMainPage = () => {
     { name: "Pets", image: "" },
     { name: "Other", image: "" },
   ];
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  const getAllProducts = async () => {
+    try {
+      const config = {
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      };
+      const response = await fetch(`${BE_URL}/products`, config);
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data);
+      }
+    } catch (error) {
+      console.log("error fetching data ... ", error);
+    }
+  };
 
   return (
     <>
@@ -82,7 +106,9 @@ const ProductsMainPage = () => {
         ))}
       </Box>
       <Typography variant="h4">Recently added</Typography>
-      <ProductCard />
+      {products.map((product) => (
+        <ProductCard key={product._id} {...product} />
+      ))}
     </>
   );
 };
