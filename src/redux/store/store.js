@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 
 import storage from "redux-persist/lib/storage";
+import productsSlice from "../reducers/products/productsSlice.js";
 
 const persistConfig = {
   key: "root",
@@ -20,6 +21,7 @@ const persistConfig = {
 
 const bigReducer = combineReducers({
   auth: authSlice,
+  product: productsSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);

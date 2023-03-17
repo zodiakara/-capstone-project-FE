@@ -51,6 +51,7 @@ const UserMainPage = () => {
   useEffect(() => {
     getUserProducts();
   }, []);
+
   return (
     <>
       <MyNavbar />
@@ -217,12 +218,14 @@ const UserMainPage = () => {
               products.map((product) => (
                 <Grid item xs={4} key={product._id}>
                   <Card>
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image="http://source.unsplash.com/random"
-                      alt="productImg"
-                    />
+                    <Link to={`/products/${product._id}`}>
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={product.mainPicture}
+                        alt="productImg"
+                      />
+                    </Link>
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         {product.name}

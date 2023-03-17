@@ -1,7 +1,15 @@
-import { List } from "@mui/icons-material";
-import { Box, ListItem, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import MyNavbar from "../MyNavbar";
+import graphic from "../../assets/community.png";
 
 const CommunityPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -30,15 +38,75 @@ const CommunityPage = () => {
 
   return (
     <>
-      <header>aaaaaa</header>
-
-      {users
-        ? filteredUsers.map((user) => (
-            <Box key={user._id}>
-              {user.name} {user.surname}
-            </Box>
-          ))
-        : null}
+      <MyNavbar />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h4">
+          welcome to our <br></br>swAPP community!
+        </Typography>
+        <Box sx={{ marginX: "2rem" }}>
+          <img
+            className="communityGraphic"
+            alt="communityGraphic"
+            src={graphic}
+          />
+        </Box>
+      </Box>
+      <Box>
+        <Grid
+          container
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <Grid
+            item
+            xs={2}
+            md={4}
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {users
+              ? filteredUsers.slice(3, 9).map((user) => (
+                  <Box
+                    sx={{
+                      width: "200px",
+                      height: "200px",
+                    }}
+                    key={user._id}
+                  >
+                    <Card
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flexGrow: "1",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "1rem",
+                      }}
+                    >
+                      <Avatar
+                        sx={{ height: "150px", width: "150px" }}
+                        src={user.avatar}
+                      />
+                      <CardContent>{user.name}</CardContent>
+                    </Card>
+                  </Box>
+                ))
+              : null}
+          </Grid>
+        </Grid>
+      </Box>
     </>
   );
 };

@@ -14,7 +14,11 @@ import MenuItem from "@mui/material/MenuItem";
 import { AllInclusive } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/reducers/auth/userAuthSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { productActions } from "../redux/reducers/products/productsSlice";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Badge } from "@mui/material";
+import "./MyNavbar.css";
 
 const pages = ["Home", "Products", "Community", "Our Goal"];
 const settings = ["My profile", "Profile settings", "Logout"];
@@ -42,6 +46,7 @@ function MyNavbar() {
 
   const handleLogout = () => {
     dispatch(authActions.logout());
+    dispatch(productActions.removeProductImage());
   };
 
   return (
@@ -164,11 +169,18 @@ function MyNavbar() {
 
           <Box sx={{ flexGrow: 0 }}>
             {currentUser ? (
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="" src={currentUser.avatar} />
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <IconButton className="notificationsIcon">
+                  <Badge badgeContent={5} color="primary">
+                    <NotificationsIcon />
+                  </Badge>
                 </IconButton>
-              </Tooltip>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 1 }}>
+                    <Avatar alt="" src={currentUser.avatar} />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             ) : (
               <Link to="/login">
                 <Button variant="outlined">LOGIN</Button>
