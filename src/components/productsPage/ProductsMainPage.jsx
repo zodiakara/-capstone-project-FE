@@ -1,14 +1,18 @@
-import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import MyNavbar from "../MyNavbar";
 import ProductCard from "./ProductCard";
 
 const ProductsMainPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
-  const [products, setProducts] = useState([]);
+  const [fetchedProducts, setProducts] = useState([]);
+  const products = fetchedProducts.filter(
+    (product) => product.adopted !== true
+  );
   const categories = [
     { name: "Clothing", image: "" },
     { name: "Kids Clothing", image: "" },
@@ -43,6 +47,7 @@ const ProductsMainPage = () => {
 
   return (
     <>
+      <MyNavbar />
       <Box
         sx={{
           display: "flex",
@@ -58,13 +63,11 @@ const ProductsMainPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h3">
-            want to contribute <br></br>to our community?
-          </Typography>
+          <Typography variant="h4">want to contribute?</Typography>
           <Box>
             {userInfo ? (
               <Link to="/product/add">
-                <Button>ADD PRODUCT</Button>
+                <Button variant="contained">ADD PRODUCT</Button>
               </Link>
             ) : (
               <Link to="/register">
@@ -106,9 +109,18 @@ const ProductsMainPage = () => {
         ))}
       </Box>
       <Typography variant="h4">Recently added</Typography>
-      {products.map((product) => (
-        <ProductCard key={product._id} {...product} />
-      ))}
+      <Grid
+        container
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        {products.map((product) => (
+          <ProductCard key={product._id} {...product} />
+        ))}
+      </Grid>
     </>
   );
 };

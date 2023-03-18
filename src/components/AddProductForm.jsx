@@ -10,10 +10,14 @@ import {
 } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import Notification from "react-notifications/lib/Notification";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import graphic from "../assets/undraw_Dreamer_re_9tua.png";
+import { sendProductImage } from "../redux/reducers/products/productSliceActions";
+import { productActions } from "../redux/reducers/products/productsSlice";
+import MyNavbar from "./MyNavbar";
 
 const errorMessages = {
   name: "Product name should not be empty.",
@@ -37,14 +41,16 @@ const AddProductForm = () => {
   const [productDescription, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
-  const [submit, setSubmit] = useState(false);
+
   const [errors, setErrors] = useState({
     productName: false,
     productDescription: false,
   });
 
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
+  const productImage = useSelector((state) => state.product.productImage);
 
   // useEffect(() => {
   //   clearTheForm();
@@ -55,7 +61,8 @@ const AddProductForm = () => {
     setDescription("");
     setCategory("");
     setCondition("");
-    setSubmit(false);
+
+    dispatch(productActions.removeProductImage());
   };
 
   const handleSubmit = (event, userId) => {
@@ -72,9 +79,9 @@ const AddProductForm = () => {
     addProductAction(product).then(() => {
       clearTheForm();
     });
-    // .then(() => {
-    //   clearTheForm();
-    // });
+  };
+  const handleNotification = () => {
+    <Notification />;
   };
 
   const addProductAction = async (product) => {
@@ -86,7 +93,19 @@ const AddProductForm = () => {
           "Content-Type": "application/json",
         }),
       };
-      await fetch(`${BE_URL}/products`, config);
+      const response = await fetch(`${BE_URL}/products`, config);
+      if (response.ok) {
+        const data = await response.json();
+        const productId = data._id;
+        if (productId) {
+          if (productImage) {
+            console.log(productImage);
+            dispatch(
+              sendProductImage({ productId: productId, image: productImage })
+            );
+          }
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -94,32 +113,16 @@ const AddProductForm = () => {
 
   return (
     <>
+      <MyNavbar />
+
       <Container
         sx={{
           display: "flex",
           alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "center",
-          width: "80%",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-
-            justifyContent: "center",
-          }}
-        >
-          <Link to="/user">
-            <Button variant="text">go to user page</Button>
-          </Link>
-          <Link to="/products">
-            <Button variant="text">go to products</Button>
-          </Link>
-        </Box>
-        <Typography variant="h5" gutterBottom>
-          add a new product:
-        </Typography>
         <Box
           component="form"
           onSubmit={(event) => handleSubmit(event, currentUser._id)}
@@ -131,6 +134,12 @@ const AddProductForm = () => {
           }}
         >
           <Stack spacing={4}>
+            <Typography
+              sx={{ marginTop: "1em", textAlign: "center" }}
+              variant="h5"
+            >
+              add a new product:
+            </Typography>
             <TextField
               error={errors.productName}
               required
@@ -194,12 +203,51 @@ const AddProductForm = () => {
                 </MenuItem>
               ))}
             </TextField>
+            <Button type="submit" variant="outlined">
+              add product
+            </Button>
+            <Button onClick={handleNotification} variant="outlined">
+              notification check
+            </Button>
           </Stack>
-          <Button type="submit" variant="outlined">
-            add
-          </Button>
+        </Box>
+        <Box sx={{ marginX: "2rem" }}>
+          <input
+            accept="image/*"
+            id="addPicture"
+            className="file-input"
+            single
+            type="file"
+            onChange={(e) => {
+              const file = e.target.files[0];
+
+              dispatch(productActions.addProductImage(file));
+            }}
+          ></input>
+          <label htmlFor="addPicture">
+            <Box
+              sx={{
+                "&:hover": {
+                  opacity: "40%",
+                },
+              }}
+            >
+              <img
+                style={{ maxWidth: "300px", maxHeight: "300px" }}
+                alt="product"
+                src={
+                  productImage
+                    ? URL.createObjectURL(productImage)
+                    : "https://via.placeholder.com/300x300"
+                }
+              />
+            </Box>
+          </label>
         </Box>
       </Container>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", marginY: "1em" }}
+      ></Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <img className="mainGraphic" alt="" src={graphic} />
       </Box>

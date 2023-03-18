@@ -10,11 +10,18 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
+import { Grid } from "@mui/material";
 
 const ProductCard = (product) => {
   return (
-    <Link to={`/products/${product._id}`}>
-      <Card sx={{ maxWidth: 345 }}>
+    <Grid
+      item
+      xs={12}
+      md={4}
+      lg={3}
+      sx={{ display: "flex", justifyContent: "space-evenly", flexGrow: "1" }}
+    >
+      <Card sx={{ width: "350px", margin: "1em" }}>
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -24,12 +31,14 @@ const ProductCard = (product) => {
           title={product.name}
           subheader={product.category}
         />
-        <CardMedia
-          component="img"
-          height="194"
-          image="http://source.unsplash.com/random"
-          alt="Paella dish"
-        />
+        <Link to={`/products/${product._id}`}>
+          <CardMedia
+            component="img"
+            height="194"
+            image={product.mainPicture}
+            alt="product"
+          />
+        </Link>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             {product.description}
@@ -44,7 +53,7 @@ const ProductCard = (product) => {
           </IconButton>
         </CardActions>
       </Card>
-    </Link>
+    </Grid>
   );
 };
 
