@@ -4,6 +4,8 @@ const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 export const sendProductImage = createAsyncThunk(
   "product/uploadMainImage",
   async ({ productId, image }) => {
+    console.log("action inage", image);
+    console.log("action id", productId);
     const form = new FormData();
     form.append("mainPicture", image);
     try {
@@ -16,7 +18,8 @@ export const sendProductImage = createAsyncThunk(
         config
       );
       if (response.ok) {
-        console.log("picture added");
+        const data = await response.json();
+        console.log(data);
       }
     } catch (error) {
       console.log(error);
@@ -40,6 +43,27 @@ export const sendProductImagesADD = createAsyncThunk(
       );
       if (response.ok) {
         console.log("additional pictures added");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const adoptProductAction = createAsyncThunk(
+  "product/adoptProduct",
+  async ({ productId, userId }) => {
+    try {
+      const config = {
+        method: "PUT",
+        body: JSON.stringify({ adopted: true, getter: userId }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      };
+      const response = await fetch(`${BE_URL}/products/${productId}`, config);
+      if (response.ok) {
+        console.log("product succesfully adopted");
       }
     } catch (error) {
       console.log(error);

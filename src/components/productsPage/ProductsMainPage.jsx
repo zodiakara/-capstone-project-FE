@@ -9,7 +9,10 @@ import ProductCard from "./ProductCard";
 const ProductsMainPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
-  const [products, setProducts] = useState([]);
+  const [fetchedProducts, setProducts] = useState([]);
+  const products = fetchedProducts.filter(
+    (product) => product.adopted !== true
+  );
   const categories = [
     { name: "Clothing", image: "" },
     { name: "Kids Clothing", image: "" },

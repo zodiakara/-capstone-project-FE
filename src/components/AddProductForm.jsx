@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { useEffect, useState } from "react";
+import Notification from "react-notifications/lib/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -40,7 +41,7 @@ const AddProductForm = () => {
   const [productDescription, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
-  const [submit, setSubmit] = useState(false);
+
   const [errors, setErrors] = useState({
     productName: false,
     productDescription: false,
@@ -50,7 +51,6 @@ const AddProductForm = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
   const productImage = useSelector((state) => state.product.productImage);
-  console.log(productImage);
 
   // useEffect(() => {
   //   clearTheForm();
@@ -61,8 +61,8 @@ const AddProductForm = () => {
     setDescription("");
     setCategory("");
     setCondition("");
-    setSubmit(false);
-    // dispatch(productActions.removeProductImage());
+
+    dispatch(productActions.removeProductImage());
   };
 
   const handleSubmit = (event, userId) => {
@@ -79,9 +79,9 @@ const AddProductForm = () => {
     addProductAction(product).then(() => {
       clearTheForm();
     });
-    // .then(() => {
-    //   clearTheForm();
-    // });
+  };
+  const handleNotification = () => {
+    <Notification />;
   };
 
   const addProductAction = async (product) => {
@@ -99,7 +99,10 @@ const AddProductForm = () => {
         const productId = data._id;
         if (productId) {
           if (productImage) {
-            dispatch(sendProductImage({ productId, productImage }));
+            console.log(productImage);
+            dispatch(
+              sendProductImage({ productId: productId, image: productImage })
+            );
           }
         }
       }
@@ -202,6 +205,9 @@ const AddProductForm = () => {
             </TextField>
             <Button type="submit" variant="outlined">
               add product
+            </Button>
+            <Button onClick={handleNotification} variant="outlined">
+              notification check
             </Button>
           </Stack>
         </Box>

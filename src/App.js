@@ -7,6 +7,7 @@ import LoginPage from "./components/LoginPage";
 import ProductDetailPage from "./components/productsPage/ProductDetailPage";
 import ProductsMainPage from "./components/productsPage/ProductsMainPage";
 import RegisterPage from "./components/RegisterPage";
+import UserEditPage from "./components/userPage/UserEditPage";
 import UserMainPage from "./components/userPage/UserMainPage";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/user" element={<UserMainPage />} />
+        <Route path="/user_edit" element={<UserEditPage />} />
         <Route path="/product/add" element={<AddProductForm />} />
         <Route path="/products" element={<ProductsMainPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />

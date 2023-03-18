@@ -11,11 +11,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MyNavbar from "../MyNavbar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useDispatch, useSelector } from "react-redux";
+import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 
 const ProductDetailPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [product, setProduct] = useState({});
+  const currentUser = useSelector((state) => state.auth.userInfo);
   const params = useParams();
+  const dispatch = useDispatch();
   const { productId } = params;
 
   useEffect(() => {
@@ -32,6 +36,13 @@ const ProductDetailPage = () => {
     } catch (error) {
       console.log("error fetching data ... ", error);
     }
+  };
+  console.log(product);
+
+  const handleAdoptProduct = () => {
+    dispatch(
+      adoptProductAction({ productId: product._id, userId: currentUser._id })
+    );
   };
 
   return (
@@ -85,7 +96,9 @@ const ProductDetailPage = () => {
           >
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Button variant="outlined">ask about product</Button>
-              <Button variant="contained">adopt it</Button>
+              <Button onClick={handleAdoptProduct} variant="contained">
+                adopt it
+              </Button>
             </Box>
           </Box>
         </Box>
