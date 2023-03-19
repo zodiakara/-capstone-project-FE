@@ -1,5 +1,7 @@
 import { Image } from "@mui/icons-material";
 import {
+  Alert,
+  AlertTitle,
   Button,
   Container,
   IconButton,
@@ -13,14 +15,18 @@ import MyNavbar from "../MyNavbar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
+import ProductModal from "./ProductModal";
 
 const ProductDetailPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [product, setProduct] = useState({});
+  const [open, setOpen] = useState(false);
+  const [alert, setAlert] = useState(false);
   const currentUser = useSelector((state) => state.auth.userInfo);
   const params = useParams();
   const dispatch = useDispatch();
   const { productId } = params;
+  console.log(open);
 
   useEffect(() => {
     getProduct();
@@ -42,12 +48,23 @@ const ProductDetailPage = () => {
   const handleAdoptProduct = () => {
     dispatch(
       adoptProductAction({ productId: product._id, userId: currentUser._id })
-    );
+    ).then(() => {
+      setOpen(false);
+      setAlert(true);
+    });
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <>
       <MyNavbar />
+
       <Container
         sx={{
           display: "flex",
@@ -96,13 +113,24 @@ const ProductDetailPage = () => {
           >
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Button variant="outlined">ask about product</Button>
-              <Button onClick={handleAdoptProduct} variant="contained">
+              <Button onClick={handleOpen} variant="contained">
                 adopt it
               </Button>
+              <ProductModal
+                open={open}
+                handleClose={handleClose}
+                handleAdoptProduct={handleAdoptProduct}
+              />
             </Box>
           </Box>
         </Box>
       </Container>
+      {alert ? (
+        <Alert onClose={() => setAlert(false)} severity="success">
+          <AlertTitle>Success!!</AlertTitle>Congratulations, You've succesfully
+          adopted a product with id "{product._id}"!
+        </Alert>
+      ) : null}
     </>
   );
 };

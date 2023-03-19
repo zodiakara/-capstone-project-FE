@@ -1,4 +1,4 @@
-import { Avatar, Box, Button } from "@mui/material";
+import { Avatar, Box, Button, Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -38,25 +38,29 @@ const UploadUserAvatar = (props) => {
       ></input>
       <label htmlFor="avatar">
         <Box className="avatarImgBox">
-          <Avatar
-            imgProps={{
-              className: "imgAvatar",
-            }}
-            sx={{
-              height: "200px",
-              width: "200px",
-              "&:hover": {
-                opacity: "40%",
-              },
-            }}
-            src={
-              userAvatar ? URL.createObjectURL(userAvatar) : currentUser.avatar
-            }
-          />
-          <Button onClick={handleImgUpload} className="avatarbtn">
-            change picture
-          </Button>
+          <Tooltip title="click to load user avatar" placement="top">
+            <Avatar
+              imgProps={{
+                className: "imgAvatar",
+              }}
+              sx={{
+                height: "200px",
+                width: "200px",
+                "&:hover": {
+                  opacity: "40%",
+                },
+              }}
+              src={
+                userAvatar
+                  ? URL.createObjectURL(userAvatar)
+                  : currentUser.avatar
+              }
+            />
+          </Tooltip>
         </Box>{" "}
+        <Button onClick={handleImgUpload} className="avatarbtn">
+          change avatar
+        </Button>
       </label>{" "}
     </>
   );
