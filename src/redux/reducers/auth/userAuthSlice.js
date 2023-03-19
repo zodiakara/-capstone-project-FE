@@ -45,13 +45,14 @@ const authSlice = createSlice({
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.userInfo = {
-          _id: action.payload._id,
-          name: action.payload.name,
-          surname: action.payload.surname,
-          email: action.payload.email,
-          avatar: action.payload.avatar,
-        };
+        state.userInfo = action.payload;
+        // = {
+        //   _id: action.payload._id,
+        //   name: action.payload.name,
+        //   surname: action.payload.surname,
+        //   email: action.payload.email,
+        //   avatar: action.payload.avatar,
+        // };
       })
       .addCase(uploadUserAvatar.fulfilled, (state) => {
         state.loading = false;

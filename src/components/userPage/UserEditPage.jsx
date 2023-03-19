@@ -2,23 +2,74 @@ import { Button, MenuItem, TextField, Typography } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { useState } from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  getCurrentUser,
+  updateUserInfo,
+} from "../../redux/reducers/auth/userAuthActions";
 
 import UploadUserAvatar from "./UploadUserAvatar";
 
 const UserEditPage = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
+  const dispatch = useDispatch();
   const [name, setUserName] = useState("");
   const [surname, setUserSurname] = useState("");
   const [birthDate, setUserBirthdate] = useState("");
   const [gender, setUserGender] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [street, setStreet] = useState("");
+  const [number, setNumber] = useState(null);
+  const [city, setCity] = useState("");
+  const [zip, setZip] = useState("");
+  const [bio, setBio] = useState("");
+
+  const handleUserUpdate = () => {
+    const userObject = {};
+    if (name) {
+      userObject.name = name;
+    }
+    if (surname) {
+      userObject.surname = surname;
+    }
+    if (birthDate) {
+      userObject.birthDate = birthDate;
+    }
+    if (gender) {
+      userObject.gender = gender;
+    }
+    if (phone) {
+      userObject.phone = phone;
+    }
+    if (street) {
+      userObject.street = street;
+    }
+    if (number) {
+      userObject.number = number;
+    }
+    if (city) {
+      userObject.City = city;
+    }
+    if (zip) {
+      userObject.ZIP = zip;
+    }
+    if (bio) {
+      userObject.bio = bio;
+    }
+    if (userObject) {
+      dispatch(
+        updateUserInfo({ userId: currentUser._id, data: userObject })
+      ).then(() => {
+        dispatch(getCurrentUser());
+      });
+    }
+  };
 
   return (
     <Container
       sx={{
-        // bgcolor: ["#80CAFF"],
-        // borderRadius: "20px",
         marginTop: "2rem",
         padding: "1rem",
       }}
@@ -51,7 +102,7 @@ const UserEditPage = () => {
                 required
                 id="filled-required"
                 label="first name"
-                defaultValue={currentUser.name ? currentUser.name : ""}
+                defaultValue={currentUser.name ? currentUser.name : name || ""}
                 onChange={(e) => {
                   setUserName(e.target.value);
                 }}
@@ -97,31 +148,107 @@ const UserEditPage = () => {
                 </MenuItem>
               </TextField>
             </Stack>
-            <Stack direction="row" spacing={4}>
-              <TextField label="Email" variant="filled"></TextField>
-              <TextField label="Phone" variant="filled"></TextField>
+            <Stack direction="row" spacing={4} my={2}>
+              <TextField
+                label="Email"
+                defaultValue={
+                  currentUser.email ? currentUser.email : email || ""
+                }
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              ></TextField>
+              <TextField
+                label="Phone"
+                defaultValue={
+                  currentUser.phone ? currentUser.phone : phone || ""
+                }
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                }}
+              ></TextField>
             </Stack>
           </Box>
           <Box>
             <Typography variant="h5" gutterBottom>
               Address
             </Typography>
-            <Stack direction="row" spacing={4}>
-              <TextField label="Street" variant="filled"></TextField>
-              <TextField label="Number" variant="filled"></TextField>
+            <Stack direction="row" spacing={4} my={2}>
+              <TextField
+                label="Street"
+                v
+                defaultValue={
+                  currentUser.address.street
+                    ? currentUser.address.street
+                    : street || ""
+                }
+                onChange={(e) => {
+                  setStreet(e.target.value);
+                }}
+              ></TextField>
+              <TextField
+                label="Number"
+                defaultValue={
+                  currentUser.address.number
+                    ? currentUser.address.number
+                    : number || ""
+                }
+                onChange={(e) => {
+                  setNumber(e.target.value);
+                }}
+              ></TextField>
             </Stack>
-            <Stack direction="row" spacing={4}>
-              <TextField label="City" variant="filled"></TextField>
-              <TextField label="ZIP" variant="filled"></TextField>
+            <Stack direction="row" spacing={4} my={2}>
+              <TextField
+                label="City"
+                defaultValue={
+                  currentUser.address.City
+                    ? currentUser.address.City
+                    : city || ""
+                }
+                onChange={(e) => {
+                  setCity(e.target.value);
+                }}
+              ></TextField>
+              <TextField
+                label="ZIP"
+                defaultValue={
+                  currentUser.address.zip ? currentUser.address.zip : zip || ""
+                }
+                onChange={(e) => {
+                  setZip(e.target.value);
+                }}
+              ></TextField>
             </Stack>
-            <Button variant="outlined">save edit</Button>
+            <Stack
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+              direction="row"
+              spacing={4}
+              my={2}
+            >
+              <Button onClick={handleUserUpdate} variant="outlined">
+                save edit
+              </Button>
+            </Stack>
           </Box>
         </Box>
         <Box>
           <Stack sx={{ padding: "2em" }}>
             {" "}
             <UploadUserAvatar currentUser={currentUser} />
-            <TextField label="add bio" variant="standard" multiline></TextField>
+            <TextField
+              label="add bio"
+              variant="standard"
+              defaultValue={currentUser ? currentUser.bio : bio || ""}
+              onChange={(e) => {
+                setBio(e.target.value);
+              }}
+              multiline={3}
+            ></TextField>
           </Stack>
         </Box>
       </Box>

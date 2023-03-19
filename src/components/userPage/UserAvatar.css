@@ -17,10 +17,12 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
-/* 
+
 .avatarbtn {
-  opacity: 0%;
-} */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .file-input {
   display: none;
 }
