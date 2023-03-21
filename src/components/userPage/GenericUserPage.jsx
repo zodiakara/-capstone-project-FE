@@ -13,18 +13,17 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import MyNavbar from "../MyNavbar";
 import PlaceIcon from "@mui/icons-material/Place";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import Footer from "../Footer";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 
-const UserMainPage = () => {
-  const currentUser = useSelector((state) => state.auth.userInfo);
+const GenericUserPage = () => {
+  const params = useParams();
+  const { userId } = params;
+  const [user, setUser] = useState({});
   const [fetchedProducts, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [displayProducts, setDisplayProducts] = useState(true);
@@ -33,7 +32,6 @@ const UserMainPage = () => {
   const products = fetchedProducts.filter(
     (product) => product.adopted !== true
   );
-  const history = fetchedProducts.filter((product) => product.adopted === true);
 
   const getUserProducts = async () => {
     const config = {
@@ -45,7 +43,7 @@ const UserMainPage = () => {
 
     try {
       const response = await fetch(
-        `${BE_URL}/users/${currentUser._id}/products`,
+        `${BE_URL}/users/${userId}/products`,
         config
       );
       if (response.ok) {
@@ -64,7 +62,7 @@ const UserMainPage = () => {
     };
     try {
       const response = await fetch(
-        `${BE_URL}/users/${currentUser._id}/userComments`,
+        `${BE_URL}/users/${userId}/userComments`,
         config
       );
       if (response.ok) {
@@ -72,6 +70,18 @@ const UserMainPage = () => {
         setReviews(data);
       }
     } catch (error) {}
+  };
+
+  const getUser = async () => {
+    try {
+      const response = await fetch(`${BE_URL}/users/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      }
+    } catch (error) {
+      console.log("error fetching user", error);
+    }
   };
 
   const handleReviews = () => {
@@ -84,8 +94,10 @@ const UserMainPage = () => {
     setDisplayReviews(false);
   };
   useEffect(() => {
-    getUserProducts();
-    getUserReviews();
+    getUser().then(() => {
+      getUserProducts();
+      getUserReviews();
+    });
   }, []);
 
   return (
@@ -123,34 +135,40 @@ const UserMainPage = () => {
                   // border: "solid",
                   // borderColor: "#fbae42",
                 }}
-                src={currentUser.avatar}
+                src={user.avatar}
               />
             </Box>
             <Box>
               <Typography variant="h4">
-                {currentUser.name} {currentUser.surname}
+                {user.name} {user.surname}
               </Typography>
               <Stack direction="row" color="text.secondary">
-                <PlaceIcon />
-                <Typography sx={{ marginTop: "0.25em" }}>
-                  {" "}
-                  {currentUser.address.City}, {currentUser.address.street}{" "}
-                  {currentUser.address.number}
-                </Typography>
+                {user.address ? (
+                  <>
+                    <PlaceIcon />
+                    <Typography sx={{ marginTop: "0.25em" }}>
+                      {" "}
+                      {user.address.City}, {user.address.street}{" "}
+                      {user.address.number}
+                    </Typography>
+                  </>
+                ) : null}
               </Stack>
               <Stack>
-                <Typography variant="body1">{currentUser.bio}</Typography>
+                {user.bio ? (
+                  <Typography variant="body1">{user.bio}</Typography>
+                ) : null}
               </Stack>
             </Box>{" "}
           </Box>
           <Box sx={{ display: "flex" }}>
-            <Link to="/user_edit">
-              <Tooltip title="edit user info" placement="bottom">
-                <IconButton>
-                  <EditRoundedIcon />
-                </IconButton>
-              </Tooltip>
-            </Link>
+            {/* <Link to="/user_edit">
+          <Tooltip title="edit user info" placement="bottom">
+            <IconButton>
+              <EditRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        </Link> */}
           </Box>
         </Box>{" "}
         <Container
@@ -206,11 +224,11 @@ const UserMainPage = () => {
                 </Typography>
               </Box>
 
-              <Link to="/product/add">
-                <Button variant="outlined" className="btnStyle">
-                  add a new product
-                </Button>
-              </Link>
+              {/* <Link to="/product/add">
+            <Button variant="outlined" className="btnStyle">
+              add a new product
+            </Button>
+          </Link> */}
             </Box>
             <Grid
               container
@@ -279,43 +297,8 @@ const UserMainPage = () => {
           </Box>
         </Container>
       </Container>
-      {/* reviews section */}
-      {/* <Box
-          sx={{
-            bgcolor: ["#80CAFF"],
-            borderRadius: "20px",
-            padding: "1rem",
-            marginX: "1rem",
-          }}
-        >
-          <Typography variant="h4" gutterBottom>
-            Reviews
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            average score:
-            <Rating value={4.4} precision={0.5} onChange="disabled" readOnly />
-          </Typography>
-          <Card>
-            <CardContent>
-              <Rating
-                value={4.4}
-                precision={0.5}
-                onChange="disabled"
-                readOnly
-              />
-
-              <Typography variant="body1">some rate</Typography>
-              <Avatar />
-              <Typography variant="body2">username</Typography>
-              <Typography variant="body2" fontSize="small">
-                2022-10-01
-              </Typography>
-            </CardContent>
-          </Card>
-        </Box> */}
-      <Footer />
     </>
   );
 };
 
-export default UserMainPage;
+export default GenericUserPage;

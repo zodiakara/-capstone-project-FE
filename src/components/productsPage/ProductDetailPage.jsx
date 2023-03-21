@@ -67,15 +67,17 @@ const ProductDetailPage = () => {
 
       <Container
         sx={{
+          marginTop: "2rem",
           display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          margin: "1rem",
+          justifyContent: "center",
         }}
       >
-        <Box>
-          <img alt="product" src={product.mainPicture} />
+        <Box sx={{}}>
+          <img
+            className="productImage"
+            alt="product"
+            src={product.mainPicture}
+          />
           <Stack>
             {product.images
               ? product.images.map((image) => <Image src={image} />)
@@ -98,10 +100,7 @@ const ProductDetailPage = () => {
             </IconButton>
           </Box>
           <Typography variant="body2" sx={{ text: "ellipsis" }}>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore
-            sequi alias, quasi perspiciatis pariatur rerum harum error repellat.
-            Inventore eaque error ipsa reiciendis magni unde cum earum
-            reprehenderit distinctio eligendi.
+            {product.description}
           </Typography>
           <Typography variant="body2"></Typography>
           <Box

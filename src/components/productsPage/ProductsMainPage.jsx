@@ -1,27 +1,39 @@
-import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Badge, BadgeOutlined, Image } from "@mui/icons-material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Footer from "../Footer";
 import MyNavbar from "../MyNavbar";
 import ProductCard from "./ProductCard";
+import clothes from "../../assets/c_clothes.avif";
+import kids from "../../assets/c_kids.avif";
 
 const ProductsMainPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [fetchedProducts, setProducts] = useState([]);
+  const [category, setCategory] = useState([]);
   const products = fetchedProducts.filter(
     (product) => product.adopted !== true
   );
   const categories = [
-    { name: "Clothing", image: "" },
-    { name: "Kids Clothing", image: "" },
-    { name: "Toys", image: "" },
-    { name: "Household", image: "" },
-    { name: "Electronics", image: "" },
-    { name: "Garden", image: "" },
-    { name: "Pets", image: "" },
-    { name: "Other", image: "" },
+    { name: "Clothing", image: { clothes }, color: "#9bd19d" },
+    { name: "Kids Clothing", image: kids, color: "#198f8f" },
+    { name: "Toys", image: "", color: "#9e004d" },
+    { name: "Household", image: "", color: "#fbae42" },
+    { name: "Electronics", image: "", color: "#85069f" },
+    { name: "Garden", image: "", color: "#5f9f06" },
+    { name: "Pets", image: "", color: "#fc665b" },
+    { name: "Other", image: "", color: "#afafaf" },
   ];
 
   useEffect(() => {
@@ -78,7 +90,7 @@ const ProductsMainPage = () => {
         </Box>
         <Box>aaaaaa</Box>
       </Box>
-      <Typography variant="h4">Categories</Typography>
+
       <Box
         sx={{
           display: "flex",
@@ -86,26 +98,29 @@ const ProductsMainPage = () => {
         }}
       >
         {categories.map((category) => (
-          <Card
+          // <Card sx={{ backgroundImage: category.image }}>
+          <Chip
             key={category.name}
+            variant="outlined"
+            label={category.name}
             sx={{
-              opacity: "60%",
-              padding: "1rem",
+              opacity: "50%",
+              margin: "none",
               cursor: "pointer",
-              width: "8%",
+              padding: "1rem",
+              marginX: "0.5rem",
               textAlign: "center",
+              bgcolor: "#5f9f06",
 
               "&:hover": {
-                opacity: "100%",
-                border: "black",
+                opacity: "90%",
                 textDecoration: "bold",
               },
             }}
           >
-            <CardContent>
-              <Typography>{category.name}</Typography>
-            </CardContent>
-          </Card>
+            <Typography>{category.name}</Typography>
+          </Chip>
+          // </Card>
         ))}
       </Box>
       <Typography variant="h4">Recently added</Typography>
@@ -121,6 +136,7 @@ const ProductsMainPage = () => {
           <ProductCard key={product._id} {...product} />
         ))}
       </Grid>
+      <Footer />
     </>
   );
 };

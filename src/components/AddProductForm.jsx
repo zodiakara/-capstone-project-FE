@@ -1,18 +1,7 @@
-import {
-  Button,
-  TextField,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FilledInput,
-} from "@mui/material";
+import { Button, TextField, Typography, MenuItem } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
-import { useEffect, useState } from "react";
-import Notification from "react-notifications/lib/Notification";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 import graphic from "../assets/undraw_Dreamer_re_9tua.png";
 import { sendProductImage } from "../redux/reducers/products/productSliceActions";
@@ -52,16 +41,11 @@ const AddProductForm = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const productImage = useSelector((state) => state.product.productImage);
 
-  // useEffect(() => {
-  //   clearTheForm();
-  // }, [submit]);
-
   const clearTheForm = function () {
     setProductName("");
     setDescription("");
     setCategory("");
     setCondition("");
-
     dispatch(productActions.removeProductImage());
   };
 
@@ -79,9 +63,6 @@ const AddProductForm = () => {
     addProductAction(product).then(() => {
       clearTheForm();
     });
-  };
-  const handleNotification = () => {
-    <Notification />;
   };
 
   const addProductAction = async (product) => {
@@ -114,7 +95,6 @@ const AddProductForm = () => {
   return (
     <>
       <MyNavbar />
-
       <Container
         sx={{
           display: "flex",
@@ -206,9 +186,6 @@ const AddProductForm = () => {
             <Button type="submit" variant="outlined">
               add product
             </Button>
-            <Button onClick={handleNotification} variant="outlined">
-              notification check
-            </Button>
           </Stack>
         </Box>
         <Box sx={{ marginX: "2rem" }}>
@@ -248,9 +225,16 @@ const AddProductForm = () => {
       <Box
         sx={{ display: "flex", justifyContent: "center", marginY: "1em" }}
       ></Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Container
+        maxWidth
+        sx={{
+          backgroundColor: "white",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <img className="mainGraphic" alt="" src={graphic} />
-      </Box>
+      </Container>
     </>
   );
 };
