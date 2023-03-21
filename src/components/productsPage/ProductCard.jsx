@@ -7,8 +7,8 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 
@@ -41,16 +41,18 @@ const ProductCard = (product) => {
         </Link>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            {product.description}
+            {product.description.slice(0, 50).concat("...")}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+            <FavoriteBorderIcon />
           </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
+          <Link to={`/products/${product._id}`}>
+            <IconButton aria-label="share">
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </Link>
         </CardActions>
       </Card>
     </Grid>

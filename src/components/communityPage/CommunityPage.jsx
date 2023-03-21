@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import MyNavbar from "../MyNavbar";
 import graphic from "../../assets/community.png";
+import { Link } from "react-router-dom";
+import { Container } from "@mui/system";
 
 const CommunityPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -20,6 +22,7 @@ const CommunityPage = () => {
   useEffect(() => {
     getUsers();
   }, []);
+  console.log(users);
 
   const getUsers = async () => {
     try {
@@ -39,26 +42,41 @@ const CommunityPage = () => {
   return (
     <>
       <MyNavbar />
-      <Box
+      <Container maxWidth>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h4">
+            Meet Your <br></br>swAPP community!
+          </Typography>
+          <Box sx={{ marginX: "2rem" }}>
+            <img
+              className="communityGraphic"
+              alt="communityGraphic"
+              src={graphic}
+            />
+          </Box>
+        </Box>
+      </Container>
+      <Container
+        maxWidth
         sx={{
           display: "flex",
-          flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
+          flexWrap: "wrap",
+          overflowY: "scroll",
+          overflowWrap: "normal",
+          scrollBehavior: "smooth",
+          paddingX: "2rem",
+          height: "500px",
         }}
       >
-        <Typography variant="h4">
-          Meet Your <br></br>swAPP community!
-        </Typography>
-        <Box sx={{ marginX: "2rem" }}>
-          <img
-            className="communityGraphic"
-            alt="communityGraphic"
-            src={graphic}
-          />
-        </Box>
-      </Box>
-      <Box>
         <Grid
           container
           sx={{
@@ -77,10 +95,10 @@ const CommunityPage = () => {
             }}
           >
             {users
-              ? filteredUsers.slice(3, 9).map((user) => (
+              ? filteredUsers.slice(0, 8).map((user) => (
                   <Box
                     sx={{
-                      width: "200px",
+                      width: "250px",
                       height: "200px",
                     }}
                     key={user._id}
@@ -92,21 +110,28 @@ const CommunityPage = () => {
                         flexGrow: "1",
                         justifyContent: "center",
                         alignItems: "center",
-                        margin: "1rem",
+                        padding: "1rem",
+                        margin: "0.5rem",
                       }}
                     >
-                      <Avatar
-                        sx={{ height: "150px", width: "150px" }}
-                        src={user.avatar}
-                      />
-                      <CardContent>{user.name}</CardContent>
-                    </Card>
+                      <Link to={`/users/${user._id}`}>
+                        <Avatar
+                          sx={{ height: "150px", width: "150px" }}
+                          src={user.avatar}
+                        />
+                      </Link>
+                      <CardContent
+                        sx={{ display: "flex", justifyContent: "center" }}
+                      >
+                        {user.name} {user.surname}
+                      </CardContent>
+                    </Card>{" "}
                   </Box>
                 ))
               : null}
           </Grid>
         </Grid>
-      </Box>
+      </Container>
     </>
   );
 };

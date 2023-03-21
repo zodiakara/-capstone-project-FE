@@ -8,6 +8,7 @@ import LoginPage from "./components/LoginPage";
 import ProductDetailPage from "./components/productsPage/ProductDetailPage";
 import ProductsMainPage from "./components/productsPage/ProductsMainPage";
 import RegisterPage from "./components/RegisterPage";
+import GenericUserPage from "./components/userPage/GenericUserPage";
 import UserEditPage from "./components/userPage/UserEditPage";
 import UserMainPage from "./components/userPage/UserMainPage";
 
@@ -25,7 +26,7 @@ function App() {
         <Route path="/products" element={<ProductsMainPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/community" element={<CommunityPage />} />
-        <Route path="/users/:userId" element={<UserMainPage />} />
+        <Route path="/users/:userId" element={<GenericUserPage />} />
         <Route path="/info" element={<InfoPage />} />
       </Routes>
     </BrowserRouter>
