@@ -18,11 +18,41 @@
   pointer-events: none;
 }
 
-.avatarbtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .file-input {
   display: none;
+}
+
+.btnStyle {
+  color: #fbae42 !important;
+  border: solid 0.5px #fbae42 !important;
+  text-decoration: none !important;
+}
+.btnStyle:hover {
+  color: #fbae42;
+  border: solid 1px #fbae42 !important;
+}
+.mainBox {
+  border: dotted 5px #fbae42;
+  border-radius: 30px;
+}
+
+.userPageContainer {
+  /* /* border-right: dotted 5px #80caff; */
+  border: dotted 5px #80caff;
+  /* border: solid 1px lightgrey; */
+  /* background-color: #feeed7; */
+}
+
+.h6-options-list {
+  padding-right: 1em;
+  color: rgb(56, 56, 56);
+  cursor: pointer;
+}
+.h6-options-list .active,
+.h6-options-list:hover {
+  color: black;
+  text-decoration: underline #80caff;
+}
+.addProductBtn .btnStyle a {
+  text-decoration: none !important;
 }

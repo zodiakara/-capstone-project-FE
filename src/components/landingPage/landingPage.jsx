@@ -43,12 +43,15 @@ function HomePage() {
 
   return (
     <>
-      <MyNavbar />;
+      <MyNavbar />
       <Container
+        maxWidth
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-around",
           alignItems: "center",
+          bgcolor: "white",
+          marginTop: "0",
         }}
       >
         <Box>
@@ -120,6 +123,11 @@ function HomePage() {
         <Box>
           <img className="mainGraphic" alt="" src={graphic} />
         </Box>
+      </Container>
+      <Container>
+        {" "}
+        here write some more about the goals or add mini info graphics what is
+        going on here
       </Container>
     </>
   );

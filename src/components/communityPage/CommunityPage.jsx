@@ -48,7 +48,7 @@ const CommunityPage = () => {
         }}
       >
         <Typography variant="h4">
-          welcome to our <br></br>swAPP community!
+          Meet Your <br></br>swAPP community!
         </Typography>
         <Box sx={{ marginX: "2rem" }}>
           <img

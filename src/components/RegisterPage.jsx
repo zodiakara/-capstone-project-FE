@@ -37,9 +37,6 @@ import { useNavigate, Link } from "react-router-dom";
 const theme = createTheme();
 
 const RegisterPage = () => {
-  //   const { loading, userInfo, error, success } = useSelector(
-  //     (state) => state.auth
-  //   );
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");

@@ -1,15 +1,25 @@
-import { Button, MenuItem, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { useState } from "react";
-
+import MyNavbar from "../MyNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import Footer from "../Footer";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+
 import {
   getCurrentUser,
   updateUserInfo,
 } from "../../redux/reducers/auth/userAuthActions";
 
 import UploadUserAvatar from "./UploadUserAvatar";
+import { Link } from "react-router-dom";
 
 const UserEditPage = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
@@ -68,191 +78,229 @@ const UserEditPage = () => {
   };
 
   return (
-    <Container
-      sx={{
-        marginTop: "2rem",
-        padding: "1rem",
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        Hello, {currentUser.name}!
-      </Typography>
-      <Box
+    <>
+      <MyNavbar />
+
+      <Container
         sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
+          marginTop: "1rem",
         }}
       >
         <Box
+          className="mainBox"
           sx={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-            alignItems: "center",
-            flexGrow: "1",
+            justifyContent: "center",
           }}
         >
-          <Box>
-            <Typography variant="h5" gutterBottom>
-              General Information
-            </Typography>
-            <Stack direction="row" spacing={4} my={2}>
-              <TextField
-                required
-                id="filled-required"
-                label="first name"
-                defaultValue={currentUser.name ? currentUser.name : name || ""}
-                onChange={(e) => {
-                  setUserName(e.target.value);
+          <Box
+            // sx={{
+            //   display: "flex",
+            //   flexDirection: "column",
+            //   justifyContent: "center",
+            //   alignItems: "center",
+            //   flexGrow: "1",
+            // }}
+            sx={{
+              // backgroundColor: ["#fbae42"],
+              // borderRadius: "50px",
+              padding: "1rem",
+            }}
+          >
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                General Information
+              </Typography>
+              <Stack direction="row" spacing={4} my={2}>
+                <TextField
+                  required
+                  id="filled-required"
+                  label="first name"
+                  defaultValue={
+                    currentUser.name ? currentUser.name : name || ""
+                  }
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                  }}
+                ></TextField>
+                <TextField
+                  required
+                  id="filled-required"
+                  label="last name"
+                  defaultValue={
+                    currentUser.surname ? currentUser.surname : surname || ""
+                  }
+                  onChange={(e) => {
+                    setUserSurname(e.target.value);
+                  }}
+                ></TextField>
+              </Stack>
+              <Stack direction="row" spacing={4} my={2}>
+                <TextField
+                  label="Birth date"
+                  defaultValue={
+                    currentUser.birthDate
+                      ? currentUser.birthDate
+                      : birthDate || ""
+                  }
+                  onChange={(e) => {
+                    setUserBirthdate(e.target.value);
+                  }}
+                ></TextField>
+                <TextField
+                  sx={{ width: "214px" }}
+                  select
+                  label="Gender"
+                  value={currentUser.gender ? currentUser.gender : gender}
+                  onChange={(e) => {
+                    setUserGender(e.target.value);
+                  }}
+                >
+                  <MenuItem key="Female" value="Female">
+                    Female
+                  </MenuItem>
+                  <MenuItem key="Male" value="Male">
+                    Male
+                  </MenuItem>
+                </TextField>
+              </Stack>
+              <Stack direction="row" spacing={4} my={2}>
+                <TextField
+                  label="Email"
+                  defaultValue={
+                    currentUser.email ? currentUser.email : email || ""
+                  }
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                ></TextField>
+                <TextField
+                  label="Phone"
+                  defaultValue={
+                    currentUser.phone ? currentUser.phone : phone || ""
+                  }
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                ></TextField>
+              </Stack>
+            </Box>
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                Address
+              </Typography>
+              <Stack direction="row" spacing={4} my={2}>
+                <TextField
+                  label="Street"
+                  v
+                  defaultValue={
+                    currentUser.address.street
+                      ? currentUser.address.street
+                      : street || ""
+                  }
+                  onChange={(e) => {
+                    setStreet(e.target.value);
+                  }}
+                ></TextField>
+                <TextField
+                  label="Number"
+                  defaultValue={
+                    currentUser.address.number
+                      ? currentUser.address.number
+                      : number || ""
+                  }
+                  onChange={(e) => {
+                    setNumber(e.target.value);
+                  }}
+                ></TextField>
+              </Stack>
+              <Stack direction="row" spacing={4} my={2}>
+                <TextField
+                  label="City"
+                  defaultValue={
+                    currentUser.address.City
+                      ? currentUser.address.City
+                      : city || ""
+                  }
+                  onChange={(e) => {
+                    setCity(e.target.value);
+                  }}
+                ></TextField>
+                <TextField
+                  label="ZIP"
+                  defaultValue={
+                    currentUser.address.zip
+                      ? currentUser.address.zip
+                      : zip || ""
+                  }
+                  onChange={(e) => {
+                    setZip(e.target.value);
+                  }}
+                ></TextField>
+              </Stack>
+              <Stack
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center",
                 }}
-              ></TextField>
-              <TextField
-                required
-                id="filled-required"
-                label="last name"
-                defaultValue={
-                  currentUser.surname ? currentUser.surname : surname || ""
-                }
-                onChange={(e) => {
-                  setUserSurname(e.target.value);
-                }}
-              ></TextField>
-            </Stack>
-            <Stack direction="row" spacing={4} my={2}>
-              <TextField
-                label="Birth date"
-                defaultValue={
-                  currentUser.birthDate
-                    ? currentUser.birthDate
-                    : birthDate || ""
-                }
-                onChange={(e) => {
-                  setUserBirthdate(e.target.value);
-                }}
-              ></TextField>
-              <TextField
-                sx={{ width: "200px" }}
-                select
-                label="Gender"
-                value={currentUser.gender ? currentUser.gender : gender}
-                onChange={(e) => {
-                  setUserGender(e.target.value);
-                }}
+                direction="row"
+                spacing={4}
               >
-                <MenuItem key="Female" value="Female">
-                  Female
-                </MenuItem>
-                <MenuItem key="Male" value="Male">
-                  Male
-                </MenuItem>
-              </TextField>
-            </Stack>
-            <Stack direction="row" spacing={4} my={2}>
+                <Button
+                  onClick={handleUserUpdate}
+                  variant="outlined"
+                  className="btnStyle"
+                >
+                  save edit
+                </Button>
+              </Stack>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "stretch",
+              alignItems: "flex-start",
+              padding: "1rem",
+              flexDirection: "column",
+            }}
+          >
+            <Link to="/user">
+              <Tooltip title="back to user page" placement="right">
+                <IconButton>
+                  <ArrowBackIosNewRoundedIcon />
+                </IconButton>
+              </Tooltip>
+            </Link>
+            <Stack sx={{ marginTop: "0.5em" }}>
+              {" "}
+              <UploadUserAvatar currentUser={currentUser} />
               <TextField
-                label="Email"
-                defaultValue={
-                  currentUser.email ? currentUser.email : email || ""
-                }
+                label="bio"
+                variant="standard"
+                defaultValue={currentUser ? currentUser.bio : bio || ""}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  setBio(e.target.value);
                 }}
-              ></TextField>
-              <TextField
-                label="Phone"
-                defaultValue={
-                  currentUser.phone ? currentUser.phone : phone || ""
-                }
-                onChange={(e) => {
-                  setPhone(e.target.value);
-                }}
+                multiline={3}
               ></TextField>
             </Stack>
           </Box>
-          <Box>
-            <Typography variant="h5" gutterBottom>
-              Address
-            </Typography>
-            <Stack direction="row" spacing={4} my={2}>
-              <TextField
-                label="Street"
-                v
-                defaultValue={
-                  currentUser.address.street
-                    ? currentUser.address.street
-                    : street || ""
-                }
-                onChange={(e) => {
-                  setStreet(e.target.value);
-                }}
-              ></TextField>
-              <TextField
-                label="Number"
-                defaultValue={
-                  currentUser.address.number
-                    ? currentUser.address.number
-                    : number || ""
-                }
-                onChange={(e) => {
-                  setNumber(e.target.value);
-                }}
-              ></TextField>
-            </Stack>
-            <Stack direction="row" spacing={4} my={2}>
-              <TextField
-                label="City"
-                defaultValue={
-                  currentUser.address.City
-                    ? currentUser.address.City
-                    : city || ""
-                }
-                onChange={(e) => {
-                  setCity(e.target.value);
-                }}
-              ></TextField>
-              <TextField
-                label="ZIP"
-                defaultValue={
-                  currentUser.address.zip ? currentUser.address.zip : zip || ""
-                }
-                onChange={(e) => {
-                  setZip(e.target.value);
-                }}
-              ></TextField>
-            </Stack>
-            <Stack
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
-              direction="row"
-              spacing={4}
-              my={2}
-            >
-              <Button onClick={handleUserUpdate} variant="outlined">
-                save edit
-              </Button>
-            </Stack>
-          </Box>
         </Box>
-        <Box>
-          <Stack sx={{ padding: "2em" }}>
-            {" "}
-            <UploadUserAvatar currentUser={currentUser} />
-            <TextField
-              label="add bio"
-              variant="standard"
-              defaultValue={currentUser ? currentUser.bio : bio || ""}
-              onChange={(e) => {
-                setBio(e.target.value);
-              }}
-              multiline={3}
-            ></TextField>
-          </Stack>
-        </Box>
-      </Box>
-    </Container>
+        <Typography
+          variant="body2"
+          sx={{ textAlign: "center", marginTop: "1em" }}
+          color="text.secondary"
+        >
+          Hello, {currentUser.name}! Change the fields You'd like to update and
+          save changes by clicking the button below. <br></br>Here You can also
+          update Your avatar or write Your bio! It can attract more swAPP users
+          to Your page.
+        </Typography>
+      </Container>
+      {/* <Footer sx={{ display: { lg: "none", xl: "sticky" } }} /> */}
+    </>
   );
 };
 

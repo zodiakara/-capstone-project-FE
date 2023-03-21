@@ -14,11 +14,11 @@ import MenuItem from "@mui/material/MenuItem";
 import { AllInclusive } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/reducers/auth/userAuthSlice";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { productActions } from "../redux/reducers/products/productsSlice";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Badge } from "@mui/material";
-import "./MyNavbar.css";
+import classes from "./MyNavbar.module.css";
 
 const pages = ["Home", "Products", "Community", "Our Goal"];
 const settings = ["My profile", "Profile settings", "Logout"];
@@ -50,14 +50,17 @@ function MyNavbar() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: ["#80CAFF"], color: "black" }}>
+    <AppBar
+      className={classes.navbar}
+      position="sticky"
+      sx={{ bgcolor: ["#80CAFF"], color: "black" }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AllInclusive sx={{ display: { xs: "none", md: "flex" } }} />
           <Typography
             variant="h6"
             noWrap
-            component="a"
             href="/"
             sx={{
               mx: 2,
@@ -84,6 +87,7 @@ function MyNavbar() {
               <MenuIcon />
             </IconButton>
             <Menu
+              className={classes.smallToolbar}
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -102,26 +106,46 @@ function MyNavbar() {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/">
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
                   <Typography textAlign="center">Home</Typography>
-                </Link>
+                </NavLink>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/products">
+                <NavLink
+                  to="/products"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
                   <Typography textAlign="center">Products</Typography>
-                </Link>
+                </NavLink>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/community">
+                <NavLink
+                  to="/community"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
                   {" "}
                   <Typography textAlign="center">Community</Typography>
-                </Link>
+                </NavLink>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/info">
+                <NavLink
+                  to="/info"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
                   {" "}
                   <Typography textAlign="center">Our Goals</Typography>
-                </Link>
+                </NavLink>
               </MenuItem>
             </Menu>
           </Box>
@@ -144,26 +168,46 @@ function MyNavbar() {
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <MenuItem onClick={handleCloseNavMenu}>
-              <Link to="/">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
                 <Typography textAlign="center">Home</Typography>
-              </Link>
+              </NavLink>
             </MenuItem>
             <MenuItem onClick={handleCloseNavMenu}>
-              <Link to="/products">
+              <NavLink
+                to="/products"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
                 <Typography textAlign="center">Products</Typography>
-              </Link>
+              </NavLink>
             </MenuItem>
             <MenuItem onClick={handleCloseNavMenu}>
-              <Link to="/community">
+              <NavLink
+                to="/community"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
                 {" "}
                 <Typography textAlign="center">Community</Typography>
-              </Link>
+              </NavLink>
             </MenuItem>
             <MenuItem onClick={handleCloseNavMenu}>
-              <Link to="/info">
+              <NavLink
+                to="/info"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
                 {" "}
                 <Typography textAlign="center">Our Goals</Typography>
-              </Link>
+              </NavLink>
             </MenuItem>
           </Box>
 
@@ -183,11 +227,14 @@ function MyNavbar() {
               </Box>
             ) : (
               <Link to="/login">
-                <Button variant="outlined">LOGIN</Button>
+                <Button className={classes.btnStyle} variant="contained">
+                  LOGIN
+                </Button>
               </Link>
             )}
 
             <Menu
+              className={classes.smallToolbar}
               sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}

@@ -58,10 +58,20 @@ const UploadUserAvatar = (props) => {
             />
           </Tooltip>
         </Box>{" "}
-        <Button onClick={handleImgUpload} className="avatarbtn">
-          change avatar
-        </Button>
       </label>{" "}
+      <Button
+        onClick={handleImgUpload}
+        className="btnStyle"
+        variant="outlined"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+          marginY: "1em",
+        }}
+      >
+        change avatar
+      </Button>
     </>
   );
 };
