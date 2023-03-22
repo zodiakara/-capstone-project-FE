@@ -27,10 +27,8 @@ const ProductsMainPage = () => {
   );
   const categories = [
     { name: "Clothing", image: { clothes }, color: "#9bd19d" },
-    { name: "Kids Clothing", image: kids, color: "#198f8f" },
     { name: "Toys", image: "", color: "#9e004d" },
     { name: "Household", image: "", color: "#fbae42" },
-    { name: "Electronics", image: "", color: "#85069f" },
     { name: "Garden", image: "", color: "#5f9f06" },
     { name: "Pets", image: "", color: "#fc665b" },
     { name: "Other", image: "", color: "#afafaf" },

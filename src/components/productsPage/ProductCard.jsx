@@ -24,9 +24,11 @@ const ProductCard = (product) => {
       <Card sx={{ width: "350px", margin: "1em" }}>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
-            </Avatar>
+            <Avatar
+              src={product.owner.avatar ? product.owner.avatar : null}
+              sx={{ bgcolor: "success" }}
+              aria-label="owner"
+            ></Avatar>
           }
           title={product.name}
           subheader={product.category}
@@ -41,7 +43,7 @@ const ProductCard = (product) => {
         </Link>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            {product.description.slice(0, 50).concat("...")}
+            {product.description.slice(0, 40).concat("...")}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>

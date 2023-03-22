@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import Footer from "./Footer";
 import MyNavbar from "./MyNavbar";
 
 const InfoPage = () => {
@@ -37,6 +38,7 @@ const InfoPage = () => {
           creating a more sustainable and connected world.
         </Typography>
       </Box>
+      <Footer />
     </>
   );
 };

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import AddProductForm from "./components/AddProductForm";
 import CommunityPage from "./components/communityPage/CommunityPage";
+
 import InfoPage from "./components/InfoPage";
 import HomePage from "./components/landingPage/landingPage";
 import LoginPage from "./components/LoginPage";

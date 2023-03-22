@@ -3,9 +3,11 @@ import {
   Alert,
   AlertTitle,
   Button,
+  Chip,
   Container,
   IconButton,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -16,6 +18,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 import ProductModal from "./ProductModal";
+import "./productspage.css";
 
 const ProductDetailPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -26,7 +29,7 @@ const ProductDetailPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { productId } = params;
-  console.log(open);
+  console.log(product);
 
   useEffect(() => {
     getProduct();
@@ -69,48 +72,49 @@ const ProductDetailPage = () => {
         sx={{
           marginTop: "2rem",
           display: "flex",
-          justifyContent: "center",
         }}
       >
-        <Box sx={{}}>
+        <Box className="productImageBox">
           <img
             className="productImage"
             alt="product"
             src={product.mainPicture}
           />
-          <Stack>
-            {product.images
-              ? product.images.map((image) => <Image src={image} />)
-              : null}
-          </Stack>
-        </Box>
-        <Box>
-          <Typography variant="body1">{product.category}</Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography variant="h2">{product.name}</Typography>
-
-            <IconButton color="inherit" aria-label="add-to-wishlist">
+          <Tooltip>
+            <IconButton
+              className="productImageIcon"
+              color="inherit"
+              aria-label="add-to-wishlist"
+            >
               <FavoriteBorderIcon />
             </IconButton>
-          </Box>
-          <Typography variant="body2" sx={{ text: "ellipsis" }}>
-            {product.description}
-          </Typography>
-          <Typography variant="body2"></Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          </Tooltip>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Stack className="productContentBox" direction="row">
+            <Typography variant="h3">{product.name}</Typography>
+            <Chip
+              variant="outlined"
+              label={product.category}
+              sx={{
+                justifyContent: "flex-end",
+                textAlign: "center",
+                bgcolor: "#dbdbdb",
+              }}
+            ></Chip>
+          </Stack>
+
+          <Box>
+            <Typography variant="body2" sx={{ text: "ellipsis" }}>
+              {product.description}
+            </Typography>
+            <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
               <Button variant="outlined">ask about product</Button>
               <Button onClick={handleOpen} variant="contained">
                 adopt it
@@ -120,7 +124,7 @@ const ProductDetailPage = () => {
                 handleClose={handleClose}
                 handleAdoptProduct={handleAdoptProduct}
               />
-            </Box>
+            </Stack>
           </Box>
         </Box>
       </Container>

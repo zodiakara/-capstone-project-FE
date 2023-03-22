@@ -86,6 +86,16 @@ const UserEditPage = () => {
           marginTop: "1rem",
         }}
       >
+        <Typography
+          variant="body2"
+          sx={{ textAlign: "center", marginY: "1em" }}
+          color="text.secondary"
+        >
+          Hello, {currentUser.name}! Change the fields You'd like to update and
+          save changes by clicking the button below. <br></br>Here You can also
+          update Your avatar or write Your bio! It can attract more swAPP users
+          to Your page.
+        </Typography>
         <Box
           className="mainBox"
           sx={{
@@ -288,18 +298,8 @@ const UserEditPage = () => {
             </Stack>
           </Box>
         </Box>
-        <Typography
-          variant="body2"
-          sx={{ textAlign: "center", marginTop: "1em" }}
-          color="text.secondary"
-        >
-          Hello, {currentUser.name}! Change the fields You'd like to update and
-          save changes by clicking the button below. <br></br>Here You can also
-          update Your avatar or write Your bio! It can attract more swAPP users
-          to Your page.
-        </Typography>
       </Container>
-      {/* <Footer sx={{ display: { lg: "none", xl: "sticky" } }} /> */}
+      <Footer />
     </>
   );
 };
