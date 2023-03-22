@@ -5,8 +5,11 @@ import {
   CardContent,
   Chip,
   Grid,
+  InputAdornment,
+  TextField,
   Typography,
 } from "@mui/material";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -27,10 +30,8 @@ const ProductsMainPage = () => {
   );
   const categories = [
     { name: "Clothing", image: { clothes }, color: "#9bd19d" },
-    { name: "Kids Clothing", image: kids, color: "#198f8f" },
     { name: "Toys", image: "", color: "#9e004d" },
     { name: "Household", image: "", color: "#fbae42" },
-    { name: "Electronics", image: "", color: "#85069f" },
     { name: "Garden", image: "", color: "#5f9f06" },
     { name: "Pets", image: "", color: "#fc665b" },
     { name: "Other", image: "", color: "#afafaf" },
@@ -60,6 +61,20 @@ const ProductsMainPage = () => {
   return (
     <>
       <MyNavbar />
+      <TextField
+        placeholder="Search"
+        type="search"
+        variant="outlined"
+        fullWidth
+        size="small"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchRoundedIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
       <Box
         sx={{
           display: "flex",

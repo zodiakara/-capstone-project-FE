@@ -23,10 +23,12 @@ function Copyright() {
 
 const Footer = () => {
   return (
-    <Box
-      component="footer"
+    <Container
+      maxWidth
+      className="footer"
       sx={{
-        position: "sticky",
+        position: "fixed",
+        bottom: 0,
         py: 3,
         px: 2,
         mt: "auto",
@@ -36,21 +38,20 @@ const Footer = () => {
             : theme.palette.grey[800],
       }}
     >
-      <Container
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           textAlign: "center",
         }}
-        maxWidth="sm"
       >
         <Typography variant="body1">
           This app has been designed as Epicode bootcamp graduation project.
         </Typography>
         <Copyright />
-      </Container>
-    </Box>
+      </Box>
+    </Container>
   );
 };
 

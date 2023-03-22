@@ -12,6 +12,7 @@ import MyNavbar from "../MyNavbar";
 import graphic from "../../assets/community.png";
 import { Link } from "react-router-dom";
 import { Container } from "@mui/system";
+import Footer from "../Footer";
 
 const CommunityPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -132,6 +133,7 @@ const CommunityPage = () => {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </>
   );
 };
