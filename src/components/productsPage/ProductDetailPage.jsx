@@ -2,7 +2,9 @@ import { Image } from "@mui/icons-material";
 import {
   Alert,
   AlertTitle,
+  Avatar,
   Button,
+  ButtonGroup,
   Chip,
   Container,
   IconButton,
@@ -12,9 +14,10 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MyNavbar from "../MyNavbar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 import ProductModal from "./ProductModal";
@@ -29,7 +32,6 @@ const ProductDetailPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { productId } = params;
-  console.log(product);
 
   useEffect(() => {
     getProduct();
@@ -46,7 +48,6 @@ const ProductDetailPage = () => {
       console.log("error fetching data ... ", error);
     }
   };
-  console.log(product);
 
   const handleAdoptProduct = () => {
     dispatch(
@@ -72,6 +73,7 @@ const ProductDetailPage = () => {
         sx={{
           marginTop: "2rem",
           display: "flex",
+          justifyContent: "center",
         }}
       >
         <Box className="productImageBox">
@@ -79,16 +81,7 @@ const ProductDetailPage = () => {
             className="productImage"
             alt="product"
             src={product.mainPicture}
-          />
-          <Tooltip>
-            <IconButton
-              className="productImageIcon"
-              color="inherit"
-              aria-label="add-to-wishlist"
-            >
-              <FavoriteBorderIcon />
-            </IconButton>
-          </Tooltip>
+          />{" "}
         </Box>
         <Box
           sx={{
@@ -97,28 +90,94 @@ const ProductDetailPage = () => {
             justifyContent: "space-between",
           }}
         >
-          <Stack className="productContentBox" direction="row">
-            <Typography variant="h3">{product.name}</Typography>
-            <Chip
-              variant="outlined"
-              label={product.category}
+          <Box>
+            <Stack
+              sx={{ justifyContent: "space-between" }}
+              className="productContentBox"
+              direction="row"
+            >
+              <Typography variant="h4">{product.name}</Typography>
+              <IconButton
+                className="productImageIcon"
+                color="inherit"
+                aria-label="add-to-wishlist"
+              >
+                <FavoriteBorderIcon />
+              </IconButton>
+              {/* <Chip
+                
+                variant="outlined"
+                label={product.category}
+                sx={{
+                  justifyContent: "flex-end",
+                  textAlign: "center",
+                  bgcolor: "#dbdbdb",
+                }}
+              ></Chip> */}
+            </Stack>
+            <Typography
+              variant="body2"
               sx={{
-                justifyContent: "flex-end",
-                textAlign: "center",
-                bgcolor: "#dbdbdb",
+                display: "flex",
+                alignItems: "flex-start",
+                fontStyle: "italic",
               }}
-            ></Chip>
-          </Stack>
+            >
+              added: {new Date(product.createdAt).toUTCString()}
+            </Typography>
+          </Box>
 
           <Box>
-            <Typography variant="body2" sx={{ text: "ellipsis" }}>
+            <Typography variant="h6">Description:</Typography>
+            <Typography
+              variant="body1"
+              sx={{ text: "ellipsis", fontStyle: "italic" }}
+            >
               {product.description}
             </Typography>
+
+            <Stack
+              className="ownerContentBox"
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "1em",
+              }}
+            >
+              {" "}
+              <Typography variant="h6">Meet the owner:</Typography>
+              <Link
+                to={
+                  product.owner ? `/users/${product.owner._id}` : `/community`
+                }
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  {" "}
+                  <Avatar
+                    sx={{ mr: "0.25em" }}
+                    src={product.owner ? product.owner.avatar : ""}
+                  />
+                  <Box className="userName" sx={{ flexDirection: "column" }}>
+                    {" "}
+                    <Typography variant="body1">
+                      {product.owner ? product.owner.name : null}
+                    </Typography>
+                    <Typography variant="body1">
+                      {product.owner ? product.owner.surname : null}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Link>
+            </Stack>
             <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
-              <Button variant="outlined">ask about product</Button>
-              <Button onClick={handleOpen} variant="contained">
-                adopt it
-              </Button>
+              <ButtonGroup>
+                <Button variant="outlined">ask about product</Button>
+                <Button onClick={handleOpen} variant="contained">
+                  adopt it
+                </Button>
+              </ButtonGroup>
               <ProductModal
                 open={open}
                 handleClose={handleClose}

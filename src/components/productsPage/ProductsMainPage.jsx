@@ -5,8 +5,11 @@ import {
   CardContent,
   Chip,
   Grid,
+  InputAdornment,
+  TextField,
   Typography,
 } from "@mui/material";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -58,6 +61,20 @@ const ProductsMainPage = () => {
   return (
     <>
       <MyNavbar />
+      <TextField
+        placeholder="Search"
+        type="search"
+        variant="outlined"
+        fullWidth
+        size="small"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchRoundedIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
       <Box
         sx={{
           display: "flex",
