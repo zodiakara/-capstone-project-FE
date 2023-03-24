@@ -17,8 +17,10 @@ import { authActions } from "../redux/reducers/auth/userAuthSlice";
 import { Link, NavLink } from "react-router-dom";
 import { productActions } from "../redux/reducers/products/productsSlice";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Badge } from "@mui/material";
+import { Badge, InputAdornment, TextField } from "@mui/material";
 import classes from "./MyNavbar.module.css";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import SearchBar from "./productsPage/SearchBar";
 
 const pages = ["Home", "Products", "Community", "Our Goal"];
 const settings = ["My profile", "Profile settings", "Logout"];

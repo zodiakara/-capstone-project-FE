@@ -19,12 +19,15 @@ import MyNavbar from "../MyNavbar";
 import ProductCard from "./ProductCard";
 import clothes from "../../assets/c_clothes.avif";
 import kids from "../../assets/c_kids.avif";
+import SearchBar from "./SearchBar";
+import MyComponent from "./CategoriesContainer";
 
 const ProductsMainPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [fetchedProducts, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
+
   const products = fetchedProducts.filter(
     (product) => product.adopted !== true
   );
@@ -61,49 +64,31 @@ const ProductsMainPage = () => {
   return (
     <>
       <MyNavbar />
-      <TextField
-        placeholder="Search"
-        type="search"
-        variant="outlined"
-        fullWidth
-        size="small"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchRoundedIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <MyComponent />
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h4">want to contribute?</Typography>
-          <Box>
-            {userInfo ? (
-              <Link to="/product/add">
-                <Button variant="contained">ADD PRODUCT</Button>
-              </Link>
-            ) : (
-              <Link to="/register">
-                <Button>REGISTER</Button>
-              </Link>
-            )}
-          </Box>
+        {/* <Typography variant="h4">want to contribute?</Typography>
+        <Box>
+          {userInfo ? (
+            <Link to="/product/add">
+              <Button variant="contained" color="warning">
+                ADD PRODUCT
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/register" color="warning">
+              <Button>REGISTER</Button>
+            </Link>
+          )}
+        </Box> */}
+        <Box sx={{ width: "60%" }}>
+          <SearchBar />
         </Box>
-        <Box>aaaaaa</Box>
       </Box>
 
       <Box
@@ -112,7 +97,7 @@ const ProductsMainPage = () => {
           justifyContent: "center",
         }}
       >
-        {categories.map((category) => (
+        {/* {categories.map((category) => (
           // <Card sx={{ backgroundImage: category.image }}>
           <Chip
             key={category.name}
@@ -136,15 +121,13 @@ const ProductsMainPage = () => {
             <Typography>{category.name}</Typography>
           </Chip>
           // </Card>
-        ))}
+        ))} */}
       </Box>
       <Typography variant="h4">Recently added</Typography>
       <Grid
         container
         sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          flexWrap: "wrap",
+          marginBottom: "6.5rem",
         }}
       >
         {products.map((product) => (

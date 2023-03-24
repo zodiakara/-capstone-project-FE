@@ -4,7 +4,7 @@ const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 export const sendProductImage = createAsyncThunk(
   "product/uploadMainImage",
   async ({ productId, image }) => {
-    console.log("action inage", image);
+    console.log("action image", image);
     console.log("action id", productId);
     const form = new FormData();
     form.append("mainPicture", image);
@@ -64,6 +64,27 @@ export const adoptProductAction = createAsyncThunk(
       const response = await fetch(`${BE_URL}/products/${productId}`, config);
       if (response.ok) {
         console.log("product succesfully adopted");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const seddProductReviewAction = createAsyncThunk(
+  "product/sendReview",
+  async (body) => {
+    try {
+      const config = {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      };
+      const response = await fetch(`${BE_URL}/reviews`, config);
+      if (response.ok) {
+        console.log("review successfully sent!");
       }
     } catch (error) {
       console.log(error);

@@ -42,7 +42,9 @@
   /* border: solid 1px lightgrey; */
   /* background-color: #feeed7; */
 }
-
+.userPageContainerTab a:hover {
+  text-decoration: none;
+}
 .h6-options-list {
   padding-right: 1em;
   color: rgb(56, 56, 56);
@@ -55,4 +57,8 @@
 }
 .addProductBtn .btnStyle a {
   text-decoration: none !important;
+}
+
+.productHistoryList {
+  border: 1px #dbdbdb solid;
 }

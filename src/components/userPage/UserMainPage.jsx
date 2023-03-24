@@ -11,6 +11,8 @@ import {
   Grid,
   IconButton,
   Tooltip,
+  List,
+  ListItem,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
@@ -20,6 +22,7 @@ import MyNavbar from "../MyNavbar";
 import PlaceIcon from "@mui/icons-material/Place";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import Footer from "../Footer";
+import ReviewModal from "./ReviewModal";
 
 const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 
@@ -29,11 +32,21 @@ const UserMainPage = () => {
   const [reviews, setReviews] = useState([]);
   const [displayProducts, setDisplayProducts] = useState(true);
   const [displayReviews, setDisplayReviews] = useState(false);
+  const [displayHistory, setDisplayHistory] = useState(false);
+
+  const [modal, setModal] = useState(false);
 
   const products = fetchedProducts.filter(
     (product) => product.adopted !== true
   );
-  const history = fetchedProducts.filter((product) => product.adopted === true);
+
+  const history = {
+    adopted: [],
+    donated: [],
+  };
+  history.donated = fetchedProducts.filter(
+    (product) => product.adopted === true
+  );
 
   const getUserProducts = async () => {
     const config = {
@@ -74,13 +87,26 @@ const UserMainPage = () => {
     } catch (error) {}
   };
 
+  const openModal = () => {
+    setModal(true);
+  };
+  const handleClose = () => {
+    setModal(false);
+  };
   const handleReviews = () => {
     setDisplayReviews(true);
     setDisplayProducts(false);
+    setDisplayHistory(false);
   };
 
   const handleProducts = () => {
     setDisplayProducts(true);
+    setDisplayReviews(false);
+    setDisplayHistory(false);
+  };
+  const handleHistory = () => {
+    setDisplayHistory(true);
+    setDisplayProducts(false);
     setDisplayReviews(false);
   };
   useEffect(() => {
@@ -173,6 +199,7 @@ const UserMainPage = () => {
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
+              className="userPageContainerTab"
             >
               <Box
                 sx={{
@@ -201,11 +228,12 @@ const UserMainPage = () => {
                   className="h6-options-list"
                   variant="h6"
                   disableGutters
+                  onClick={handleHistory}
                 >
                   History
                 </Typography>
               </Box>
-
+              <ReviewModal modal={modal} handleClose={handleClose} />
               <Link to="/product/add">
                 <Button variant="outlined" className="btnStyle">
                   add a new product
@@ -275,44 +303,58 @@ const UserMainPage = () => {
                     </Card>
                   </Grid>
                 ))}
+              {displayHistory && (
+                <List xs={12} flexGrow={1}>
+                  {history.donated.map((product) => (
+                    <ListItem
+                      key={product._id}
+                      className="productHistoryList"
+                      sx={{ display: "flex", alignItems: "flex-start" }}
+                    >
+                      <Link to={`/products/${product._id}`}>
+                        <Avatar
+                          sx={{
+                            height: "50px",
+                            width: "auto",
+                            paddingY: "0.5rem",
+                          }}
+                          variant="square"
+                          src={product.mainPicture}
+                          alt="productImg"
+                        />
+                      </Link>
+                      <Stack sx={{ paddingX: "0.5rem" }}>
+                        <Typography gutterBottom variant="h6" component="div">
+                          {product.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {product.description}
+                        </Typography>
+                      </Stack>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography variant="h6">Review:</Typography>
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          onClick={openModal}
+                        >
+                          add
+                        </Button>
+                      </Box>
+                    </ListItem>
+                  ))}
+                </List>
+              )}
             </Grid>
           </Box>
         </Container>
       </Container>
-      {/* reviews section */}
-      {/* <Box
-          sx={{
-            bgcolor: ["#80CAFF"],
-            borderRadius: "20px",
-            padding: "1rem",
-            marginX: "1rem",
-          }}
-        >
-          <Typography variant="h4" gutterBottom>
-            Reviews
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            average score:
-            <Rating value={4.4} precision={0.5} onChange="disabled" readOnly />
-          </Typography>
-          <Card>
-            <CardContent>
-              <Rating
-                value={4.4}
-                precision={0.5}
-                onChange="disabled"
-                readOnly
-              />
-
-              <Typography variant="body1">some rate</Typography>
-              <Avatar />
-              <Typography variant="body2">username</Typography>
-              <Typography variant="body2" fontSize="small">
-                2022-10-01
-              </Typography>
-            </CardContent>
-          </Card>
-        </Box> */}
       <Footer />
     </>
   );

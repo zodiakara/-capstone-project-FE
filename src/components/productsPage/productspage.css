@@ -32,3 +32,14 @@ a:hover {
   color: black;
   text-decoration: underline;
 }
+.searchInput {
+  border-radius: 20px;
+}
+.searchField {
+  z-index: 1;
+  position: absolute;
+  background-color: white;
+  flex-grow: 1;
+  padding-left: 2em;
+  border-radius: 10px;
+}

@@ -1,15 +1,13 @@
-import { Image } from "@mui/icons-material";
 import {
   Alert,
   AlertTitle,
   Avatar,
+  Breadcrumbs,
   Button,
   ButtonGroup,
-  Chip,
   Container,
   IconButton,
   Stack,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -50,12 +48,16 @@ const ProductDetailPage = () => {
   };
 
   const handleAdoptProduct = () => {
-    dispatch(
-      adoptProductAction({ productId: product._id, userId: currentUser._id })
-    ).then(() => {
-      setOpen(false);
-      setAlert(true);
-    });
+    if (product.owner._id !== currentUser._id) {
+      dispatch(
+        adoptProductAction({ productId: product._id, userId: currentUser._id })
+      ).then(() => {
+        setOpen(false);
+        setAlert(true);
+      });
+    } else {
+      console.log("you cant adopt your own product idiot");
+    }
   };
 
   const handleOpen = () => {
@@ -68,7 +70,21 @@ const ProductDetailPage = () => {
   return (
     <>
       <MyNavbar />
-
+      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link color="inherit" to="/">
+            Home
+          </Link>
+          <Link color="inherit" to="/products">
+            Products
+          </Link>
+          {product ? (
+            <Link color="inherit" to="/products/">
+              {product.category}
+            </Link>
+          ) : null}
+        </Breadcrumbs>
+      </Box>
       <Container
         sx={{
           marginTop: "2rem",
@@ -104,27 +120,31 @@ const ProductDetailPage = () => {
               >
                 <FavoriteBorderIcon />
               </IconButton>
-              {/* <Chip
-                
-                variant="outlined"
-                label={product.category}
-                sx={{
-                  justifyContent: "flex-end",
-                  textAlign: "center",
-                  bgcolor: "#dbdbdb",
-                }}
-              ></Chip> */}
             </Stack>
-            <Typography
-              variant="body2"
-              sx={{
-                display: "flex",
-                alignItems: "flex-start",
-                fontStyle: "italic",
-              }}
-            >
-              added: {new Date(product.createdAt).toUTCString()}
-            </Typography>
+            {product.adopted ? (
+              <Typography
+                variant="body1"
+                color="error"
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  fontStyle: "italic",
+                }}
+              >
+                this item is no longer available
+              </Typography>
+            ) : (
+              <Typography
+                variant="body2"
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  fontStyle: "italic",
+                }}
+              >
+                added: {new Date(product.createdAt).toUTCString()}
+              </Typography>
+            )}
           </Box>
 
           <Box>
@@ -172,17 +192,41 @@ const ProductDetailPage = () => {
               </Link>
             </Stack>
             <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
-              <ButtonGroup>
-                <Button variant="outlined">ask about product</Button>
-                <Button onClick={handleOpen} variant="contained">
-                  adopt it
-                </Button>
-              </ButtonGroup>
-              <ProductModal
-                open={open}
-                handleClose={handleClose}
-                handleAdoptProduct={handleAdoptProduct}
-              />
+              {product.adopted ? (
+                <ButtonGroup>
+                  <Button disabled variant="outlined" color="warning">
+                    ask about product
+                  </Button>
+                  <Button
+                    disabled
+                    onClick={handleOpen}
+                    variant="contained"
+                    color="warning"
+                  >
+                    adopt it
+                  </Button>
+                </ButtonGroup>
+              ) : (
+                <>
+                  <ButtonGroup>
+                    <Button variant="outlined" color="warning">
+                      ask about product
+                    </Button>
+                    <Button
+                      onClick={handleOpen}
+                      variant="contained"
+                      color="warning"
+                    >
+                      adopt it
+                    </Button>
+                  </ButtonGroup>
+                  <ProductModal
+                    open={open}
+                    handleClose={handleClose}
+                    handleAdoptProduct={handleAdoptProduct}
+                  />
+                </>
+              )}
             </Stack>
           </Box>
         </Box>
