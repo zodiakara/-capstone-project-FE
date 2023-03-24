@@ -19,6 +19,8 @@ import MyNavbar from "../MyNavbar";
 import ProductCard from "./ProductCard";
 import clothes from "../../assets/c_clothes.avif";
 import kids from "../../assets/c_kids.avif";
+import SearchBar from "./SearchBar";
+import MyComponent from "./CategoriesContainer";
 
 const ProductsMainPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -61,20 +63,9 @@ const ProductsMainPage = () => {
   return (
     <>
       <MyNavbar />
-      <TextField
-        placeholder="Search"
-        type="search"
-        variant="outlined"
-        fullWidth
-        size="small"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchRoundedIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <SearchBar />
+      <MyComponent />
+
       <Box
         sx={{
           display: "flex",
@@ -90,7 +81,7 @@ const ProductsMainPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4">want to contribute?</Typography>
+          <Typography variant="h4">want t contribute?</Typography>
           <Box>
             {userInfo ? (
               <Link to="/product/add">
@@ -112,7 +103,7 @@ const ProductsMainPage = () => {
           justifyContent: "center",
         }}
       >
-        {categories.map((category) => (
+        {/* {categories.map((category) => (
           // <Card sx={{ backgroundImage: category.image }}>
           <Chip
             key={category.name}
@@ -136,15 +127,13 @@ const ProductsMainPage = () => {
             <Typography>{category.name}</Typography>
           </Chip>
           // </Card>
-        ))}
+        ))} */}
       </Box>
       <Typography variant="h4">Recently added</Typography>
       <Grid
         container
         sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          flexWrap: "wrap",
+          marginBottom: "6.5rem",
         }}
       >
         {products.map((product) => (

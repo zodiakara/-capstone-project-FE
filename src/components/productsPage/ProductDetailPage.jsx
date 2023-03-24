@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 import ProductModal from "./ProductModal";
 import "./productspage.css";
+import SearchBar from "./SearchBar";
 
 const ProductDetailPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -50,12 +51,16 @@ const ProductDetailPage = () => {
   };
 
   const handleAdoptProduct = () => {
-    dispatch(
-      adoptProductAction({ productId: product._id, userId: currentUser._id })
-    ).then(() => {
-      setOpen(false);
-      setAlert(true);
-    });
+    if (product.owner._id !== currentUser._id) {
+      dispatch(
+        adoptProductAction({ productId: product._id, userId: currentUser._id })
+      ).then(() => {
+        setOpen(false);
+        setAlert(true);
+      });
+    } else {
+      console.log("you cant adopt your own product idiot");
+    }
   };
 
   const handleOpen = () => {
@@ -68,7 +73,7 @@ const ProductDetailPage = () => {
   return (
     <>
       <MyNavbar />
-
+      <SearchBar category={product.category} />
       <Container
         sx={{
           marginTop: "2rem",
@@ -115,16 +120,30 @@ const ProductDetailPage = () => {
                 }}
               ></Chip> */}
             </Stack>
-            <Typography
-              variant="body2"
-              sx={{
-                display: "flex",
-                alignItems: "flex-start",
-                fontStyle: "italic",
-              }}
-            >
-              added: {new Date(product.createdAt).toUTCString()}
-            </Typography>
+            {product.adopted ? (
+              <Typography
+                variant="body1"
+                color="error"
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  fontStyle: "italic",
+                }}
+              >
+                this item is no longer available
+              </Typography>
+            ) : (
+              <Typography
+                variant="body2"
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  fontStyle: "italic",
+                }}
+              >
+                added: {new Date(product.createdAt).toUTCString()}
+              </Typography>
+            )}
           </Box>
 
           <Box>
@@ -172,17 +191,41 @@ const ProductDetailPage = () => {
               </Link>
             </Stack>
             <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
-              <ButtonGroup>
-                <Button variant="outlined">ask about product</Button>
-                <Button onClick={handleOpen} variant="contained">
-                  adopt it
-                </Button>
-              </ButtonGroup>
-              <ProductModal
-                open={open}
-                handleClose={handleClose}
-                handleAdoptProduct={handleAdoptProduct}
-              />
+              {product.adopted ? (
+                <ButtonGroup>
+                  <Button disabled variant="outlined" color="warning">
+                    ask about product
+                  </Button>
+                  <Button
+                    disabled
+                    onClick={handleOpen}
+                    variant="contained"
+                    color="warning"
+                  >
+                    adopt it
+                  </Button>
+                </ButtonGroup>
+              ) : (
+                <>
+                  <ButtonGroup>
+                    <Button variant="outlined" color="warning">
+                      ask about product
+                    </Button>
+                    <Button
+                      onClick={handleOpen}
+                      variant="contained"
+                      color="warning"
+                    >
+                      adopt it
+                    </Button>
+                  </ButtonGroup>
+                  <ProductModal
+                    open={open}
+                    handleClose={handleClose}
+                    handleAdoptProduct={handleAdoptProduct}
+                  />
+                </>
+              )}
             </Stack>
           </Box>
         </Box>

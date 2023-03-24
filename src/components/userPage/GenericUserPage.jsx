@@ -245,7 +245,13 @@ const GenericUserPage = () => {
               {displayProducts &&
                 products &&
                 products.map((product) => (
-                  <Grid item xs={4} key={product._id}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={4}
+                    sx={{ flexGrow: "1" }}
+                    key={product._id}
+                  >
                     <Card>
                       <Link to={`/products/${product._id}`}>
                         <CardMedia

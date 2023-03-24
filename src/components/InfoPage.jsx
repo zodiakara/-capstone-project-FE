@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Footer from "./Footer";
 import MyNavbar from "./MyNavbar";
@@ -8,17 +8,12 @@ const InfoPage = () => {
     <>
       <MyNavbar />
       <Box>
-        <Typography variant="h3">why swapp? </Typography>
+        <Typography variant="h3"> </Typography>
       </Box>
       <Box>
         <Typography variant="body2">
           The main goal of swAPP is to promote sustainability and reduce waste
           by encouraging and teaching people a circular economy approach.
-        </Typography>{" "}
-        <Typography variant="body2">
-          By a simple swap users can give their unwanted items a second life,
-          cut the need for new products and reducing the amount of waste
-          generated.
         </Typography>{" "}
         <Typography variant="h5">do i really need another dress?</Typography>
         <Typography variant="h5">
@@ -27,17 +22,211 @@ const InfoPage = () => {
         <Typography variant="h5">
           are 3 cars in a family of 4 absolutely necessary?{" "}
         </Typography>
-        <Typography>
-          Look around and think if in Your household are some stacked
-          unnecessary things ... if You find them, We are here for You!
-        </Typography>
-        <Typography variant="h5">but its more than that ...</Typography>
-        <Typography>
-          With swAPP we also want to promote community building and encourage
-          users to engage with each other to share knowledge and experiences,
-          creating a more sustainable and connected world.
-        </Typography>
       </Box>
+      <Container
+        maxWidth
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <div
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                }}
+              >
+                <h1
+                  sx={{
+                    fontSize: "3rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  why swapp?
+                </h1>
+                <Typography variant="body2">
+                  The main goal of swAPP is to promote sustainability and reduce
+                  waste by encouraging and teaching people a circular economy
+                  approach.
+                </Typography>{" "}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div sx={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="https://picsum.photos/600/400"
+                  alt="Random"
+                  sx={{
+                    maxWidth: "100%",
+                    maxHeight: 400,
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box
+          sx={{
+            // padding: theme.spacing(4),
+            // backgroundColor: theme.palette.common.white,
+            // borderRadius: theme.shape.borderRadius,
+            // boxShadow: theme.shadows[2],
+            // marginBottom: theme.spacing(4),
+            maxWidth: 800,
+            width: "100%",
+          }}
+        >
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <div sx={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="https://picsum.photos/400/600"
+                  alt="Random"
+                  sx={{
+                    maxWidth: "100%",
+                    maxHeight: 400,
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}></Grid>
+          </Grid>
+        </Box>
+        <Box
+          sx={{
+            // padding: theme.spacing(4),
+            // backgroundColor: theme.palette.common.white,
+            // borderRadius: theme.shape.borderRadius,
+            // boxShadow: theme.shadows[2],
+            // marginBottom: theme.spacing(4),
+            maxWidth: 800,
+            width: "100%",
+          }}
+        >
+          <h3>do i really need another dress?</h3>
+        </Box>
+      </Container>
+      <Container
+        maxWidth
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          backgroundColor: "success",
+        }}
+      >
+        <Typography variant="h2" gutterBottom>
+          We need to ask ourselves:
+        </Typography>
+        <p>
+          are we really controlling what we own. or are our belongings
+          controlling us ?
+        </p>
+      </Container>
+      <Container
+        maxWidth
+        sx={{
+          display: "flex",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <h3> are 3 cars in a family of 4 absolutely necessary?</h3>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div sx={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="https://picsum.photos/600/400"
+                  alt="Random"
+                  sx={{
+                    maxWidth: "100%",
+                    maxHeight: 400,
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+              <Typography variant="body2">
+                By a simple swap users can give their unwanted items a second
+                life, cut the need for new products and reducing the amount of
+                waste generated.
+              </Typography>{" "}
+            </Grid>
+          </Grid>
+        </Box>
+        <Box
+          sx={{
+            // padding: theme.spacing(4),
+            // backgroundColor: theme.palette.common.white,
+            // borderRadius: theme.shape.borderRadius,
+            // boxShadow: theme.shadows[2],
+            // marginBottom: theme.spacing(4),
+            maxWidth: 800,
+            width: "100%",
+          }}
+        >
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <div sx={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="https://picsum.photos/400/600"
+                  alt="Random"
+                  sx={{
+                    maxWidth: "100%",
+                    maxHeight: 400,
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                }}
+              >
+                <Typography variant="h6">
+                  Look around and think if in Your household are some stacked
+                  unnecessary things ... if You find them, We are here for You!
+                </Typography>
+              </div>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box>
+            <Typography variant="h5">but its more than that ...</Typography>
+            <Typography>
+              With swAPP we also want to promote community building and
+              encourage users to engage with each other to share knowledge and
+              experiences, creating a more sustainable and connected world.
+            </Typography>
+          </Box>
+        </Box>
+      </Container>
+
       <Footer />
     </>
   );

@@ -17,8 +17,9 @@ import { authActions } from "../redux/reducers/auth/userAuthSlice";
 import { Link, NavLink } from "react-router-dom";
 import { productActions } from "../redux/reducers/products/productsSlice";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Badge } from "@mui/material";
+import { Badge, InputAdornment, TextField } from "@mui/material";
 import classes from "./MyNavbar.module.css";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 const pages = ["Home", "Products", "Community", "Our Goal"];
 const settings = ["My profile", "Profile settings", "Logout"];
@@ -209,6 +210,19 @@ function MyNavbar() {
                 <Typography textAlign="center">Our Goals</Typography>
               </NavLink>
             </MenuItem>
+            <TextField
+              placeholder="Search"
+              type="search"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

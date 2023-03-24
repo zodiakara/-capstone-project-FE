@@ -31,8 +31,12 @@ const ProductModal = ({ open, handleClose, handleAdoptProduct }) => {
             sx={{ display: "flex", mt: 2, justifyContent: "center" }}
             id="modal-modal-description"
           >
-            <Button onClick={handleAdoptProduct}>Yes</Button>
-            <Button onClick={handleClose}>No</Button>
+            <Button color="warning" onClick={handleAdoptProduct}>
+              Yes
+            </Button>
+            <Button color="warning" onClick={handleClose}>
+              No
+            </Button>
           </Box>
         </Box>
       </Modal>
