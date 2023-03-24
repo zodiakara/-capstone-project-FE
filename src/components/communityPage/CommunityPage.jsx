@@ -62,6 +62,12 @@ const CommunityPage = () => {
               alt="communityGraphic"
               src={graphic}
             />
+            <Typography variant="body1" sx={{ backgroundColor: "white" }}>
+              With swAPP we also want to promote community building <br></br>and
+              encourage users to engage with each other to share knowledge
+              <br></br> and experiences, creating a more sustainable and
+              connected world.
+            </Typography>
           </Box>
         </Box>
       </Container>

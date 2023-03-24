@@ -20,6 +20,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Badge, InputAdornment, TextField } from "@mui/material";
 import classes from "./MyNavbar.module.css";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import SearchBar from "./productsPage/SearchBar";
 
 const pages = ["Home", "Products", "Community", "Our Goal"];
 const settings = ["My profile", "Profile settings", "Logout"];
@@ -210,19 +211,6 @@ function MyNavbar() {
                 <Typography textAlign="center">Our Goals</Typography>
               </NavLink>
             </MenuItem>
-            <TextField
-              placeholder="Search"
-              type="search"
-              variant="outlined"
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchRoundedIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

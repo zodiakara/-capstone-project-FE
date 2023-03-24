@@ -19,7 +19,7 @@ const MyComponent = () => {
 
   return (
     <Box sx={{ bgcolor: "#f0f0f0" }}>
-      <Box sx={{ bgcolor: "#fff", margin: "0 auto" }}>
+      <Box sx={{ bgcolor: "#fff", margin: "0 auto", paddingY: "0.5rem" }}>
         <Grid container justifyContent="center">
           {categories.map((category) => (
             <Grid

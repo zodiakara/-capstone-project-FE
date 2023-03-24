@@ -27,6 +27,7 @@ const ProductsMainPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [fetchedProducts, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
+
   const products = fetchedProducts.filter(
     (product) => product.adopted !== true
   );
@@ -63,38 +64,31 @@ const ProductsMainPage = () => {
   return (
     <>
       <MyNavbar />
-      <SearchBar />
       <MyComponent />
-
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h4">want t contribute?</Typography>
-          <Box>
-            {userInfo ? (
-              <Link to="/product/add">
-                <Button variant="contained">ADD PRODUCT</Button>
-              </Link>
-            ) : (
-              <Link to="/register">
-                <Button>REGISTER</Button>
-              </Link>
-            )}
-          </Box>
+        {/* <Typography variant="h4">want to contribute?</Typography>
+        <Box>
+          {userInfo ? (
+            <Link to="/product/add">
+              <Button variant="contained" color="warning">
+                ADD PRODUCT
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/register" color="warning">
+              <Button>REGISTER</Button>
+            </Link>
+          )}
+        </Box> */}
+        <Box sx={{ width: "60%" }}>
+          <SearchBar />
         </Box>
-        <Box>aaaaaa</Box>
       </Box>
 
       <Box

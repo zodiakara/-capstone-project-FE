@@ -215,13 +215,6 @@ const GenericUserPage = () => {
                 >
                   Reviews
                 </Typography>
-                <Typography
-                  className="h6-options-list"
-                  variant="h6"
-                  disableGutters
-                >
-                  History
-                </Typography>
               </Box>
 
               {/* <Link to="/product/add">

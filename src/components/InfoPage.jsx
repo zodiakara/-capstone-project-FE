@@ -7,7 +7,7 @@ const InfoPage = () => {
   return (
     <>
       <MyNavbar />
-      <Box>
+      {/* <Box>
         <Typography variant="h3"> </Typography>
       </Box>
       <Box>
@@ -22,7 +22,7 @@ const InfoPage = () => {
         <Typography variant="h5">
           are 3 cars in a family of 4 absolutely necessary?{" "}
         </Typography>
-      </Box>
+      </Box> */}
       <Container
         maxWidth
         sx={{
@@ -39,6 +39,19 @@ const InfoPage = () => {
           }}
         >
           <Grid container spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <div sx={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="https://picsum.photos/600/400"
+                  alt="Random"
+                  sx={{
+                    maxWidth: "100%",
+                    maxHeight: 400,
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <div
                 sx={{
@@ -63,19 +76,6 @@ const InfoPage = () => {
                 </Typography>{" "}
               </div>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <div sx={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src="https://picsum.photos/600/400"
-                  alt="Random"
-                  sx={{
-                    maxWidth: "100%",
-                    maxHeight: 400,
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-            </Grid>
           </Grid>
         </Box>
         <Box
@@ -103,68 +103,18 @@ const InfoPage = () => {
                 />
               </div>
             </Grid>
-            <Grid item xs={12} sm={6}></Grid>
-          </Grid>
-        </Box>
-        <Box
-          sx={{
-            // padding: theme.spacing(4),
-            // backgroundColor: theme.palette.common.white,
-            // borderRadius: theme.shape.borderRadius,
-            // boxShadow: theme.shadows[2],
-            // marginBottom: theme.spacing(4),
-            maxWidth: 800,
-            width: "100%",
-          }}
-        >
-          <h3>do i really need another dress?</h3>
-        </Box>
-      </Container>
-      <Container
-        maxWidth
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          backgroundColor: "success",
-        }}
-      >
-        <Typography variant="h2" gutterBottom>
-          We need to ask ourselves:
-        </Typography>
-        <p>
-          are we really controlling what we own. or are our belongings
-          controlling us ?
-        </p>
-      </Container>
-      <Container
-        maxWidth
-        sx={{
-          display: "flex",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-          }}
-        >
-          <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
               <h3> are 3 cars in a family of 4 absolutely necessary?</h3>
+              <h3>do i really need another dress?</h3>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <div sx={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src="https://picsum.photos/600/400"
-                  alt="Random"
-                  sx={{
-                    maxWidth: "100%",
-                    maxHeight: 400,
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
+              {" "}
+              <p>
+                We need to ask ourselves: are we really controlling what we own.
+                or are our belongings controlling us ?
+              </p>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <Typography variant="body2">
                 By a simple swap users can give their unwanted items a second
                 life, cut the need for new products and reducing the amount of
@@ -183,51 +133,76 @@ const InfoPage = () => {
             maxWidth: 800,
             width: "100%",
           }}
-        >
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}>
-              <div sx={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src="https://picsum.photos/400/600"
-                  alt="Random"
-                  sx={{
-                    maxWidth: "100%",
-                    maxHeight: 400,
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <div
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "center",
-                }}
-              >
-                <Typography variant="h6">
-                  Look around and think if in Your household are some stacked
-                  unnecessary things ... if You find them, We are here for You!
-                </Typography>
-              </div>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box>
-            <Typography variant="h5">but its more than that ...</Typography>
-            <Typography>
-              With swAPP we also want to promote community building and
-              encourage users to engage with each other to share knowledge and
-              experiences, creating a more sustainable and connected world.
-            </Typography>
-          </Box>
-        </Box>
+        ></Box>
       </Container>
-
-      <Footer />
+      <Container
+        maxWidth
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          backgroundColor: "success",
+        }}
+      >
+        {/* <Typography variant="h2" gutterBottom>
+          We need to ask ourselves:
+        </Typography>
+        <p>
+        We need to ask ourselves: are we really controlling what we own. or are our belongings
+          controlling us ?
+        </p> */}
+      </Container>
+      <Container
+        maxWidth
+        sx={{
+          display: "flex",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        ></Box>
+        <Box
+          sx={{
+            // padding: theme.spacing(4),
+            // backgroundColor: theme.palette.common.white,
+            // borderRadius: theme.shape.borderRadius,
+            // boxShadow: theme.shadows[2],
+            // marginBottom: theme.spacing(4),
+            maxWidth: 800,
+            width: "100%",
+          }}
+        >
+          <Grid container spacing={4}></Grid>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}></Box>
+      </Container>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", marginBottom: "5em" }}
+      ></Box>
+      <Container
+        container
+        fullWidth
+        sx={{ display: "flex", justifyContent: "center", marginBottom: "5em" }}
+      >
+        <Grid item xs={12} sm={12}>
+          <div
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h6">
+              Look around and think if in Your household are some stacked
+              unnecessary things ... if You find them, We are here for You!
+            </Typography>
+          </div>
+        </Grid>
+      </Container>
     </>
   );
 };

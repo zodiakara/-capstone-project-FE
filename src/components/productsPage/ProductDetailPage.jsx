@@ -1,15 +1,13 @@
-import { Image } from "@mui/icons-material";
 import {
   Alert,
   AlertTitle,
   Avatar,
+  Breadcrumbs,
   Button,
   ButtonGroup,
-  Chip,
   Container,
   IconButton,
   Stack,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -22,7 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 import ProductModal from "./ProductModal";
 import "./productspage.css";
-import SearchBar from "./SearchBar";
 
 const ProductDetailPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -73,7 +70,21 @@ const ProductDetailPage = () => {
   return (
     <>
       <MyNavbar />
-      <SearchBar category={product.category} />
+      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link color="inherit" to="/">
+            Home
+          </Link>
+          <Link color="inherit" to="/products">
+            Products
+          </Link>
+          {product ? (
+            <Link color="inherit" to="/products/">
+              {product.category}
+            </Link>
+          ) : null}
+        </Breadcrumbs>
+      </Box>
       <Container
         sx={{
           marginTop: "2rem",
@@ -109,16 +120,6 @@ const ProductDetailPage = () => {
               >
                 <FavoriteBorderIcon />
               </IconButton>
-              {/* <Chip
-                
-                variant="outlined"
-                label={product.category}
-                sx={{
-                  justifyContent: "flex-end",
-                  textAlign: "center",
-                  bgcolor: "#dbdbdb",
-                }}
-              ></Chip> */}
             </Stack>
             {product.adopted ? (
               <Typography
