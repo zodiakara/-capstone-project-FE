@@ -123,7 +123,7 @@ const ProductsMainPage = () => {
           // </Card>
         ))} */}
       </Box>
-      <Typography variant="h4">Recently added</Typography>
+
       <Grid
         container
         sx={{

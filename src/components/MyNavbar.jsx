@@ -229,7 +229,11 @@ function MyNavbar() {
               </Box>
             ) : (
               <Link to="/login">
-                <Button className={classes.btnStyle} variant="contained">
+                <Button
+                  className={classes.btnStyle}
+                  color="warning"
+                  variant="contained"
+                >
                   LOGIN
                 </Button>
               </Link>

@@ -235,8 +235,11 @@ const GenericUserPage = () => {
               //   flexWrap: "wrap",
               // }}
             >
-              {displayProducts &&
-                products &&
+              {displayProducts && products.length === 0 ? (
+                <Typography sx={{ fontStyle: "italic" }}>
+                  {user.name} has no products to display
+                </Typography>
+              ) : (
                 products.map((product) => (
                   <Grid
                     item
@@ -264,9 +267,13 @@ const GenericUserPage = () => {
                       </CardContent>
                     </Card>
                   </Grid>
-                ))}
-              {displayReviews &&
-                reviews &&
+                ))
+              )}
+              {displayReviews && reviews.length === 0 ? (
+                <Typography sx={{ fontStyle: "italic" }}>
+                  {user.name} has no reviews to display
+                </Typography>
+              ) : (
                 reviews.map((review) => (
                   <Grid item xs={12} key={review._id}>
                     <Card>
@@ -291,7 +298,8 @@ const GenericUserPage = () => {
                       </CardContent>
                     </Card>
                   </Grid>
-                ))}
+                ))
+              )}
             </Grid>
           </Box>
         </Container>

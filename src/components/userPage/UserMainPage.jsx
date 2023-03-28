@@ -29,6 +29,7 @@ const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 const UserMainPage = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const [fetchedProducts, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [displayProducts, setDisplayProducts] = useState(true);
   const [displayReviews, setDisplayReviews] = useState(false);
@@ -47,6 +48,20 @@ const UserMainPage = () => {
   history.donated = fetchedProducts.filter(
     (product) => product.adopted === true
   );
+  history.adopted = allProducts.filter(
+    (product) => product.getter === currentUser._id
+  );
+
+  console.log(history.adopted);
+  console.log(reviews);
+
+  const getAllProducts = async () => {
+    const response = await fetch(`${BE_URL}/products`);
+    if (response.ok) {
+      const data = await response.json();
+      setAllProducts(data);
+    }
+  };
 
   const getUserProducts = async () => {
     const config = {
@@ -110,6 +125,7 @@ const UserMainPage = () => {
     setDisplayReviews(false);
   };
   useEffect(() => {
+    getAllProducts();
     getUserProducts();
     getUserReviews();
   }, []);
@@ -242,20 +258,18 @@ const UserMainPage = () => {
             </Box>
             <Grid
               container
-              my={4}
-              rowSpacing={4}
-              columnSpacing={4}
-              // sx={{
-              //   display: "flex",
-              //   justifyContent: "space-around",
-              //   alignItems: "center",
-              //   flexWrap: "wrap",
-              // }}
+              xs={12}
+              my={2}
+              spacing={2}
+              sx={{
+                display: "flex",
+                justifyContent: "stretch",
+              }}
             >
               {displayProducts &&
                 products &&
                 products.map((product) => (
-                  <Grid item xs={4} key={product._id}>
+                  <Grid item xs={12} md={4} key={product._id}>
                     <Card>
                       <Link to={`/products/${product._id}`}>
                         <CardMedia
@@ -279,9 +293,34 @@ const UserMainPage = () => {
               {displayReviews &&
                 reviews &&
                 reviews.map((review) => (
-                  <Grid item xs={12} key={review._id}>
+                  <Grid flexGrow={1} item xs={12} key={review._id}>
                     <Card>
                       <CardContent>
+                        <Stack
+                          direction="row"
+                          sx={{ justifyContent: "space-between" }}
+                        >
+                          <Avatar
+                            sx={{ margin: "0.25rem" }}
+                            src={
+                              review.commenter ? review.commenter.avatar : ""
+                            }
+                          />
+                          <Typography variant="h6" sx={{ alignSelf: "center" }}>
+                            {review.commenter ? review.commenter.name : null}{" "}
+                            {review.commenter ? review.commenter.surname : null}
+                          </Typography>
+
+                          <Typography
+                            variant="body2"
+                            fontSize="small"
+                            sx={{
+                              fontStyle: "italic",
+                            }}
+                          >
+                            {new Date(review.createdAt).toUTCString()}
+                          </Typography>
+                        </Stack>
                         <Rating
                           value={review.content.rating}
                           precision={0.5}
@@ -292,70 +331,131 @@ const UserMainPage = () => {
                         <Typography variant="body1">
                           {review.content.text}
                         </Typography>
-                        <Avatar />
-                        <Typography variant="body2">
-                          {/* {review.commenter} */}
-                        </Typography>
-                        <Typography variant="body2" fontSize="small">
-                          {review.createdAt}
-                        </Typography>
                       </CardContent>
                     </Card>
                   </Grid>
                 ))}
               {displayHistory && (
-                <List xs={12} flexGrow={1}>
-                  {history.donated.map((product) => (
-                    <ListItem
-                      key={product._id}
-                      className="productHistoryList"
-                      sx={{ display: "flex", alignItems: "flex-start" }}
-                    >
-                      <Link to={`/products/${product._id}`}>
-                        <Avatar
-                          sx={{
-                            height: "50px",
-                            width: "auto",
-                            paddingY: "0.5rem",
-                          }}
-                          variant="square"
-                          src={product.mainPicture}
-                          alt="productImg"
-                        />
-                      </Link>
-                      <Stack sx={{ paddingX: "0.5rem" }}>
-                        <Typography gutterBottom variant="h6" component="div">
-                          {product.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {product.description}
-                        </Typography>
-                      </Stack>
-                      <Box
+                <Grid flexGrow={1} item xs={12}>
+                  <List xs={12} flexGrow={1}>
+                    {history.donated.map((product) => (
+                      <ListItem
+                        key={product._id}
+                        className="productHistoryList"
                         sx={{
                           display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
+                          alignItems: "flex-start",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <Typography variant="h6">Review:</Typography>
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={openModal}
+                        {" "}
+                        <Box sx={{ display: "flex" }}>
+                          <Link to={`/products/${product._id}`}>
+                            <Avatar
+                              sx={{
+                                height: "auto",
+                                width: "50px",
+                                paddingY: "0.5rem",
+                              }}
+                              variant="square"
+                              src={product.mainPicture}
+                              alt="productImg"
+                            />
+                          </Link>
+                          <Stack sx={{ paddingX: "0.5rem" }}>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="div"
+                            >
+                              {product.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {product.description}
+                            </Typography>
+                          </Stack>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
                         >
-                          add
-                        </Button>
-                      </Box>
-                    </ListItem>
-                  ))}
-                </List>
+                          <Typography variant="h6">Review:</Typography>
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={openModal}
+                          >
+                            add
+                          </Button>
+                        </Box>
+                      </ListItem>
+                    ))}
+                  </List>
+                  <List xs={12} flexGrow={1}>
+                    {history.adopted.map((product) => (
+                      <ListItem
+                        key={product._id}
+                        className="productHistoryList"
+                        sx={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Box sx={{ display: "flex" }}>
+                          <Link to={`/products/${product._id}`}>
+                            <Avatar
+                              sx={{
+                                height: "auto",
+                                width: "50px",
+                                paddingY: "0.5rem",
+                              }}
+                              variant="square"
+                              src={product.mainPicture}
+                              alt="productImg"
+                            />
+                          </Link>
+                          <Stack sx={{ paddingX: "0.5rem" }}>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="div"
+                            >
+                              {product.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {product.description}
+                            </Typography>
+                          </Stack>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography variant="h6">Review:</Typography>
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={openModal}
+                          >
+                            add
+                          </Button>
+                        </Box>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Grid>
               )}
             </Grid>
           </Box>
         </Container>
       </Container>
-      <Footer />
     </>
   );
 };

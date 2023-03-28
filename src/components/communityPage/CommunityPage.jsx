@@ -18,8 +18,10 @@ import UserAvatarSlider from "./UserAvatarSlider";
 const CommunityPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const currentUser = useSelector((state) => state.auth.userInfo);
-  const [users, setUsers] = useState([]);
-  const filteredUsers = users.filter((user) => user._id !== currentUser._id);
+  const [fetchedUsers, setUsers] = useState([]);
+  const users = currentUser
+    ? fetchedUsers.filter((user) => user._id !== currentUser._id)
+    : fetchedUsers;
 
   useEffect(() => {
     getUsers();
@@ -44,7 +46,7 @@ const CommunityPage = () => {
   return (
     <>
       <MyNavbar />
-      <Container maxWidth>
+      <Container maxWidth sx={{ marginBottom: "1rem" }}>
         <Box
           sx={{
             display: "flex",
@@ -62,7 +64,7 @@ const CommunityPage = () => {
               alt="communityGraphic"
               src={graphic}
             />
-            <Typography variant="body1" sx={{ backgroundColor: "white" }}>
+            <Typography variant="body1" sx={{}}>
               With swAPP we also want to promote community building <br></br>and
               encourage users to engage with each other to share knowledge
               <br></br> and experiences, creating a more sustainable and
@@ -71,7 +73,7 @@ const CommunityPage = () => {
           </Box>
         </Box>
       </Container>
-      <Container
+      {/* <Container
         maxWidth
         sx={{
           display: "flex",
@@ -139,8 +141,9 @@ const CommunityPage = () => {
               : null}
           </Grid>
         </Grid>
-      </Container>
-      <Footer />
+      </Container> */}
+      <UserAvatarSlider users={users} />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -79,7 +79,7 @@ const ProductDetailPage = () => {
             Products
           </Link>
           {product ? (
-            <Link color="inherit" to="/products/">
+            <Link color="inherit" to={`/products/${product.category}`}>
               {product.category}
             </Link>
           ) : null}

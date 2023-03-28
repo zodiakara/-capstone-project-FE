@@ -8,7 +8,6 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "white",
-
   boxShadow: 10,
   p: 4,
   textAlign: "center",
