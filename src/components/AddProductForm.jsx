@@ -1,4 +1,11 @@
-import { Button, TextField, Typography, MenuItem } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  MenuItem,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +37,7 @@ const AddProductForm = () => {
   const [productDescription, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
+  const [open, setOpen] = useState(false);
 
   const [errors, setErrors] = useState({
     productName: false,
@@ -47,6 +55,7 @@ const AddProductForm = () => {
     setCategory("");
     setCondition("");
     dispatch(productActions.removeProductImage());
+    handleClick();
   };
 
   const handleSubmit = (event, userId) => {
@@ -63,6 +72,17 @@ const AddProductForm = () => {
     addProductAction(product).then(() => {
       clearTheForm();
     });
+  };
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   const addProductAction = async (product) => {
@@ -186,6 +206,11 @@ const AddProductForm = () => {
             <Button type="submit" variant="outlined">
               add product
             </Button>
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+              <Alert severity="success" sx={{ width: "100%" }}>
+                Product successfully added!
+              </Alert>
+            </Snackbar>
           </Stack>
         </Box>
         <Box sx={{ marginX: "2rem" }}>

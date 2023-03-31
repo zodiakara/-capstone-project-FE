@@ -16,12 +16,12 @@ const ProductCard = (product) => {
   return (
     <Grid
       item
-      xs={12}
-      md={4}
-      lg={3}
-      sx={{ display: "flex", justifyContent: "space-evenly", flexGrow: "1" }}
+      // xs={12}
+      // md={4}
+      // lg={3}
+      sx={{ display: "flex", justifyContent: "center" }}
     >
-      <Card sx={{ width: "350px", margin: "1em" }}>
+      <Card sx={{ width: "350px", margin: "0.5rem" }}>
         <CardHeader
           avatar={
             <Avatar

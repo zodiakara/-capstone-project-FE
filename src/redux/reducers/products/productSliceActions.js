@@ -71,7 +71,7 @@ export const adoptProductAction = createAsyncThunk(
   }
 );
 
-export const seddProductReviewAction = createAsyncThunk(
+export const sendProductReviewAction = createAsyncThunk(
   "product/sendReview",
   async (body) => {
     try {
@@ -85,6 +85,27 @@ export const seddProductReviewAction = createAsyncThunk(
       const response = await fetch(`${BE_URL}/reviews`, config);
       if (response.ok) {
         console.log("review successfully sent!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const addReviewAction = createAsyncThunk(
+  "product/adoptProduct",
+  async ({ body, productId }) => {
+    try {
+      const config = {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      };
+      const response = await fetch(`${BE_URL}/products/${productId}`, config);
+      if (response.ok) {
+        console.log("review succesfully added to product");
       }
     } catch (error) {
       console.log(error);

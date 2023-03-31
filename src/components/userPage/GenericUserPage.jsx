@@ -69,7 +69,9 @@ const GenericUserPage = () => {
         const data = await response.json();
         setReviews(data);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("error fetching reviews", error);
+    }
   };
 
   const getUser = async () => {
@@ -235,11 +237,7 @@ const GenericUserPage = () => {
               //   flexWrap: "wrap",
               // }}
             >
-              {displayProducts && products.length === 0 ? (
-                <Typography sx={{ fontStyle: "italic" }}>
-                  {user.name} has no products to display
-                </Typography>
-              ) : (
+              {displayProducts &&
                 products.map((product) => (
                   <Grid
                     item
@@ -252,7 +250,7 @@ const GenericUserPage = () => {
                       <Link to={`/products/${product._id}`}>
                         <CardMedia
                           component="img"
-                          height="140"
+                          height="160"
                           image={product.mainPicture}
                           alt="productImg"
                         />
@@ -262,22 +260,53 @@ const GenericUserPage = () => {
                           {product.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {product.description.slice(0, 50).concat("...")}
+                          {product.description.slice(0, 60).concat("...")}
                         </Typography>
                       </CardContent>
                     </Card>
                   </Grid>
-                ))
-              )}
-              {displayReviews && reviews.length === 0 ? (
-                <Typography sx={{ fontStyle: "italic" }}>
-                  {user.name} has no reviews to display
-                </Typography>
-              ) : (
+                ))}
+              {displayReviews &&
                 reviews.map((review) => (
-                  <Grid item xs={12} key={review._id}>
+                  <Grid flexGrow={1} item xs={12} key={review._id}>
                     <Card>
                       <CardContent>
+                        <Stack
+                          direction="row"
+                          sx={{ justifyContent: "space-between" }}
+                        >
+                          <Box sx={{ display: "flex" }}>
+                            <Link to={`/users/${review.commenter._id}`}>
+                              {" "}
+                              <Avatar
+                                sx={{ margin: "0.25rem" }}
+                                src={
+                                  review.commenter
+                                    ? review.commenter.avatar
+                                    : ""
+                                }
+                              />
+                            </Link>
+                            <Typography
+                              variant="h6"
+                              sx={{ alignSelf: "center" }}
+                            >
+                              {review.commenter ? review.commenter.name : null}{" "}
+                              {review.commenter
+                                ? review.commenter.surname
+                                : null}
+                            </Typography>
+                          </Box>
+                          <Typography
+                            variant="body2"
+                            fontSize="small"
+                            sx={{
+                              fontStyle: "italic",
+                            }}
+                          >
+                            {new Date(review.createdAt).toUTCString()}
+                          </Typography>
+                        </Stack>
                         <Rating
                           value={review.content.rating}
                           precision={0.5}
@@ -288,18 +317,10 @@ const GenericUserPage = () => {
                         <Typography variant="body1">
                           {review.content.text}
                         </Typography>
-                        <Avatar />
-                        <Typography variant="body2">
-                          {/* {review.commenter} */}
-                        </Typography>
-                        <Typography variant="body2" fontSize="small">
-                          {review.createdAt}
-                        </Typography>
                       </CardContent>
                     </Card>
                   </Grid>
-                ))
-              )}
+                ))}
             </Grid>
           </Box>
         </Container>

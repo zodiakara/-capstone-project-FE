@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, Box, Grid, Typography } from "@mui/material";
 import bulb from "../../assets/EcoBulb.png";
 import house from "../../assets/EcoHouse.png";
@@ -7,7 +7,7 @@ import plant from "../../assets/sprout.jpg";
 import dog from "../../assets/dog.png";
 import teddy from "../../assets/teddy.png";
 
-const MyComponent = () => {
+const MyComponent = ({ onItemClick }) => {
   const categories = [
     { name: "Clothing", image: shirt, color: "#9bd19d" },
     { name: "Toys", image: teddy, color: "#9e004d" },
@@ -16,6 +16,9 @@ const MyComponent = () => {
     { name: "Pets", image: dog, color: "#fc665b" },
     { name: "Other", image: bulb, color: "#afafaf" },
   ];
+  const handleClick = (category) => {
+    onItemClick(category);
+  };
 
   return (
     <Box sx={{ bgcolor: "#f0f0f0" }}>
@@ -35,6 +38,7 @@ const MyComponent = () => {
             >
               <Box
                 key={category.name}
+                onClick={() => handleClick(category.name)}
                 sx={{
                   display: "flex",
                   flexDirection: "column",

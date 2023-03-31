@@ -70,7 +70,13 @@ const ProductDetailPage = () => {
   return (
     <>
       <MyNavbar />
-      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: { xs: "none", md: "flex" },
+          marginLeft: "1rem",
+        }}
+      >
         <Breadcrumbs aria-label="breadcrumb">
           <Link color="inherit" to="/">
             Home
@@ -78,11 +84,10 @@ const ProductDetailPage = () => {
           <Link color="inherit" to="/products">
             Products
           </Link>
-          {product ? (
-            <Link color="inherit" to={`/products/${product.category}`}>
-              {product.category}
-            </Link>
-          ) : null}
+
+          <Link color="inherit" to={`/products/${product.category}`}>
+            {product.category}
+          </Link>
         </Breadcrumbs>
       </Box>
       <Container
@@ -209,13 +214,18 @@ const ProductDetailPage = () => {
               ) : (
                 <>
                   <ButtonGroup>
-                    <Button variant="outlined" color="warning">
+                    <Button
+                      variant="outlined"
+                      color="warning"
+                      disabled={currentUser ? false : true}
+                    >
                       ask about product
                     </Button>
                     <Button
                       onClick={handleOpen}
                       variant="contained"
                       color="warning"
+                      disabled={currentUser ? false : true}
                     >
                       adopt it
                     </Button>

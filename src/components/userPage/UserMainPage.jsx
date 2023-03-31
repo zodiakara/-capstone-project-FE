@@ -21,8 +21,9 @@ import { useEffect, useState } from "react";
 import MyNavbar from "../MyNavbar";
 import PlaceIcon from "@mui/icons-material/Place";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import Footer from "../Footer";
-import ReviewModal from "./ReviewModal";
+import CheckIcon from "@mui/icons-material/Check";
+import ReviewModalAdopted from "./ReviewModalAdopted";
+import ReviewModalDonated from "./ReviewModalDonated";
 
 const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 
@@ -35,7 +36,8 @@ const UserMainPage = () => {
   const [displayReviews, setDisplayReviews] = useState(false);
   const [displayHistory, setDisplayHistory] = useState(false);
 
-  const [modal, setModal] = useState(false);
+  const [modalDonated, setModalDonated] = useState(false);
+  const [modalAdopted, setModalAdopted] = useState(false);
 
   const products = fetchedProducts.filter(
     (product) => product.adopted !== true
@@ -102,11 +104,17 @@ const UserMainPage = () => {
     } catch (error) {}
   };
 
-  const openModal = () => {
-    setModal(true);
+  const openModalDonated = () => {
+    setModalDonated(true);
   };
-  const handleClose = () => {
-    setModal(false);
+  const openModalAdopted = () => {
+    setModalAdopted(true);
+  };
+  const handleCloseDonated = () => {
+    setModalDonated(false);
+  };
+  const handleCloseAdopted = () => {
+    setModalAdopted(false);
   };
   const handleReviews = () => {
     setDisplayReviews(true);
@@ -128,7 +136,9 @@ const UserMainPage = () => {
     getAllProducts();
     getUserProducts();
     getUserReviews();
-  }, []);
+  }, [modalAdopted, modalDonated]);
+
+  useEffect(() => {});
 
   return (
     <>
@@ -249,7 +259,7 @@ const UserMainPage = () => {
                   History
                 </Typography>
               </Box>
-              <ReviewModal modal={modal} handleClose={handleClose} />
+
               <Link to="/product/add">
                 <Button variant="outlined" className="btnStyle">
                   add a new product
@@ -274,7 +284,7 @@ const UserMainPage = () => {
                       <Link to={`/products/${product._id}`}>
                         <CardMedia
                           component="img"
-                          height="140"
+                          height="160"
                           image={product.mainPicture}
                           alt="productImg"
                         />
@@ -284,7 +294,7 @@ const UserMainPage = () => {
                           {product.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {product.description.slice(0, 50).concat("...")}
+                          {product.description.slice(0, 60).concat("...")}
                         </Typography>
                       </CardContent>
                     </Card>
@@ -300,17 +310,28 @@ const UserMainPage = () => {
                           direction="row"
                           sx={{ justifyContent: "space-between" }}
                         >
-                          <Avatar
-                            sx={{ margin: "0.25rem" }}
-                            src={
-                              review.commenter ? review.commenter.avatar : ""
-                            }
-                          />
-                          <Typography variant="h6" sx={{ alignSelf: "center" }}>
-                            {review.commenter ? review.commenter.name : null}{" "}
-                            {review.commenter ? review.commenter.surname : null}
-                          </Typography>
-
+                          <Box sx={{ display: "flex" }}>
+                            <Link to={`/users/${review.commenter._id}`}>
+                              {" "}
+                              <Avatar
+                                sx={{ margin: "0.25rem" }}
+                                src={
+                                  review.commenter
+                                    ? review.commenter.avatar
+                                    : ""
+                                }
+                              />
+                            </Link>
+                            <Typography
+                              variant="h6"
+                              sx={{ alignSelf: "center" }}
+                            >
+                              {review.commenter ? review.commenter.name : null}{" "}
+                              {review.commenter
+                                ? review.commenter.surname
+                                : null}
+                            </Typography>
+                          </Box>
                           <Typography
                             variant="body2"
                             fontSize="small"
@@ -383,13 +404,31 @@ const UserMainPage = () => {
                           }}
                         >
                           <Typography variant="h6">Review:</Typography>
-                          <Button
-                            variant="outlined"
-                            color="error"
-                            onClick={openModal}
-                          >
-                            add
-                          </Button>
+                          {product.reviews.userDonating ? (
+                            <IconButton color="success">
+                              <CheckIcon />
+                            </IconButton>
+                          ) : (
+                            <>
+                              <Button
+                                variant="outlined"
+                                color="error"
+                                onClick={openModalDonated}
+                              >
+                                add
+                              </Button>
+                              <ReviewModalDonated
+                                sx={{
+                                  "& .MuiBackdrop-root": {
+                                    backgroundColor: "transparent",
+                                  },
+                                }}
+                                modal={modalDonated}
+                                handleClose={handleCloseDonated}
+                                product={product}
+                              />
+                            </>
+                          )}
                         </Box>
                       </ListItem>
                     ))}
@@ -439,13 +478,26 @@ const UserMainPage = () => {
                           }}
                         >
                           <Typography variant="h6">Review:</Typography>
-                          <Button
-                            variant="outlined"
-                            color="error"
-                            onClick={openModal}
-                          >
-                            add
-                          </Button>
+                          {product.reviews.userAdopting ? (
+                            <IconButton color="success">
+                              <CheckIcon />
+                            </IconButton>
+                          ) : (
+                            <>
+                              <Button
+                                variant="outlined"
+                                color="error"
+                                onClick={openModalAdopted}
+                              >
+                                add
+                              </Button>
+                              <ReviewModalAdopted
+                                modal={modalAdopted}
+                                handleClose={handleCloseAdopted}
+                                product={product}
+                              />
+                            </>
+                          )}
                         </Box>
                       </ListItem>
                     ))}

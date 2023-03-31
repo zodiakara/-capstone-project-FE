@@ -1,7 +1,11 @@
 import { Button, Modal, Rating, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addReviewAction,
+  sendProductReviewAction,
+} from "../../redux/reducers/products/productSliceActions";
 
 const style = {
   position: "absolute",
@@ -16,13 +20,36 @@ const style = {
   textAlign: "center",
 };
 
-const ProductModal = ({ modal, handleClose }) => {
+const ProductModal = ({ modal, handleClose, product }) => {
   const [review, setReview] = useState(null);
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.userInfo);
 
+  const cleanUp = () => {
+    setContent("");
+    setReview(null);
+  };
   const handleReview = () => {
-    console.log("this is modal data => ", review, content);
+    const reviewData = {
+      commenter: currentUser._id,
+      receiver: product.owner,
+      content: { text: content, rating: review },
+    };
+    const reviewToAdd = {
+      reviews: {
+        userAdopting: true,
+      },
+    };
+    console.log(reviewData);
+    console.log(product);
+    dispatch(sendProductReviewAction(reviewData));
+    dispatch(
+      addReviewAction({ body: reviewToAdd, productId: product._id })
+    ).then(() => {
+      handleClose();
+    });
+    cleanUp();
   };
 
   return (

@@ -37,8 +37,6 @@ const SearchBar = () => {
     searchProducts();
   }, [query]);
 
-  console.log(products);
-
   return (
     <Box sx={{ flexGrow: 1, justifyContent: "center" }}>
       <TextField
@@ -51,10 +49,10 @@ const SearchBar = () => {
         onFocus={() => {
           setOpen(true);
         }}
-        onBlur={() => {
-          setOpen(false);
-          setQuery("");
-        }}
+        // onBlur={() => {
+        //   setOpen(false);
+        //   setQuery("");
+        // }}
         onChange={handleQuery}
         size="medium"
         InputProps={{

@@ -1,5 +1,6 @@
 import { Badge, BadgeOutlined, Image } from "@mui/icons-material";
 import {
+  Breadcrumbs,
   Button,
   Card,
   CardContent,
@@ -18,7 +19,6 @@ import Footer from "../Footer";
 import MyNavbar from "../MyNavbar";
 import ProductCard from "./ProductCard";
 import clothes from "../../assets/c_clothes.avif";
-import kids from "../../assets/c_kids.avif";
 import SearchBar from "./SearchBar";
 import MyComponent from "./CategoriesContainer";
 
@@ -26,24 +26,28 @@ const ProductsMainPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [fetchedProducts, setProducts] = useState([]);
-  const [category, setCategory] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const products = fetchedProducts.filter(
     (product) => product.adopted !== true
   );
-  const categories = [
-    { name: "Clothing", image: { clothes }, color: "#9bd19d" },
-    { name: "Toys", image: "", color: "#9e004d" },
-    { name: "Household", image: "", color: "#fbae42" },
-    { name: "Garden", image: "", color: "#5f9f06" },
-    { name: "Pets", image: "", color: "#fc665b" },
-    { name: "Other", image: "", color: "#afafaf" },
-  ];
+
+  console.log(filteredProducts);
+  const handleCategory = (category) => {
+    setSelectedCategory(category);
+    getFilteredProducts(selectedCategory);
+  };
+  console.log(selectedCategory);
 
   useEffect(() => {
     getAllProducts();
   }, []);
 
+  useEffect(() => {
+    getFilteredProducts();
+  }, []);
   const getAllProducts = async () => {
     try {
       const config = {
@@ -51,6 +55,7 @@ const ProductsMainPage = () => {
           "Content-Type": "application/json",
         }),
       };
+
       const response = await fetch(`${BE_URL}/products`, config);
       if (response.ok) {
         const data = await response.json();
@@ -60,11 +65,31 @@ const ProductsMainPage = () => {
       console.log("error fetching data ... ", error);
     }
   };
+  const getFilteredProducts = async (selectedCategory) => {
+    try {
+      const config = {
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      };
+
+      const response = await fetch(
+        `${BE_URL}/products/search/?category=/${selectedCategory}/i&adopted=false`,
+        config
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setFilteredProducts(data);
+      }
+    } catch (error) {
+      console.log("error fetching data ... ", error);
+    }
+  };
 
   return (
     <>
       <MyNavbar />
-      <MyComponent />
+      <MyComponent onItemClick={handleCategory} />
       <Box
         sx={{
           display: "flex",
@@ -72,21 +97,14 @@ const ProductsMainPage = () => {
           backgroundColor: "white",
         }}
       >
-        {/* <Typography variant="h4">want to contribute?</Typography>
-        <Box>
-          {userInfo ? (
-            <Link to="/product/add">
-              <Button variant="contained" color="warning">
-                ADD PRODUCT
-              </Button>
-            </Link>
-          ) : (
-            <Link to="/register" color="warning">
-              <Button>REGISTER</Button>
-            </Link>
-          )}
-        </Box> */}
-        <Box sx={{ width: "60%" }}>
+        <Box
+          sx={{
+            width: "60%",
+            display: "flex",
+            justifyContent: "center",
+            backgroundColor: "white",
+          }}
+        >
           <SearchBar />
         </Box>
       </Box>
@@ -96,45 +114,52 @@ const ProductsMainPage = () => {
           display: "flex",
           justifyContent: "center",
         }}
-      >
-        {/* {categories.map((category) => (
-          // <Card sx={{ backgroundImage: category.image }}>
-          <Chip
-            key={category.name}
-            variant="outlined"
-            label={category.name}
-            sx={{
-              opacity: "50%",
-              margin: "none",
-              cursor: "pointer",
-              padding: "1rem",
-              marginX: "0.5rem",
-              textAlign: "center",
-              bgcolor: "#5f9f06",
+      ></Box>
+      <Box>
+        {selectedCategory ? (
+          <>
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link color="inherit" to="/">
+                Home
+              </Link>
+              <Link color="inherit" to="/products">
+                Products
+              </Link>
 
-              "&:hover": {
-                opacity: "90%",
-                textDecoration: "bold",
-              },
+              <Link color="inherit" to={`/products/${selectedCategory}`}>
+                {selectedCategory ? selectedCategory : null}
+              </Link>
+            </Breadcrumbs>
+            <Grid
+              container
+              spacing={4}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "2rem",
+              }}
+            >
+              {filteredProducts.map((product) => (
+                <ProductCard key={product._id} {...product} />
+              ))}
+            </Grid>
+          </>
+        ) : (
+          <Grid
+            container
+            spacing={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "2rem",
             }}
           >
-            <Typography>{category.name}</Typography>
-          </Chip>
-          // </Card>
-        ))} */}
+            {products.map((product) => (
+              <ProductCard key={product._id} {...product} />
+            ))}
+          </Grid>
+        )}
       </Box>
-
-      <Grid
-        container
-        sx={{
-          marginBottom: "6.5rem",
-        }}
-      >
-        {products.map((product) => (
-          <ProductCard key={product._id} {...product} />
-        ))}
-      </Grid>
-      <Footer />
     </>
   );
 };
