@@ -43,9 +43,8 @@ function UserAvatarSlider({ users }) {
             }}
           >
             {chunk.map((user) => (
-              <Grid item xs={12} md={4} maxWidth>
+              <Grid key={user._id} item xs={12} md={4} maxWidth>
                 <Card
-                  key={user._id}
                   sx={{
                     display: "flex",
                     flexDirection: "column",

@@ -10,7 +10,6 @@ import { Box, Container, Stack } from "@mui/system";
 import { useState } from "react";
 import MyNavbar from "../MyNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import Footer from "../Footer";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 
 import {
@@ -299,7 +298,6 @@ const UserEditPage = () => {
           </Box>
         </Box>
       </Container>
-      <Footer />
     </>
   );
 };

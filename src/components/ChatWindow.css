@@ -1,0 +1,13 @@
+.messageBoxWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.messageBoxInput {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  border-radius: 50px;
+  border: solid rgb(200, 195, 195) 0.5px;
+  height: 1.5rem;
+}

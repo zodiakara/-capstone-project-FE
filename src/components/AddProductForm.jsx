@@ -10,7 +10,6 @@ import { Box, Container, Stack } from "@mui/system";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import graphic from "../assets/undraw_Dreamer_re_9tua.png";
 import { sendProductImage } from "../redux/reducers/products/productSliceActions";
 import { productActions } from "../redux/reducers/products/productsSlice";
 import MyNavbar from "./MyNavbar";
@@ -250,7 +249,7 @@ const AddProductForm = () => {
       <Box
         sx={{ display: "flex", justifyContent: "center", marginY: "1em" }}
       ></Box>
-      <Container
+      {/* <Container
         maxWidth
         sx={{
           backgroundColor: "white",
@@ -259,7 +258,7 @@ const AddProductForm = () => {
         }}
       >
         <img className="mainGraphic" alt="" src={graphic} />
-      </Container>
+      </Container> */}
     </>
   );
 };

@@ -43,3 +43,7 @@ a:hover {
   padding-left: 2em;
   border-radius: 10px;
 }
+.chatWindow {
+  position: relative;
+  bottom: -37px;
+}

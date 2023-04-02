@@ -21,7 +21,7 @@ const SearchBar = () => {
         }),
       };
       const response = await fetch(
-        `${BE_URL}/products/search/?name=/${query}/i`,
+        `${BE_URL}/products/search/?name=/${query}/i&adopted=false`,
         config
       );
       if (response.ok) {
@@ -49,10 +49,13 @@ const SearchBar = () => {
         onFocus={() => {
           setOpen(true);
         }}
-        // onBlur={() => {
-        //   setOpen(false);
-        //   setQuery("");
-        // }}
+        onBlur={() => {
+          // Quick workaround to delay the blur so that it fires after click event.
+          setTimeout((e) => {
+            setOpen(false);
+            setQuery("");
+          }, 100);
+        }}
         onChange={handleQuery}
         size="medium"
         InputProps={{
@@ -67,7 +70,7 @@ const SearchBar = () => {
         <Box fullWidth className="searchField">
           {query &&
             products.slice(0, 10).map((product) => (
-              <Link to={`/products/${product._id}`}>
+              <Link key={product._id} to={`/products/${product._id}`}>
                 <ListItem>{product.name}</ListItem>
               </Link>
             ))}

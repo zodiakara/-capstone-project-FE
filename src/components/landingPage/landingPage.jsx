@@ -15,7 +15,7 @@ import "./homepage.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Carousel from "react-material-ui-carousel";
+import ProductsCarousel from "./components/ProductsCarousel";
 
 const welcomeHeaderStyles = {
   display: { xs: "flex" },
@@ -31,6 +31,8 @@ const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 
 function HomePage() {
   const [allProducts, setAllProducts] = useState([]);
+  const currentUser = useSelector((state) => state.auth.userInfo);
+
   const getAllProducts = async () => {
     const response = await fetch(`${BE_URL}/products`);
     if (response.ok) {
@@ -39,20 +41,11 @@ function HomePage() {
     }
   };
 
-  const products = allProducts.filter((product) => product.adopted === false);
-
   useEffect(() => {
     getAllProducts();
   }, []);
 
-  const chunkArray = (array, chunkSize) => {
-    const numberOfChunks = Math.ceil(array.length / chunkSize);
-    return [...Array(numberOfChunks)].map((value, index) => {
-      return array.slice(index * chunkSize, (index + 1) * chunkSize);
-    });
-  };
-
-  const currentUser = useSelector((state) => state.auth.userInfo);
+  const products = allProducts.filter((product) => product.adopted === false);
 
   const welcomeHeader = currentUser ? (
     <>
@@ -63,8 +56,9 @@ function HomePage() {
         gutterBottom
         sx={welcomeHeaderStyles}
       >
-        Hello {currentUser.name},<br></br> Welcome to swAPP!!
+        Hello {currentUser.name},<br /> Welcome to swAPP!!
       </Typography>
+
       <Box
         sx={{
           display: "flex",
@@ -107,6 +101,12 @@ function HomePage() {
         <br></br>
         Welcome to swAPP!!
       </Typography>
+      <Typography variant="body2" sx={{ textDecoration: "justify" }}>
+        Swapp is a mobile application that aims to promote sustainability and
+        community building by allowing users to swap products in various
+        categories while also providing a platform for social interaction and
+        engagement.
+      </Typography>
 
       <Box
         sx={{
@@ -131,6 +131,7 @@ function HomePage() {
             Sign Up
           </Button>
         </Link>
+
         <Link to="/info">
           <Typography>Check how it works</Typography>
         </Link>
@@ -151,19 +152,13 @@ function HomePage() {
           marginTop: "0",
         }}
       >
-        <Box
-          sx={{
-            // bgcolor: ["#80CAFF"],
-            // borderRadius: "20px",
-            padding: "1rem",
-          }}
-        >
-          {welcomeHeader}
-        </Box>
+        {" "}
+        <Box p={"1rem"}>{welcomeHeader}</Box>
         <Box>
           <img className="mainGraphic" alt="" src={graphic} />
         </Box>
       </Container>
+
       <Container maxWidth>
         <Box
           sx={{
@@ -185,62 +180,10 @@ function HomePage() {
           >
             <Typography variant="h4">Recently added:</Typography>
             <Link to="/products">
-              <Typography variant="h6"> Browse Products</Typography>
+              <Typography variant="h6">Browse Products</Typography>
             </Link>
           </Stack>
-          <Carousel>
-            {chunkArray(products.reverse().slice(0, 12), 4).map((chunk) => (
-              <Grid
-                item
-                xs={12}
-                key={chunk.index}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {chunk.map((product) => (
-                  <Grid
-                    item
-                    xs={12}
-                    md={4}
-                    lg={3}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-evenly",
-                      flexGrow: "1",
-                    }}
-                  >
-                    <Card sx={{ width: "350px" }}>
-                      <Link to={`/products/${product._id}`}>
-                        <CardMedia
-                          sx={{ position: "relative" }}
-                          component="img"
-                          height="200"
-                          image={product.mainPicture}
-                          alt="product"
-                          subheader={product.category}
-                        />
-                      </Link>
-                      <Chip
-                        sx={{
-                          position: "absolute",
-                          marginLeft: "5px",
-                          top: "5px",
-                          zIndex: "1",
-                          bgcolor: ["#5f9f06"],
-                        }}
-                        label={product.category}
-                      ></Chip>
-                      <CardContent>
-                        <Typography variant="body1">{product.name}</Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            ))}
-          </Carousel>
+          <ProductsCarousel products={products} />
         </Box>
       </Container>
     </>

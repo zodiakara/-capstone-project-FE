@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import MyNavbar from "../MyNavbar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 import ProductModal from "./ProductModal";
 import "./productspage.css";
+import ChatWindow from "../ChatWindow";
+import { PopperUnstyled } from "@mui/base";
 
 const ProductDetailPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -30,6 +32,9 @@ const ProductDetailPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { productId } = params;
+
+  const [popper, setOpenPopper] = useState(false);
+  const anchorRef = useRef(null);
 
   useEffect(() => {
     getProduct();
@@ -60,11 +65,21 @@ const ProductDetailPage = () => {
     }
   };
 
-  const handleOpen = () => {
+  const handleOpenModal = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const handleCloseModal = () => {
     setOpen(false);
+  };
+  const handleOpenPopper = () => {
+    setOpenPopper((prevOpen) => !prevOpen);
+  };
+  const handleClosePopper = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpenPopper(false);
   };
 
   return (
@@ -202,12 +217,7 @@ const ProductDetailPage = () => {
                   <Button disabled variant="outlined" color="warning">
                     ask about product
                   </Button>
-                  <Button
-                    disabled
-                    onClick={handleOpen}
-                    variant="contained"
-                    color="warning"
-                  >
+                  <Button disabled variant="contained" color="warning">
                     adopt it
                   </Button>
                 </ButtonGroup>
@@ -215,6 +225,8 @@ const ProductDetailPage = () => {
                 <>
                   <ButtonGroup>
                     <Button
+                      ref={anchorRef}
+                      onClick={handleOpenPopper}
                       variant="outlined"
                       color="warning"
                       disabled={currentUser ? false : true}
@@ -222,7 +234,7 @@ const ProductDetailPage = () => {
                       ask about product
                     </Button>
                     <Button
-                      onClick={handleOpen}
+                      onClick={handleOpenModal}
                       variant="contained"
                       color="warning"
                       disabled={currentUser ? false : true}
@@ -232,9 +244,16 @@ const ProductDetailPage = () => {
                   </ButtonGroup>
                   <ProductModal
                     open={open}
-                    handleClose={handleClose}
+                    handleClose={handleCloseModal}
                     handleAdoptProduct={handleAdoptProduct}
                   />
+                  <PopperUnstyled
+                    placement="bottom-end"
+                    open={popper}
+                    anchorEl={anchorRef.current}
+                  >
+                    <ChatWindow handleClosePopper={handleClosePopper} />
+                  </PopperUnstyled>
                 </>
               )}
             </Stack>

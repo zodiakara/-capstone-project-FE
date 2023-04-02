@@ -26,7 +26,6 @@ const CommunityPage = () => {
   useEffect(() => {
     getUsers();
   }, []);
-  console.log(users);
 
   const getUsers = async () => {
     try {
