@@ -10,7 +10,7 @@ export default function CategoryChip(props) {
         position: "absolute",
         left: "16px",
         top: "16px",
-        zIndex: "1",
+        zIndex: 3,
         bgcolor: ["#5f9f06"],
         color: "#fff",
       }}

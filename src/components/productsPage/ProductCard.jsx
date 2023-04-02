@@ -12,7 +12,15 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 
+import { useSelector } from "react-redux";
+
 const ProductCard = (product) => {
+  const currentUser = useSelector((state) => state.auth.userInfo);
+  const avatarLinkPath =
+    currentUser._id === product.owner._id
+      ? "/user"
+      : `/users/${product.owner._id}`;
+
   return (
     <Grid
       item
@@ -21,14 +29,16 @@ const ProductCard = (product) => {
       // lg={3}
       sx={{ display: "flex", justifyContent: "center" }}
     >
-      <Card sx={{ width: "350px", margin: "0.5rem" }}>
+      <Card sx={{ width: "357px" }}>
         <CardHeader
           avatar={
-            <Avatar
-              src={product.owner.avatar ? product.owner.avatar : null}
-              sx={{ bgcolor: "success" }}
-              aria-label="owner"
-            ></Avatar>
+            <Link to={avatarLinkPath}>
+              <Avatar
+                src={product.owner.avatar ? product.owner.avatar : null}
+                sx={{ bgcolor: "success" }}
+                aria-label="owner"
+              />
+            </Link>
           }
           title={product.name}
           subheader={product.category}

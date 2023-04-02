@@ -1,13 +1,4 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Chip,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { Container, Box } from "@mui/system";
 import MyNavbar from "../MyNavbar";
 import graphic from "../../assets/undraw_Connection_re_lcud.png";
@@ -143,7 +134,7 @@ function HomePage() {
     <>
       <MyNavbar />
       <Container
-        maxWidth
+        maxWidth="lg"
         sx={{
           display: "flex",
           justifyContent: "space-around",
@@ -159,7 +150,7 @@ function HomePage() {
         </Box>
       </Container>
 
-      <Container maxWidth>
+      <Container maxWidth="lg">
         <Box
           sx={{
             marginX: "2rem",
@@ -178,7 +169,7 @@ function HomePage() {
               alignItems: "flex-end",
             }}
           >
-            <Typography variant="h4">Recently added:</Typography>
+            <Typography variant="h6">Recently added:</Typography>
             <Link to="/products">
               <Typography variant="h6">Browse Products</Typography>
             </Link>

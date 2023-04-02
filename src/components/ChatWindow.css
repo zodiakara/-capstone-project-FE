@@ -10,4 +10,8 @@
   border-radius: 50px;
   border: solid rgb(200, 195, 195) 0.5px;
   height: 1.5rem;
+  padding-left: 1rem;
+}
+.messageBoxInput:checked {
+  border: solid rgb(200, 195, 195) 0.5px;
 }

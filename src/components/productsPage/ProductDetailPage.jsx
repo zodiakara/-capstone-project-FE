@@ -32,9 +32,9 @@ const ProductDetailPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { productId } = params;
+  const [activeChat, setActiveChat] = useState({});
 
   const [popper, setOpenPopper] = useState(false);
-  const anchorRef = useRef(null);
 
   useEffect(() => {
     getProduct();
@@ -73,13 +73,11 @@ const ProductDetailPage = () => {
   };
   const handleOpenPopper = () => {
     setOpenPopper((prevOpen) => !prevOpen);
+    setActiveChat(product.owner);
   };
   const handleClosePopper = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
     setOpenPopper(false);
+    setActiveChat({});
   };
 
   return (
@@ -225,7 +223,6 @@ const ProductDetailPage = () => {
                 <>
                   <ButtonGroup>
                     <Button
-                      ref={anchorRef}
                       onClick={handleOpenPopper}
                       variant="outlined"
                       color="warning"
@@ -248,11 +245,19 @@ const ProductDetailPage = () => {
                     handleAdoptProduct={handleAdoptProduct}
                   />
                   <PopperUnstyled
-                    placement="bottom-end"
                     open={popper}
-                    anchorEl={anchorRef.current}
+                    style={{
+                      position: "fixed",
+                      bottom: 0,
+                      right: "2.5rem",
+                      top: "unset",
+                      left: "unset",
+                    }}
                   >
-                    <ChatWindow handleClosePopper={handleClosePopper} />
+                    <ChatWindow
+                      handleClosePopper={handleClosePopper}
+                      activeChat={activeChat}
+                    />
                   </PopperUnstyled>
                 </>
               )}

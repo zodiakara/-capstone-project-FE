@@ -1,30 +1,18 @@
-import { Badge, BadgeOutlined, Image } from "@mui/icons-material";
-import {
-  Breadcrumbs,
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  Grid,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { Breadcrumbs, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Footer from "../Footer";
 import MyNavbar from "../MyNavbar";
 import ProductCard from "./ProductCard";
-import clothes from "../../assets/c_clothes.avif";
 import SearchBar from "./SearchBar";
-import MyComponent from "./CategoriesContainer";
+import CategoriesContainer from "./CategoriesContainer";
 
-const ProductsMainPage = () => {
+import getFilteredProducts from "./api/getFilteredProducts";
+import getAllProducts from "./api/getAllProducts";
+
+const ProductsPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
-  const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [fetchedProducts, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -34,88 +22,27 @@ const ProductsMainPage = () => {
     (product) => product.adopted !== true
   );
 
-  console.log(filteredProducts);
-  const handleCategory = (category) => {
+  useEffect(() => {
+    getAllProducts(setProducts);
+  }, []);
+
+  const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    getFilteredProducts(selectedCategory);
-  };
-  console.log(selectedCategory);
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
-  useEffect(() => {
-    getFilteredProducts();
-  }, []);
-  const getAllProducts = async () => {
-    try {
-      const config = {
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-      };
-
-      const response = await fetch(`${BE_URL}/products`, config);
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-      }
-    } catch (error) {
-      console.log("error fetching data ... ", error);
-    }
-  };
-  const getFilteredProducts = async (selectedCategory) => {
-    try {
-      const config = {
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-      };
-
-      const response = await fetch(
-        `${BE_URL}/products/search/?category=/${selectedCategory}/i&adopted=false`,
-        config
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setFilteredProducts(data);
-      }
-    } catch (error) {
-      console.log("error fetching data ... ", error);
-    }
+    getFilteredProducts(category, setFilteredProducts);
   };
 
   return (
     <>
       <MyNavbar />
-      <MyComponent onItemClick={handleCategory} />
+      <CategoriesContainer onItemClick={handleCategoryClick} />
+      <SearchBar />
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: "white",
-        }}
+        paddingY="2rem"
+        maxWidth="lg"
+        display="flex"
+        alignItems="center"
+        margin="0 auto"
       >
-        <Box
-          sx={{
-            width: "60%",
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: "white",
-          }}
-        >
-          <SearchBar />
-        </Box>
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      ></Box>
-      <Box>
         {selectedCategory ? (
           <>
             <Breadcrumbs aria-label="breadcrumb">
@@ -130,38 +57,37 @@ const ProductsMainPage = () => {
                 {selectedCategory ? selectedCategory : null}
               </Link>
             </Breadcrumbs>
+            <Box marginX="2rem">
+              <Grid
+                container
+                spacing={4}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product._id} {...product} />
+                ))}
+              </Grid>
+            </Box>
+          </>
+        ) : (
+          <Box marginX="2rem">
             <Grid
               container
               spacing={4}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "2rem",
-              }}
+              sx={{ display: "flex", justifyContent: "center" }}
             >
-              {filteredProducts.map((product) => (
+              {products.map((product) => (
                 <ProductCard key={product._id} {...product} />
               ))}
             </Grid>
-          </>
-        ) : (
-          <Grid
-            container
-            spacing={4}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "2rem",
-            }}
-          >
-            {products.map((product) => (
-              <ProductCard key={product._id} {...product} />
-            ))}
-          </Grid>
+          </Box>
         )}
       </Box>
     </>
   );
 };
 
-export default ProductsMainPage;
+export default ProductsPage;

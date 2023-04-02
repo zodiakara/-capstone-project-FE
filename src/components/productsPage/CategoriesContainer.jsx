@@ -7,7 +7,7 @@ import plant from "../../assets/sprout.jpg";
 import dog from "../../assets/dog.png";
 import teddy from "../../assets/teddy.png";
 
-const MyComponent = ({ onItemClick }) => {
+const CategoriesContainer = ({ onItemClick }) => {
   const categories = [
     { name: "Clothing", image: shirt, color: "#9bd19d" },
     { name: "Toys", image: teddy, color: "#9e004d" },
@@ -21,12 +21,16 @@ const MyComponent = ({ onItemClick }) => {
   };
 
   return (
-    <Box sx={{ bgcolor: "#f0f0f0" }}>
-      <Box sx={{ bgcolor: "#fff", margin: "0 auto", paddingY: "0.5rem" }}>
+    <Box sx={{ bgcolor: "#fff" }}>
+      <Box
+        sx={{ bgcolor: "#fff", margin: "0 auto", paddingTop: "2rem" }}
+        maxWidth="lg"
+      >
         <Grid container justifyContent="center">
           {categories.map((category) => (
             <Grid
               item
+              key={category.name}
               xs={12}
               md={4}
               lg={2}
@@ -46,17 +50,17 @@ const MyComponent = ({ onItemClick }) => {
                   padding: { md: "1rem", sm: "none" },
                   cursor: "pointer",
                   textAlign: "center",
+                  opacity: "60%",
+                  "&:hover": {
+                    opacity: "100%",
+                    border: "black",
+                    textDecoration: "bold",
+                  },
                 }}
               >
                 <Box
                   sx={{
                     display: { xs: "none", md: "flex" },
-                    opacity: "60%",
-                    "&:hover": {
-                      opacity: "100%",
-                      border: "black",
-                      textDecoration: "bold",
-                    },
                   }}
                 >
                   <Avatar
@@ -77,4 +81,4 @@ const MyComponent = ({ onItemClick }) => {
   );
 };
 
-export default MyComponent;
+export default CategoriesContainer;

@@ -405,7 +405,7 @@ const UserMainPage = () => {
                         >
                           <Typography variant="h6">Review:</Typography>
                           {product.reviews.userDonating ? (
-                            <IconButton color="success">
+                            <IconButton disableRipple color="success">
                               <CheckIcon />
                             </IconButton>
                           ) : (
@@ -479,7 +479,7 @@ const UserMainPage = () => {
                         >
                           <Typography variant="h6">Review:</Typography>
                           {product.reviews.userAdopting ? (
-                            <IconButton color="success">
+                            <IconButton disableRipple color="success">
                               <CheckIcon />
                             </IconButton>
                           ) : (

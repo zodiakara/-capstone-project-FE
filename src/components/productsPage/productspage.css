@@ -40,10 +40,18 @@ a:hover {
   position: absolute;
   background-color: white;
   flex-grow: 1;
-  padding-left: 2em;
-  border-radius: 10px;
+  border-radius: 4px;
 }
-.chatWindow {
+
+.searchProductsListItem {
+  padding: 0.75rem 1rem;
+}
+
+.searchProductsListItem:hover {
+  background-color: #eee;
+}
+
+/* .chatWindow {
   position: relative;
   bottom: -37px;
-}
+} */

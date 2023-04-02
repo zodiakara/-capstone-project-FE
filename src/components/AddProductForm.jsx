@@ -150,6 +150,7 @@ const AddProductForm = () => {
               onChange={(e) => {
                 setProductName(e.target.value);
               }}
+              inputProps={{ maxLength: 70 }}
             ></TextField>
             <TextField
               error={errors.productDescription}
@@ -249,16 +250,6 @@ const AddProductForm = () => {
       <Box
         sx={{ display: "flex", justifyContent: "center", marginY: "1em" }}
       ></Box>
-      {/* <Container
-        maxWidth
-        sx={{
-          backgroundColor: "white",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <img className="mainGraphic" alt="" src={graphic} />
-      </Container> */}
     </>
   );
 };
