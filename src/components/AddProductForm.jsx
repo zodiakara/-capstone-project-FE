@@ -19,16 +19,7 @@ const errorMessages = {
   description: "Description field should be at least 50 characters long.",
 };
 
-const categories = [
-  "Clothing",
-  "Kids Clothing",
-  "Toys",
-  "Household",
-  "Electronics",
-  "Garden",
-  "Pets",
-  "Other",
-];
+const categories = ["Clothing", "Toys", "Household", "Garden", "Pets", "Other"];
 
 const conditions = ["Used", "Slightly Used", "New"];
 const AddProductForm = () => {

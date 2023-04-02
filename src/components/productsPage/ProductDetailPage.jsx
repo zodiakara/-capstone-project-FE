@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import MyNavbar from "../MyNavbar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";

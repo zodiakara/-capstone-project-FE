@@ -1,31 +1,46 @@
-import React, { useState } from "react";
 import { Avatar, Box, Grid, Typography } from "@mui/material";
+
+import { Link } from "react-router-dom";
+
 import bulb from "../../assets/EcoBulb.png";
 import house from "../../assets/EcoHouse.png";
 import shirt from "../../assets/Tshirt.jpg";
 import plant from "../../assets/sprout.jpg";
 import dog from "../../assets/dog.png";
 import teddy from "../../assets/teddy.png";
+const categoriesListStyles = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: { md: "1rem", sm: "none" },
+  cursor: "pointer",
+  textAlign: "center",
+  opacity: "60%",
+  transition: "opacity 150ms",
+  "&:hover": {
+    opacity: "100%",
+    border: "black",
+    textDecoration: "bold",
+  },
+};
+
+const categories = [
+  { name: "Clothing", image: shirt, color: "#9bd19d" },
+  { name: "Toys", image: teddy, color: "#9e004d" },
+  { name: "Household", image: house, color: "#fbae42" },
+  { name: "Garden", image: plant, color: "#5f9f06" },
+  { name: "Pets", image: dog, color: "#fc665b" },
+  { name: "Other", image: bulb, color: "#afafaf" },
+];
 
 const CategoriesContainer = ({ onItemClick }) => {
-  const categories = [
-    { name: "Clothing", image: shirt, color: "#9bd19d" },
-    { name: "Toys", image: teddy, color: "#9e004d" },
-    { name: "Household", image: house, color: "#fbae42" },
-    { name: "Garden", image: plant, color: "#5f9f06" },
-    { name: "Pets", image: dog, color: "#fc665b" },
-    { name: "Other", image: bulb, color: "#afafaf" },
-  ];
   const handleClick = (category) => {
     onItemClick(category);
   };
 
   return (
     <Box sx={{ bgcolor: "#fff" }}>
-      <Box
-        sx={{ bgcolor: "#fff", margin: "0 auto", paddingTop: "2rem" }}
-        maxWidth="lg"
-      >
+      <Box sx={{ bgcolor: "#fff", margin: "0 auto" }} maxWidth="lg">
         <Grid container justifyContent="center">
           {categories.map((category) => (
             <Grid
@@ -43,26 +58,9 @@ const CategoriesContainer = ({ onItemClick }) => {
               <Box
                 key={category.name}
                 onClick={() => handleClick(category.name)}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  padding: { md: "1rem", sm: "none" },
-                  cursor: "pointer",
-                  textAlign: "center",
-                  opacity: "60%",
-                  "&:hover": {
-                    opacity: "100%",
-                    border: "black",
-                    textDecoration: "bold",
-                  },
-                }}
+                sx={categoriesListStyles}
               >
-                <Box
-                  sx={{
-                    display: { xs: "none", md: "flex" },
-                  }}
-                >
+                <Box sx={{ display: { xs: "none", md: "flex" } }}>
                   <Avatar
                     variant="rounded"
                     sx={{ height: "60px", width: "auto" }}
@@ -70,7 +68,6 @@ const CategoriesContainer = ({ onItemClick }) => {
                     alt={category.name}
                   />
                 </Box>
-
                 <Typography variant="h6">{category.name}</Typography>
               </Box>
             </Grid>

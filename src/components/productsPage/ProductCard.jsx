@@ -17,18 +17,12 @@ import { useSelector } from "react-redux";
 const ProductCard = (product) => {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const avatarLinkPath =
-    currentUser._id === product.owner._id
+    currentUser?._id === product.owner._id
       ? "/user"
       : `/users/${product.owner._id}`;
 
   return (
-    <Grid
-      item
-      // xs={12}
-      // md={4}
-      // lg={3}
-      sx={{ display: "flex", justifyContent: "center" }}
-    >
+    <Grid item sx={{ display: "flex", justifyContent: "center" }}>
       <Card sx={{ width: "357px" }}>
         <CardHeader
           avatar={

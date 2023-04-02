@@ -1,9 +1,10 @@
 const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 
-const getFilteredProducts = async (
-  selectedCategory,
-  filteredProductsSetter
-) => {
+const getFilteredProducts = async (selectedCategory, productsSetter) => {
+  const endpoint = selectedCategory
+    ? `${BE_URL}/products/search/?category=/${selectedCategory}/i&adopted=false`
+    : `${BE_URL}/products`;
+
   try {
     const config = {
       headers: new Headers({
@@ -11,13 +12,11 @@ const getFilteredProducts = async (
       }),
     };
 
-    const response = await fetch(
-      `${BE_URL}/products/search/?category=/${selectedCategory}/i&adopted=false`,
-      config
-    );
+    const response = await fetch(endpoint, config);
     if (response.ok) {
       const data = await response.json();
-      filteredProductsSetter?.(data);
+      productsSetter?.(data);
+      return data;
     }
   } catch (error) {
     console.log("error fetching data ... ", error);

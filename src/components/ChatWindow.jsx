@@ -92,7 +92,7 @@ const ChatWindow = (props) => {
   const sendMessage = () => {
     const newMessage = {
       sender: currentUser,
-      receiver: props.activeChat._id,
+      receiver: props.activeChat,
       content: {
         text: text,
       },
@@ -209,21 +209,18 @@ const ChatWindow = (props) => {
             flexDirection: "column",
           }}
         >
-          chat goes here
           {chatTabHistory.hasOwnProperty(props.activeChat._id) &&
             chatTabHistory[props.activeChat._id].map((message, index) => (
               <Box
                 key={index}
                 className={
-                  currentUser._id !== message.sender._id
+                  currentUser._id === message.sender._id
                     ? "message myMessage"
                     : "message userMessage"
                 }
               >
-                <Box>
-                  <Box>{message.sender.name}</Box>
-                  <Box>{message.content.text}</Box>
-                </Box>
+                {/* <Box>{message.sender.name}</Box> */}
+                <Box p={"8px"}>{message.content.text}</Box>
               </Box>
             ))}
         </Box>

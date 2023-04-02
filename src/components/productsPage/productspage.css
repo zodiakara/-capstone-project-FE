@@ -49,9 +49,10 @@ a:hover {
 
 .searchProductsListItem:hover {
   background-color: #eee;
+  transition: background-color 150ms;
 }
 
-/* .chatWindow {
-  position: relative;
-  bottom: -37px;
-} */
+.breadcrumbLink:hover {
+  color: #80caff;
+  transition: color 150ms;
+}
