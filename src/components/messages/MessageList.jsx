@@ -1,22 +1,21 @@
-import {
-  Avatar,
-  Badge,
-  Box,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import getUsers from "./api/getUsers";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import MessageListUser from "./MessageListUser";
+import { messagesActions } from "../../redux/reducers/messages/messagesSlice";
 
 const MessageList = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
+  const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+
+  const closeMessageList = () => {
+    dispatch(messagesActions.closeMessageList());
+  };
 
   useEffect(() => {
     getUsers(setUsers);
@@ -31,7 +30,7 @@ const MessageList = () => {
         boxShadow: "1px -3px 13px -1px rgba(195, 195, 195, 1)",
         overflow: "hidden",
         backgroundColor: "white",
-        zIndex: "10",
+        zIndex: 10,
       }}
     >
       <Box
@@ -67,7 +66,7 @@ const MessageList = () => {
             Messaging
           </Typography>
         </Box>
-        <IconButton>
+        <IconButton onClick={closeMessageList}>
           <CloseIcon />
         </IconButton>
       </Box>

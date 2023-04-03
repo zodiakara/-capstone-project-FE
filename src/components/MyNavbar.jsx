@@ -1,39 +1,44 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import { AllInclusive } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/reducers/auth/userAuthSlice";
 import { Link, NavLink } from "react-router-dom";
 import { productActions } from "../redux/reducers/products/productsSlice";
-import { Badge } from "@mui/material";
-import { PopperUnstyled } from "@mui/base";
+import {
+  Badge,
+  MenuItem,
+  Tooltip,
+  Button,
+  Avatar,
+  IconButton,
+  Typography,
+  AppBar,
+  Box,
+  Toolbar,
+  Menu,
+  Container,
+} from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import classes from "./MyNavbar.module.css";
-import MessageList from "./messages/MessageList";
-import { useState } from "react";
+
 import { messagesActions } from "../redux/reducers/messages/messagesSlice";
+
+const navItemStyle = {
+  "&:hover": {
+    backgroundColor: "transparent",
+    textShadow: "1px 1px 5px rgba(255, 255, 255, 0.5);",
+  },
+};
 
 function MyNavbar() {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [messages, setMessages] = useState(false);
   const dispatch = useDispatch();
-  const messageBox = useSelector((state) => state.messages.messageList);
+
   const handleOpenMessages = () => {
-    // dispatch(messagesActions.openMessageBox)
-    setMessages((prevOpen) => !prevOpen);
+    dispatch(messagesActions.openMessageList());
   };
 
   const handleOpenNavMenu = (event) => {
@@ -54,6 +59,7 @@ function MyNavbar() {
   const handleLogout = () => {
     dispatch(authActions.logout());
     dispatch(productActions.removeProductImage());
+    dispatch(messagesActions.setActiveChat({}));
   };
 
   return (
@@ -64,23 +70,26 @@ function MyNavbar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AllInclusive sx={{ display: { xs: "none", md: "flex" } }} />
-          <Typography
-            variant="h6"
-            noWrap
-            href="/"
-            sx={{
-              mx: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            s<span style={{ letterSpacing: ".3rem" }}>wapp</span>
-          </Typography>
+          <Link to="/">
+            <Box display="flex" alignItems="center" color="#000">
+              <AllInclusive sx={{ display: { xs: "none", md: "flex" } }} />
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mx: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                s<span style={{ letterSpacing: ".3rem" }}>wapp</span>
+              </Typography>
+            </Box>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -97,6 +106,7 @@ function MyNavbar() {
               className={classes.smallToolbar}
               id="menu-appbar"
               anchorEl={anchorElNav}
+              disableScrollLock={true}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
@@ -174,7 +184,12 @@ function MyNavbar() {
             }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <MenuItem onClick={handleCloseNavMenu}>
+            <MenuItem
+              onClick={handleCloseNavMenu}
+              disableRipple={true}
+              disableTouchRipple={true}
+              sx={navItemStyle}
+            >
               <NavLink
                 to="/"
                 className={({ isActive }) =>
@@ -184,7 +199,12 @@ function MyNavbar() {
                 <Typography textAlign="center">Home</Typography>
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleCloseNavMenu}>
+            <MenuItem
+              onClick={handleCloseNavMenu}
+              disableRipple={true}
+              disableTouchRipple={true}
+              sx={navItemStyle}
+            >
               <NavLink
                 to="/products"
                 className={({ isActive }) =>
@@ -194,7 +214,12 @@ function MyNavbar() {
                 <Typography textAlign="center">Products</Typography>
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleCloseNavMenu}>
+            <MenuItem
+              onClick={handleCloseNavMenu}
+              disableRipple={true}
+              disableTouchRipple={true}
+              sx={navItemStyle}
+            >
               <NavLink
                 to="/community"
                 className={({ isActive }) =>
@@ -205,7 +230,12 @@ function MyNavbar() {
                 <Typography textAlign="center">Community</Typography>
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleCloseNavMenu}>
+            <MenuItem
+              onClick={handleCloseNavMenu}
+              disableRipple={true}
+              disableTouchRipple={true}
+              sx={navItemStyle}
+            >
               <NavLink
                 to="/info"
                 className={({ isActive }) =>
@@ -228,18 +258,6 @@ function MyNavbar() {
                   <Badge badgeContent={0} color="primary">
                     <MailOutlineIcon />
                   </Badge>
-                  <PopperUnstyled
-                    style={{
-                      position: "fixed",
-                      bottom: 0,
-                      right: "1.5rem",
-                      top: "unset",
-                      left: "unset",
-                    }}
-                    open={messages}
-                  >
-                    <MessageList />
-                  </PopperUnstyled>
                 </IconButton>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 1 }}>
@@ -274,6 +292,7 @@ function MyNavbar() {
                 vertical: "top",
                 horizontal: "right",
               }}
+              disableScrollLock
               keepMounted
               transformOrigin={{
                 vertical: "top",

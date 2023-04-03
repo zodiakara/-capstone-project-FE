@@ -1,28 +1,34 @@
-import { Avatar, IconButton, TextField, Typography } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import "./ChatWindow.css";
 import { io } from "socket.io-client";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { messagesActions } from "../../redux/reducers/messages/messagesSlice";
 
 const socket = io(process.env.REACT_APP_BE_DEV_URL, {
   transports: ["websocket"],
 });
 
-const ChatWindow = (props) => {
+const ChatWindow = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [text, setText] = useState("");
   const [clientId, setClientId] = useState("");
   const [chatTabHistory, setChatTabHistory] = useState({});
   const [latestChat, setLatestChat] = useState({});
-
   const currentUser = useSelector((state) => state.auth.userInfo);
-
+  const activeChat = useSelector((state) => state.messages.activeChat);
+  const dispatch = useDispatch();
   const resetFormValue = () => setText("");
+
+  const handleCloseBox = () => {
+    dispatch(messagesActions.closeMessageBox());
+    dispatch(messagesActions.setActiveChat({}));
+  };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -67,8 +73,8 @@ const ChatWindow = (props) => {
       obj[newMessage.sender._id] = newMessage.content.text;
       setLatestChat({ ...obj });
       setChatTabHistory({ ...newObj });
-      if (props.activeChat._id !== newMessage.sender._id) {
-        props.setActiveChat(newMessage.sender);
+      if (activeChat._id !== newMessage.sender._id) {
+        dispatch(messagesActions.setActiveChat(newMessage.sender));
       }
     });
 
@@ -89,17 +95,16 @@ const ChatWindow = (props) => {
   }, [chatTabHistory, latestChat]);
 
   useEffect(() => {
-    fetchChatHistory(props.activeChat._id);
+    fetchChatHistory(activeChat._id);
   }, []);
 
   const sendMessage = () => {
     const newMessage = {
       sender: currentUser,
-      receiver: props.activeChat,
+      receiver: activeChat,
       content: {
         text: text,
       },
-      timestamp: new Date().getTime(),
     };
     socket.emit("sendMessage", newMessage);
     console.log(newMessage);
@@ -168,9 +173,9 @@ const ChatWindow = (props) => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", padding: "4px" }}>
-            <Link to={`/users/${props.activeChat._id}`}>
+            <Link to={activeChat ? `/users/${activeChat._id}` : "/users"}>
               <Avatar
-                src={props.activeChat.avatar}
+                src={activeChat ? activeChat.avatar : ""}
                 sx={{
                   border: "0.1px solid grey",
                 }}
@@ -178,14 +183,15 @@ const ChatWindow = (props) => {
             </Link>
             <Box>
               <Stack direction="row">
-                <Link to={`/users/${props.activeChat._id}`}>
+                <Link to={activeChat ? `/users/${activeChat._id}` : "/users"}>
                   <Typography>
-                    {props.activeChat.name} {props.activeChat.surname}{" "}
+                    {activeChat ? activeChat.name : ""}{" "}
+                    {activeChat ? activeChat.surname : ""}{" "}
                   </Typography>
                 </Link>
               </Stack>
               <Stack direction="row" sx={{ fontStyle: "italic" }}>
-                {props.activeChat ? (
+                {activeChat ? (
                   <Typography variant="body2">active</Typography>
                 ) : (
                   <Typography></Typography>
@@ -194,7 +200,7 @@ const ChatWindow = (props) => {
             </Box>
           </Box>
           <IconButton
-            onClick={props.handleClosePopper}
+            onClick={handleCloseBox}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -213,10 +219,11 @@ const ChatWindow = (props) => {
             display: "flex",
             padding: "8px",
             flexDirection: "column",
+            overflowY: "scroll",
           }}
         >
-          {chatTabHistory.hasOwnProperty(props.activeChat._id) &&
-            chatTabHistory[props.activeChat._id].map((message, index) => (
+          {chatTabHistory.hasOwnProperty(activeChat._id) &&
+            chatTabHistory[activeChat._id].map((message, index) => (
               <Box
                 key={index}
                 className={
@@ -225,7 +232,6 @@ const ChatWindow = (props) => {
                     : "message userMessage"
                 }
               >
-                {/* <Box>{message.sender.name}</Box> */}
                 <Box p={"8px"}>{message.content.text}</Box>
               </Box>
             ))}

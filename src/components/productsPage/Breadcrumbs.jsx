@@ -18,7 +18,10 @@ export default function Breadcrumbs(props) {
               <Typography className="breadcrumbLink">Products</Typography>
             </Link>
             {selectedCategory ? (
-              <Link color="inherit" to={`/products/${selectedCategory}`}>
+              <Link
+                color="inherit"
+                to={`/products?category=${selectedCategory}`}
+              >
                 <Typography className="breadcrumbLink">
                   {selectedCategory}
                 </Typography>

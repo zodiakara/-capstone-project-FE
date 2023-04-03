@@ -16,16 +16,21 @@
   border: solid rgb(200, 195, 195) 0.5px;
 }
 .message {
-  padding-right: 4px;
-  overflow: hidden;
   margin-bottom: 4px;
   display: flex;
-  width: 100%;
+  flex-wrap: wrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+.message > div {
+  border-radius: 16px;
 }
 .myMessage {
   justify-content: end;
 }
 .myMessage > div {
-  border-radius: 16px;
   background-color: rgb(200, 195, 195);
+}
+.userMessage > div {
+  border: 0.2px solid rgb(200, 195, 195);
 }

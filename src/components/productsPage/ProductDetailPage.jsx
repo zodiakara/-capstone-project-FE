@@ -2,7 +2,6 @@ import {
   Alert,
   AlertTitle,
   Avatar,
-  Breadcrumbs,
   Button,
   ButtonGroup,
   Container,
@@ -15,13 +14,14 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import MyNavbar from "../MyNavbar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-
 import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 import ProductModal from "./ProductModal";
 import "./productspage.css";
-import ChatWindow from "../messages/ChatWindow";
-import { PopperUnstyled } from "@mui/base";
+
+import Breadcrumbs from "./Breadcrumbs";
+
+import { messagesActions } from "../../redux/reducers/messages/messagesSlice";
 
 const ProductDetailPage = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
@@ -32,9 +32,6 @@ const ProductDetailPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { productId } = params;
-  const [activeChat, setActiveChat] = useState({});
-
-  const [popper, setOpenPopper] = useState(false);
 
   useEffect(() => {
     getProduct();
@@ -71,38 +68,15 @@ const ProductDetailPage = () => {
   const handleCloseModal = () => {
     setOpen(false);
   };
-  const handleOpenPopper = () => {
-    setOpenPopper((prevOpen) => !prevOpen);
-    setActiveChat(product.owner);
-  };
-  const handleClosePopper = (event) => {
-    setOpenPopper(false);
-    setActiveChat({});
+  const handleOpenMessageBox = () => {
+    dispatch(messagesActions.openMessageBox());
+    dispatch(messagesActions.setActiveChat(product.owner));
   };
 
   return (
     <>
       <MyNavbar />
-      <Box
-        sx={{
-          flexGrow: 1,
-          display: { xs: "none", md: "flex" },
-          marginLeft: "1rem",
-        }}
-      >
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" to="/">
-            Home
-          </Link>
-          <Link color="inherit" to="/products">
-            Products
-          </Link>
-
-          <Link color="inherit" to={`/products/${product.category}`}>
-            {product.category}
-          </Link>
-        </Breadcrumbs>
-      </Box>
+      <Breadcrumbs selectedCategory={product.category} />
       <Container
         sx={{
           marginTop: "2rem",
@@ -223,7 +197,7 @@ const ProductDetailPage = () => {
                 <>
                   <ButtonGroup>
                     <Button
-                      onClick={handleOpenPopper}
+                      onClick={handleOpenMessageBox}
                       variant="outlined"
                       color="warning"
                       disabled={currentUser ? false : true}
@@ -244,22 +218,6 @@ const ProductDetailPage = () => {
                     handleClose={handleCloseModal}
                     handleAdoptProduct={handleAdoptProduct}
                   />
-                  <PopperUnstyled
-                    open={popper}
-                    style={{
-                      position: "fixed",
-                      bottom: 0,
-                      right: "2.5rem",
-                      top: "unset",
-                      left: "unset",
-                    }}
-                  >
-                    <ChatWindow
-                      handleClosePopper={handleClosePopper}
-                      activeChat={activeChat}
-                      setActiveChat={setActiveChat}
-                    />
-                  </PopperUnstyled>
                 </>
               )}
             </Stack>

@@ -1,29 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllUsers } from "./messagesActions";
+import { getActiveUserMessages } from "./messagesActions";
 
 const initialState = {
   messageList: false,
+  messageBox: false,
   chatTabList: [],
   loading: false,
+  activeChat: {},
 };
 
 const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
-    openMessageBox: (state) => {
+    openMessageList: (state) => {
       state.messageList = true;
     },
-    closeMessageBox: (state) => {
+    closeMessageList: (state) => {
       state.messageList = false;
+    },
+    openMessageBox: (state) => {
+      state.messageBox = true;
+    },
+    closeMessageBox: (state) => {
+      state.messageBox = false;
+    },
+    setActiveChat: (state, action) => {
+      state.activeChat = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAllUsers.pending, (state) => {
+      .addCase(getActiveUserMessages.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getAllUsers.fulfilled, (state) => {
+      .addCase(getActiveUserMessages.fulfilled, (state) => {
         state.loading = false;
       });
   },

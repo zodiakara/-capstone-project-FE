@@ -1,7 +1,15 @@
 import { Avatar, Badge, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { messagesActions } from "../../redux/reducers/messages/messagesSlice";
+import { useDispatch } from "react-redux";
 
 const MessageListUser = ({ user }) => {
+  const dispatch = useDispatch();
+  const openChatbox = () => {
+    dispatch(messagesActions.setActiveChat(user));
+    dispatch(messagesActions.openMessageBox());
+  };
+
   return (
     <Box
       sx={{
@@ -25,9 +33,7 @@ const MessageListUser = ({ user }) => {
           </Badge>
         </Link>
       </Box>
-      <Box
-      // sx={{ borderBottom: "solid lightgrey 0.1px", flexGrow: "1" }}
-      >
+      <Box onClick={openChatbox}>
         <Box p={"4px"} sx={{ display: "flex", flexDirection: "column" }}>
           <Typography sx={{ pr: "4px" }} variant="body2">
             {user.name} {user.surname}

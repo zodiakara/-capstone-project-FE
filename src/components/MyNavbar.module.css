@@ -8,21 +8,16 @@
 .navbar a,
 .smallToolbar a {
   text-decoration: none;
-  color: rgb(54, 54, 54);
+  color: rgb(78, 77, 77);
 }
 .navbar a.active,
 .navbar a:hover,
 .smallToolbar a.active,
 .smallToolbar a:hover {
   color: black;
-  text-decoration: underline;
+  font-weight: bolder;
 }
-/* .navbar:first-child {
-  padding-left: 1em;
-}
-.navbar:last-child {
-  padding-right: 1em;
-} */
+
 .footer {
   color: black;
   text-decoration: bold;
