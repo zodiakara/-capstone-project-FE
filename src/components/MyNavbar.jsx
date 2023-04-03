@@ -16,20 +16,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/reducers/auth/userAuthSlice";
 import { Link, NavLink } from "react-router-dom";
 import { productActions } from "../redux/reducers/products/productsSlice";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Badge, InputAdornment, TextField } from "@mui/material";
+import { Badge } from "@mui/material";
+import { PopperUnstyled } from "@mui/base";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import classes from "./MyNavbar.module.css";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import SearchBar from "./productsPage/SearchBar";
-
-const pages = ["Home", "Products", "Community", "Our Goal"];
-const settings = ["My profile", "Profile settings", "Logout"];
+import MessageList from "./MessageList";
+import { useState } from "react";
+import { messagesActions } from "../redux/reducers/messages/messagesSlice";
 
 function MyNavbar() {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [messages, setMessages] = useState(false);
   const dispatch = useDispatch();
+  const messageBox = useSelector((state) => state.messages.messageList);
+  const handleOpenMessages = () => {
+    // dispatch(messagesActions.openMessageBox)
+    setMessages((prevOpen) => !prevOpen);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -216,10 +221,25 @@ function MyNavbar() {
           <Box sx={{ flexGrow: 0 }}>
             {currentUser ? (
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <IconButton className="notificationsIcon">
+                <IconButton
+                  className="notificationsIcon"
+                  onClick={handleOpenMessages}
+                >
                   <Badge badgeContent={5} color="primary">
-                    <NotificationsIcon />
+                    <MailOutlineIcon />
                   </Badge>
+                  <PopperUnstyled
+                    style={{
+                      position: "fixed",
+                      bottom: 0,
+                      right: "2.5rem",
+                      top: "unset",
+                      left: "unset",
+                    }}
+                    open={messages}
+                  >
+                    <MessageList />
+                  </PopperUnstyled>
                 </IconButton>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 1 }}>

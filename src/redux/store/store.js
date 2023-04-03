@@ -5,6 +5,7 @@ import { encryptTransform } from "redux-persist-transform-encrypt";
 
 import storage from "redux-persist/lib/storage";
 import productsSlice from "../reducers/products/productsSlice.js";
+import messagesSlice from "../reducers/messages/messagesSlice.js";
 
 const persistConfig = {
   key: "root",
@@ -22,6 +23,7 @@ const persistConfig = {
 const bigReducer = combineReducers({
   auth: authSlice,
   product: productsSlice,
+  messages: messagesSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);

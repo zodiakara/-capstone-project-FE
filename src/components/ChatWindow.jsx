@@ -67,6 +67,9 @@ const ChatWindow = (props) => {
       obj[newMessage.sender._id] = newMessage.content.text;
       setLatestChat({ ...obj });
       setChatTabHistory({ ...newObj });
+      if (props.activeChat._id !== newMessage.sender._id) {
+        props.setActiveChat(newMessage.sender);
+      }
     });
 
     socket.on("messageError", (error) => {
@@ -96,6 +99,7 @@ const ChatWindow = (props) => {
       content: {
         text: text,
       },
+      timestamp: new Date().getTime(),
     };
     socket.emit("sendMessage", newMessage);
     console.log(newMessage);
@@ -128,7 +132,9 @@ const ChatWindow = (props) => {
       const response = await fetch(`${BE_URL}/messages/user/${id}`, config);
       if (response.ok) {
         const data = await response.json();
-        setChatTabHistory(data);
+        const obj = { ...chatTabHistory };
+        obj[id] = data;
+        setChatTabHistory(obj);
         console.log("fetchChatHistory success");
       } else {
         console.log(response);

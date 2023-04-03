@@ -14,7 +14,8 @@ import { Grid } from "@mui/material";
 
 import { useSelector } from "react-redux";
 
-const ProductCard = (product) => {
+const ProductCard = (props) => {
+  const { product } = props;
   const currentUser = useSelector((state) => state.auth.userInfo);
   const avatarLinkPath =
     currentUser?._id === product.owner._id

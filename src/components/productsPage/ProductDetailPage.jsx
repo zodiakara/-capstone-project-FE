@@ -257,6 +257,7 @@ const ProductDetailPage = () => {
                     <ChatWindow
                       handleClosePopper={handleClosePopper}
                       activeChat={activeChat}
+                      setActiveChat={setActiveChat}
                     />
                   </PopperUnstyled>
                 </>

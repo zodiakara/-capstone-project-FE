@@ -56,7 +56,7 @@ const ProductsPage = () => {
             }}
           >
             {products.map((product) => (
-              <ProductCard key={product._id} {...product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </Grid>
         </Box>

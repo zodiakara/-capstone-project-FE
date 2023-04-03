@@ -1,4 +1,3 @@
-import { NotificationAdd } from "@mui/icons-material";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const BE_URL = process.env.REACT_APP_BE_DEV_URL;
