@@ -23,9 +23,8 @@ const messagesSlice = createSlice({
       .addCase(getAllUsers.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getAllUsers.fulfilled, (state, action) => {
+      .addCase(getAllUsers.fulfilled, (state) => {
         state.loading = false;
-        state.chatTabList = action.payload;
       });
   },
 });

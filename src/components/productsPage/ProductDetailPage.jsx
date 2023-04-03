@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { adoptProductAction } from "../../redux/reducers/products/productSliceActions";
 import ProductModal from "./ProductModal";
 import "./productspage.css";
-import ChatWindow from "../ChatWindow";
+import ChatWindow from "../messages/ChatWindow";
 import { PopperUnstyled } from "@mui/base";
 
 const ProductDetailPage = () => {

@@ -20,7 +20,7 @@ import { Badge } from "@mui/material";
 import { PopperUnstyled } from "@mui/base";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import classes from "./MyNavbar.module.css";
-import MessageList from "./MessageList";
+import MessageList from "./messages/MessageList";
 import { useState } from "react";
 import { messagesActions } from "../redux/reducers/messages/messagesSlice";
 
@@ -225,14 +225,14 @@ function MyNavbar() {
                   className="notificationsIcon"
                   onClick={handleOpenMessages}
                 >
-                  <Badge badgeContent={5} color="primary">
+                  <Badge badgeContent={0} color="primary">
                     <MailOutlineIcon />
                   </Badge>
                   <PopperUnstyled
                     style={{
                       position: "fixed",
                       bottom: 0,
-                      right: "2.5rem",
+                      right: "1.5rem",
                       top: "unset",
                       left: "unset",
                     }}
@@ -243,7 +243,13 @@ function MyNavbar() {
                 </IconButton>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 1 }}>
-                    <Avatar alt="" src={currentUser.avatar} />
+                    <Avatar
+                      alt=""
+                      src={currentUser.avatar}
+                      sx={{
+                        border: "0.1px solid grey",
+                      }}
+                    />
                   </IconButton>
                 </Tooltip>
               </Box>
