@@ -21,6 +21,7 @@ import ChatWindow from "./components/messages/ChatWindow";
 function App() {
   const messageList = useSelector((state) => state.messages.messageList);
   const messageBox = useSelector((state) => state.messages.messageBox);
+  const currentUser = useSelector((state) => state.auth.userInfo);
   return (
     <BrowserRouter>
       <Routes>
@@ -38,7 +39,7 @@ function App() {
         <Route path="/users/:userId" element={<GenericUserPage />} />
         <Route path="/info" element={<InfoPage />} />
       </Routes>
-      {messageList && (
+      {currentUser && messageList && (
         <PopperUnstyled
           style={{
             position: "fixed",

@@ -60,6 +60,8 @@ function MyNavbar() {
     dispatch(authActions.logout());
     dispatch(productActions.removeProductImage());
     dispatch(messagesActions.setActiveChat({}));
+    dispatch(messagesActions.closeMessageBox());
+    dispatch(messagesActions.closeMessageList());
   };
 
   return (
