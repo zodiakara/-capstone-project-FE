@@ -4,33 +4,30 @@
 }
 
 .messageBoxInput {
-  display: flex;
-  flex-wrap: wrap;
-  flex-grow: 1;
   border-radius: 50px;
   border: solid rgb(200, 195, 195) 0.5px;
   height: 1.5rem;
   padding-left: 1rem;
+  width: 250px;
 }
-.messageBoxInput:checked {
-  border: solid rgb(200, 195, 195) 0.5px;
+.messageBoxInput:focus {
+  outline: none;
 }
 .message {
   margin-bottom: 4px;
   display: flex;
-  flex-wrap: wrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 .message > div {
   border-radius: 16px;
+  max-width: 175px;
+  word-break: break-word;
 }
 .myMessage {
   justify-content: end;
 }
 .myMessage > div {
-  background-color: rgb(200, 195, 195);
+  background-color: rgb(212, 212, 212);
 }
 .userMessage > div {
-  border: 0.2px solid rgb(200, 195, 195);
+  border: 0.2px solid rgb(212, 212, 212);
 }

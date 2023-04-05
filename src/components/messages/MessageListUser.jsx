@@ -1,12 +1,21 @@
 import { Avatar, Badge, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { messagesActions } from "../../redux/reducers/messages/messagesSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const MessageListUser = ({ user }) => {
+  function createRoomId(user1, user2) {
+    if (user1 < user2) return `${user1},${user2}`;
+    else return `${user2},${user1}`;
+  }
   const dispatch = useDispatch();
+  const currentUserId = useSelector((state) => state.auth.userInfo._id);
   const openChatbox = () => {
-    dispatch(messagesActions.setActiveChat(user));
+    let editableUser = { user };
+    console.log(editableUser);
+    let room = createRoomId(editableUser.user._id, currentUserId);
+    editableUser.roomId = room;
+    dispatch(messagesActions.setActiveChat(editableUser));
     dispatch(messagesActions.openMessageBox());
   };
 

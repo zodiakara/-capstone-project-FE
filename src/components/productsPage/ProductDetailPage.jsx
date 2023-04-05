@@ -69,8 +69,7 @@ const ProductDetailPage = () => {
     setOpen(false);
   };
   const handleOpenMessageBox = () => {
-    dispatch(messagesActions.openMessageBox());
-    dispatch(messagesActions.setActiveChat(product.owner));
+    dispatch(messagesActions.openMessageList());
   };
 
   return (
@@ -226,7 +225,7 @@ const ProductDetailPage = () => {
       </Container>
       {alert ? (
         <Alert onClose={() => setAlert(false)} severity="success">
-          <AlertTitle>Success!!</AlertTitle>Congratulations, You've succesfully
+          <AlertTitle>Success!!</AlertTitle>Congratulations, You've successfully
           adopted a product with id "{product._id}"!
         </Alert>
       ) : null}

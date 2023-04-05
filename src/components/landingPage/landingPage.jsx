@@ -92,12 +92,12 @@ function HomePage() {
         <br></br>
         Welcome to swAPP!!
       </Typography>
-      <Typography variant="body2" sx={{ textDecoration: "justify" }}>
+      {/* <Typography variant="body2" sx={{ textDecoration: "justify" }}>
         Swapp is a mobile application that aims to promote sustainability and
         community building by allowing users to swap products in various
         categories while also providing a platform for social interaction and
         engagement.
-      </Typography>
+      </Typography> */}
 
       <Box
         sx={{
@@ -134,7 +134,7 @@ function HomePage() {
     <>
       <MyNavbar />
       <Container
-        maxWidth="lg"
+        maxWidth
         sx={{
           display: "flex",
           justifyContent: "space-around",

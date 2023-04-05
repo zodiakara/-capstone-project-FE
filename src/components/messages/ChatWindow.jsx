@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Avatar, Badge, IconButton, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
@@ -17,13 +17,19 @@ const socket = io(process.env.REACT_APP_BE_DEV_URL, {
 const ChatWindow = () => {
   const BE_URL = process.env.REACT_APP_BE_DEV_URL;
   const [text, setText] = useState("");
-  const [clientId, setClientId] = useState("");
+
   const [chatTabHistory, setChatTabHistory] = useState({});
   const [latestChat, setLatestChat] = useState({});
   const currentUser = useSelector((state) => state.auth.userInfo);
-  const activeChat = useSelector((state) => state.messages.activeChat);
+  const activeChat = useSelector((state) => state.messages.activeChat.user);
+  const roomId = useSelector((state) => state.messages.activeChat.roomId);
+
   const dispatch = useDispatch();
   const resetFormValue = () => setText("");
+
+  useEffect(() => {
+    socket.emit("join-room", roomId);
+  }, [roomId]);
 
   const handleCloseBox = () => {
     dispatch(messagesActions.closeMessageBox());
@@ -40,22 +46,19 @@ const ChatWindow = () => {
   };
 
   const onKeyDownHandler = (event) => {
-    if (event.code === "Enter") {
+    if (text && event.code === "Enter") {
       sendMessage();
     }
   };
 
+  const onClickHandler = () => {
+    if (text) {
+      sendMessage();
+      resetFormValue();
+    }
+  };
+
   useEffect(() => {
-    socket.on("welcome", (clientId) => {
-      console.log("welcome", clientId);
-      setClientId(clientId);
-
-      socket.emit("auth", {
-        accessToken: localStorage.getItem("accessToken"),
-        refreshToken: localStorage.getItem("refreshToken"),
-      });
-    });
-
     socket.on("newMessage", (newMessage) => {
       console.log("newMessage:", newMessage);
       const newObj = chatTabHistory;
@@ -87,7 +90,6 @@ const ChatWindow = () => {
     });
 
     return () => {
-      socket.off("welcome");
       socket.off("newMessage");
       socket.off("messageError");
       socket.off("accept");
@@ -106,7 +108,7 @@ const ChatWindow = () => {
         text: text,
       },
     };
-    socket.emit("sendMessage", newMessage);
+    socket.emit("sendMessage", newMessage, roomId);
     console.log(newMessage);
 
     const newObj = chatTabHistory;
@@ -165,23 +167,30 @@ const ChatWindow = () => {
           sx={{
             display: "flex",
             backgroundColor: ["#80CAFF"],
-            zIndex: "1",
             height: "40px",
             justifyContent: "space-between",
-            width: "300px",
-            padding: "4px",
+            width: "310px",
+            padding: "8px",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", padding: "4px" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Link to={activeChat ? `/users/${activeChat._id}` : "/users"}>
-              <Avatar
-                src={activeChat ? activeChat.avatar : ""}
-                sx={{
-                  border: "0.1px solid grey",
-                }}
-              />
+              <Badge
+                badgeContent={0}
+                overlap="circular"
+                color="success"
+                variant="dot"
+                showZero
+              >
+                <Avatar
+                  src={activeChat ? activeChat.avatar : ""}
+                  sx={{
+                    border: "0.1px solid grey",
+                  }}
+                />
+              </Badge>
             </Link>
-            <Box>
+            <Box ml={"5px"}>
               <Stack direction="row">
                 <Link to={activeChat ? `/users/${activeChat._id}` : "/users"}>
                   <Typography>
@@ -215,8 +224,6 @@ const ChatWindow = () => {
           sx={{
             height: "280px",
             backgroundColor: "white",
-            zIndex: "0",
-            display: "flex",
             padding: "8px",
             flexDirection: "column",
             overflowY: "scroll",
@@ -243,8 +250,8 @@ const ChatWindow = () => {
             display: "flex",
             backgroundColor: "white",
             height: "40px",
-            justifyContent: "space-between",
-            padding: "4px",
+            justifyContent: "stretch",
+            padding: "8px",
           }}
         >
           <Box className="messageBoxWrapper">
@@ -256,7 +263,7 @@ const ChatWindow = () => {
               placeholder="Aa"
             ></input>
           </Box>
-          <IconButton>
+          <IconButton onClick={onClickHandler}>
             <SendIcon />
           </IconButton>
         </Box>
