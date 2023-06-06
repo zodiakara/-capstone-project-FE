@@ -125,9 +125,7 @@ const UserEditPage = () => {
                   required
                   id="filled-required"
                   label="first name"
-                  defaultValue={
-                    currentUser.name ? currentUser.name : name || ""
-                  }
+                  value={currentUser.name ? currentUser.name : name || ""}
                   onChange={(e) => {
                     setUserName(e.target.value);
                   }}
@@ -136,7 +134,7 @@ const UserEditPage = () => {
                   required
                   id="filled-required"
                   label="last name"
-                  defaultValue={
+                  value={
                     currentUser.surname ? currentUser.surname : surname || ""
                   }
                   onChange={(e) => {
@@ -147,7 +145,7 @@ const UserEditPage = () => {
               <Stack direction="row" spacing={4} my={2}>
                 <TextField
                   label="Birth date"
-                  defaultValue={
+                  value={
                     currentUser.birthDate
                       ? currentUser.birthDate
                       : birthDate || ""
@@ -176,18 +174,14 @@ const UserEditPage = () => {
               <Stack direction="row" spacing={4} my={2}>
                 <TextField
                   label="Email"
-                  defaultValue={
-                    currentUser.email ? currentUser.email : email || ""
-                  }
+                  value={currentUser.email ? currentUser.email : email || ""}
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
                 ></TextField>
                 <TextField
                   label="Phone"
-                  defaultValue={
-                    currentUser.phone ? currentUser.phone : phone || ""
-                  }
+                  value={currentUser.phone ? currentUser.phone : ""}
                   onChange={(e) => {
                     setPhone(e.target.value);
                   }}
@@ -201,9 +195,8 @@ const UserEditPage = () => {
               <Stack direction="row" spacing={4} my={2}>
                 <TextField
                   label="Street"
-                  v
-                  defaultValue={
-                    currentUser.address.street
+                  value={
+                    currentUser.address
                       ? currentUser.address.street
                       : street || ""
                   }
@@ -213,11 +206,7 @@ const UserEditPage = () => {
                 ></TextField>
                 <TextField
                   label="Number"
-                  defaultValue={
-                    currentUser.address.number
-                      ? currentUser.address.number
-                      : number || ""
-                  }
+                  value={currentUser.address ? currentUser.address.number : ""}
                   onChange={(e) => {
                     setNumber(e.target.value);
                   }}
@@ -226,22 +215,14 @@ const UserEditPage = () => {
               <Stack direction="row" spacing={4} my={2}>
                 <TextField
                   label="City"
-                  defaultValue={
-                    currentUser.address.City
-                      ? currentUser.address.City
-                      : city || ""
-                  }
+                  value={currentUser.address ? currentUser.address.City : ""}
                   onChange={(e) => {
                     setCity(e.target.value);
                   }}
                 ></TextField>
                 <TextField
                   label="ZIP"
-                  defaultValue={
-                    currentUser.address.zip
-                      ? currentUser.address.zip
-                      : zip || ""
-                  }
+                  value={currentUser.address ? currentUser.address.zip : ""}
                   onChange={(e) => {
                     setZip(e.target.value);
                   }}
@@ -288,7 +269,7 @@ const UserEditPage = () => {
               <TextField
                 label="bio"
                 variant="standard"
-                defaultValue={currentUser ? currentUser.bio : bio || ""}
+                value={currentUser ? currentUser.bio : ""}
                 onChange={(e) => {
                   setBio(e.target.value);
                 }}

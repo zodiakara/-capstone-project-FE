@@ -185,9 +185,12 @@ const UserMainPage = () => {
               <Stack direction="row" color="text.secondary">
                 <PlaceIcon />
                 <Typography sx={{ marginTop: "0.25em" }}>
-                  {" "}
-                  {currentUser.address.City}, {currentUser.address.street}{" "}
-                  {currentUser.address.number}
+                  {/* {" "}
+                  {currentUser.address.City
+                    ? currentUser.address.City
+                    : ""},{" "}
+                  {currentUser.address.street ? currentUser.address.street : ""}{" "}
+                  {currentUser.address.number ? currentUser.address.number : ""} */}
                 </Typography>
               </Stack>
               <Stack>

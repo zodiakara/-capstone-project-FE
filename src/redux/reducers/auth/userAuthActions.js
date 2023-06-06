@@ -129,7 +129,6 @@ export const updateUserInfo = createAsyncThunk(
         body: JSON.stringify(data),
         headers: new Headers({
           "Content-Type": "application/json",
-          // Authorization: "Bearer " + accessToken,
         }),
       };
       const response = await fetch(`${BE_URL}/users/${userId}`, config);
