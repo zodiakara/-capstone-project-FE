@@ -11,7 +11,6 @@ import { useState } from "react";
 import MyNavbar from "../MyNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-
 import {
   getCurrentUser,
   updateUserInfo,
@@ -23,63 +22,48 @@ import { Link } from "react-router-dom";
 const UserEditPage = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const dispatch = useDispatch();
-  const [name, setUserName] = useState("");
-  const [surname, setUserSurname] = useState("");
-  const [birthDate, setUserBirthdate] = useState("");
-  const [gender, setUserGender] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [street, setStreet] = useState("");
-  const [number, setNumber] = useState(null);
-  const [city, setCity] = useState("");
-  const [zip, setZip] = useState("");
-  const [bio, setBio] = useState("");
 
-  const handleUserUpdate = () => {
-    const userObject = {};
-    if (name) {
-      userObject.name = name;
-    }
-    if (surname) {
-      userObject.surname = surname;
-    }
-    if (birthDate) {
-      userObject.birthDate = birthDate;
-    }
-    if (gender) {
-      userObject.gender = gender;
-    }
-    if (phone) {
-      userObject.phone = phone;
-    }
-    if (street) {
-      userObject.street = street;
-    }
-    if (number) {
-      userObject.number = number;
-    }
-    if (city) {
-      userObject.City = city;
-    }
-    if (zip) {
-      userObject.ZIP = zip;
-    }
-    if (bio) {
-      userObject.bio = bio;
-    }
-    if (userObject) {
-      dispatch(
-        updateUserInfo({ userId: currentUser._id, data: userObject })
-      ).then(() => {
-        dispatch(getCurrentUser());
-      });
-    }
+  const [userForm, setForm] = useState({
+    name: "",
+    surname: "",
+    birthDate: "",
+    gender: "",
+    bio: "",
+  });
+  const [userAddress, setAdress] = useState({
+    street: "",
+    number: "",
+    city: "",
+    zip: "",
+  });
+
+  const handleUserUpdate = (e) => {
+    setForm({
+      ...userForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleAddressUpdate = (e) => {
+    setAdress({
+      ...userAddress,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const userObject = { ...userForm, address: { ...userAddress } };
+  console.log(userObject);
+
+  const sendUserUpdate = () => {
+    dispatch(
+      updateUserInfo({ userId: currentUser._id, data: userObject })
+    ).then(() => {
+      dispatch(getCurrentUser());
+    });
   };
 
   return (
     <>
       <MyNavbar />
-
       <Container
         sx={{
           marginTop: "1rem",
@@ -111,8 +95,6 @@ const UserEditPage = () => {
             //   flexGrow: "1",
             // }}
             sx={{
-              // backgroundColor: ["#fbae42"],
-              // borderRadius: "50px",
               padding: "1rem",
             }}
           >
@@ -125,43 +107,33 @@ const UserEditPage = () => {
                   required
                   id="filled-required"
                   label="first name"
-                  value={currentUser.name ? currentUser.name : name || ""}
-                  onChange={(e) => {
-                    setUserName(e.target.value);
-                  }}
+                  defaultValue={currentUser.name}
+                  name="name"
+                  onChange={handleUserUpdate}
                 ></TextField>
                 <TextField
                   required
                   id="filled-required"
                   label="last name"
-                  value={
-                    currentUser.surname ? currentUser.surname : surname || ""
-                  }
-                  onChange={(e) => {
-                    setUserSurname(e.target.value);
-                  }}
+                  defaultValue={currentUser.surname}
+                  name="surname"
+                  onChange={handleUserUpdate}
                 ></TextField>
               </Stack>
               <Stack direction="row" spacing={4} my={2}>
                 <TextField
                   label="Birth date"
-                  value={
-                    currentUser.birthDate
-                      ? currentUser.birthDate
-                      : birthDate || ""
-                  }
-                  onChange={(e) => {
-                    setUserBirthdate(e.target.value);
-                  }}
+                  defaultValue={currentUser.birthDate}
+                  name="birthDate"
+                  onChange={handleUserUpdate}
                 ></TextField>
                 <TextField
                   sx={{ width: "214px" }}
                   select
                   label="Gender"
-                  value={currentUser.gender ? currentUser.gender : gender}
-                  onChange={(e) => {
-                    setUserGender(e.target.value);
-                  }}
+                  value={userForm.gender}
+                  name="gender"
+                  onChange={handleUserUpdate}
                 >
                   <MenuItem key="Female" value="Female">
                     Female
@@ -171,22 +143,6 @@ const UserEditPage = () => {
                   </MenuItem>
                 </TextField>
               </Stack>
-              <Stack direction="row" spacing={4} my={2}>
-                <TextField
-                  label="Email"
-                  value={currentUser.email ? currentUser.email : email || ""}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                ></TextField>
-                <TextField
-                  label="Phone"
-                  value={currentUser.phone ? currentUser.phone : ""}
-                  onChange={(e) => {
-                    setPhone(e.target.value);
-                  }}
-                ></TextField>
-              </Stack>
             </Box>
             <Box>
               <Typography variant="h5" gutterBottom>
@@ -195,37 +151,29 @@ const UserEditPage = () => {
               <Stack direction="row" spacing={4} my={2}>
                 <TextField
                   label="Street"
-                  value={
-                    currentUser.address
-                      ? currentUser.address.street
-                      : street || ""
-                  }
-                  onChange={(e) => {
-                    setStreet(e.target.value);
-                  }}
+                  defaultValue={currentUser.address.street}
+                  name="street"
+                  onChange={handleAddressUpdate}
                 ></TextField>
                 <TextField
                   label="Number"
-                  value={currentUser.address ? currentUser.address.number : ""}
-                  onChange={(e) => {
-                    setNumber(e.target.value);
-                  }}
+                  defaultValue={currentUser.address.number}
+                  name="number"
+                  onChange={handleAddressUpdate}
                 ></TextField>
               </Stack>
               <Stack direction="row" spacing={4} my={2}>
                 <TextField
                   label="City"
-                  value={currentUser.address ? currentUser.address.City : ""}
-                  onChange={(e) => {
-                    setCity(e.target.value);
-                  }}
+                  defaultValue={currentUser.address.City}
+                  name="city"
+                  onChange={handleAddressUpdate}
                 ></TextField>
                 <TextField
                   label="ZIP"
-                  value={currentUser.address ? currentUser.address.zip : ""}
-                  onChange={(e) => {
-                    setZip(e.target.value);
-                  }}
+                  defaultValue={currentUser.address.zip}
+                  name="zip"
+                  onChange={handleAddressUpdate}
                 ></TextField>
               </Stack>
               <Stack
@@ -238,7 +186,7 @@ const UserEditPage = () => {
                 spacing={4}
               >
                 <Button
-                  onClick={handleUserUpdate}
+                  onClick={sendUserUpdate}
                   variant="outlined"
                   className="btnStyle"
                 >
@@ -269,10 +217,8 @@ const UserEditPage = () => {
               <TextField
                 label="bio"
                 variant="standard"
-                value={currentUser ? currentUser.bio : ""}
-                onChange={(e) => {
-                  setBio(e.target.value);
-                }}
+                defaultValue={currentUser.bio}
+                onChange={handleUserUpdate}
                 multiline={3}
               ></TextField>
             </Stack>

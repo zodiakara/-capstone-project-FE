@@ -1,6 +1,5 @@
 import * as React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AllInclusive } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/reducers/auth/userAuthSlice";
 import { Link, NavLink } from "react-router-dom";
@@ -21,8 +20,9 @@ import {
 } from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import classes from "./MyNavbar.module.css";
-
+import { AllInclusive } from "@mui/icons-material";
 import { messagesActions } from "../redux/reducers/messages/messagesSlice";
+import Logo from "./Logo";
 
 const navItemStyle = {
   "&:hover": {
@@ -73,24 +73,7 @@ function MyNavbar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link to="/">
-            <Box display="flex" alignItems="center" color="#000">
-              <AllInclusive sx={{ display: { xs: "none", md: "flex" } }} />
-              <Typography
-                variant="h6"
-                noWrap
-                sx={{
-                  mx: 2,
-                  display: { xs: "none", md: "flex" },
-                  fontFamily: "monospace",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
-              >
-                s<span style={{ letterSpacing: ".3rem" }}>wapp</span>
-              </Typography>
-            </Box>
+            <Logo />
           </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

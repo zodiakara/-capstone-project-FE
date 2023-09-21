@@ -1,5 +1,4 @@
 import { Avatar, Box, Button, Tooltip } from "@mui/material";
-import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCurrentUser,
